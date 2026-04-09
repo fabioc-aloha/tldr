@@ -2,28 +2,28 @@
 
 ## Platform Feasibility
 
-| Platform | Effort   | LLM Runtime          | UI Framework        | Feasibility |
-| -------- | -------- | -------------------- | ------------------- | ----------- |
-| macOS    | Moderate | Foundry Local (native Apple Silicon support) | Avalonia UI + FluentAvalonia | Realistic v2 goal |
-| Linux    | Moderate | Foundry Local (native support) | Avalonia UI + FluentAvalonia | Same effort as macOS |
-| iOS      | High     | Core ML (ONNX conversion) or llama.cpp (Metal) | SwiftUI (full rewrite) | Different app entirely |
-| Android  | High     | llama.cpp (Vulkan) or ONNX Runtime Mobile | .NET MAUI or Kotlin | Different app entirely |
+| Platform | Effort   | LLM Runtime                                    | UI Framework                 | Feasibility            |
+| -------- | -------- | ---------------------------------------------- | ---------------------------- | ---------------------- |
+| macOS    | Moderate | Foundry Local (native Apple Silicon support)   | Avalonia UI + FluentAvalonia | Realistic v2 goal      |
+| Linux    | Moderate | Foundry Local (native support)                 | Avalonia UI + FluentAvalonia | Same effort as macOS   |
+| iOS      | High     | Core ML (ONNX conversion) or llama.cpp (Metal) | SwiftUI (full rewrite)       | Different app entirely |
+| Android  | High     | llama.cpp (Vulkan) or ONNX Runtime Mobile      | .NET MAUI or Kotlin          | Different app entirely |
 
 ## macOS / Linux: What Changes
 
-| Component              | Windows (current)              | macOS / Linux equivalent           |
-| ---------------------- | ------------------------------ | ---------------------------------- |
-| UI framework           | WPF + WPF-UI (Fluent Design)  | Avalonia UI + FluentAvalonia       |
-| Markdown panel         | WebView2 (Chromium)           | Avalonia WebView or CefGlue       |
-| TTS (neural)           | Edge speech service WebSocket | Same (works cross-platform)        |
-| TTS (offline fallback) | System.Speech (SAPI5)         | AVSpeechSynthesizer (macOS), espeak (Linux) |
-| Audio playback         | NAudio (Windows audio APIs)   | NAudio.Vorbis or platform invoke   |
-| Global hotkeys         | RegisterHotKey Win32 P/Invoke | CGEvent tap (macOS), X11/DBus (Linux) |
+| Component              | Windows (current)             | macOS / Linux equivalent                         |
+| ---------------------- | ----------------------------- | ------------------------------------------------ |
+| UI framework           | WPF + WPF-UI (Fluent Design)  | Avalonia UI + FluentAvalonia                     |
+| Markdown panel         | WebView2 (Chromium)           | Avalonia WebView or CefGlue                      |
+| TTS (neural)           | Edge speech service WebSocket | Same (works cross-platform)                      |
+| TTS (offline fallback) | System.Speech (SAPI5)         | AVSpeechSynthesizer (macOS), espeak (Linux)      |
+| Audio playback         | NAudio (Windows audio APIs)   | NAudio.Vorbis or platform invoke                 |
+| Global hotkeys         | RegisterHotKey Win32 P/Invoke | CGEvent tap (macOS), X11/DBus (Linux)            |
 | System tray            | NotifyIcon (WinForms)         | NSStatusItem (macOS), StatusNotifierItem (Linux) |
-| Clipboard              | WPF Clipboard.GetText()       | Avalonia Clipboard API             |
-| File drop              | WPF DragDrop                  | Avalonia DragDrop                  |
-| Single instance        | Mutex                         | Named pipe or file lock            |
-| Mica backdrop          | WPF-UI Mica                   | Platform-native translucency or solid fallback |
+| Clipboard              | WPF Clipboard.GetText()       | Avalonia Clipboard API                           |
+| File drop              | WPF DragDrop                  | Avalonia DragDrop                                |
+| Single instance        | Mutex                         | Named pipe or file lock                          |
+| Mica backdrop          | WPF-UI Mica                   | Platform-native translucency or solid fallback   |
 
 ### What Ports Unchanged (zero effort)
 

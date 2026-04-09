@@ -1,8 +1,6 @@
-﻿using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
-namespace Tldr;
+namespace Tldr.Platform;
 
 /// <summary>
 /// Interaction logic for App.xaml
@@ -10,4 +8,3 @@ namespace Tldr;
 public partial class App : Application
 {
 }
-
