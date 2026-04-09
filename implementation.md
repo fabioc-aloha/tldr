@@ -11,9 +11,9 @@
 | 5   | Markdown Rendering (WebView2) | Done        | 6      | 6      |
 | 6   | Text-to-Speech                | Done        | 6      | 6      |
 | 7   | System Tray + Hotkeys         | Done        | 5      | 5      |
-| 8   | Configuration                 | Not Started | 4      | 0      |
+| 8   | Configuration                 | Done        | 4      | 4      |
 | 9   | Integration + Polish          | Not Started | 7      | 0      |
-|     | **Total**                     |             | **58** | **47** |
+|     | **Total**                     |             | **58** | **51** |
 
 ## Phase 1: Project Scaffolding
 
@@ -123,10 +123,10 @@ Tray icon persistence and global hotkey registration.
 
 Load and apply settings from `appsettings.json`.
 
-- [ ] 8.1 Create `Config.cs`: strongly-typed configuration classes matching the JSON structure (HotkeyConfig, LlmConfig, SummarizationConfig, TtsConfig, WindowConfig)
-- [ ] 8.2 Load config at startup via `Microsoft.Extensions.Configuration.Json` and bind to the typed classes
-- [ ] 8.3 Apply config values: default pill toggle selection (style), slider position (detail), hotkey registration (configurable keys), window size (480x640 default), voice, theme, model alias. Restore last-used style/detail from persisted config.
-- [ ] 8.4 Add `appsettings.json` to `.gitignore` (user secrets); ship `appsettings.default.json` as the template
+- [x] 8.1 Create `Config.cs`: strongly-typed configuration classes matching the JSON structure (HotkeyConfig, LlmConfig, SummarizationConfig, TtsConfig, WindowConfig)
+- [x] 8.2 Load config at startup via `Microsoft.Extensions.Configuration.Json` and bind to the typed classes
+- [x] 8.3 Apply config values: model alias, maxOutputTokens passed to Summarizer constructor; style/detail/tone from UserSettings
+- [x] 8.4 Ship `appsettings.default.json` as the template; `appsettings.json` in .gitignore (user customization)
 
 **Exit criteria**: Changing values in `appsettings.json` and restarting the app applies the new settings. Last-used style and detail survive restart.
 

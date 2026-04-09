@@ -116,6 +116,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     public async Task InitializeAsync()
     {
+        // Load user settings (last-used style/detail/tone)
         _settings = UserSettings.Load();
         if (Enum.TryParse<SummaryStyle>(_settings.Style, out var style)) _style = style;
         if (Enum.TryParse<DetailLevel>(_settings.Detail, out var detail)) _detail = detail;
@@ -124,8 +125,12 @@ public sealed class MainViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(Detail));
         OnPropertyChanged(nameof(Tone));
 
+        // Load app config
+        var configPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+        var config = TldrConfig.Load(configPath);
+
         _promptBuilder = new PromptBuilder(Path.Combine(AppContext.BaseDirectory, "prompts.json"));
-        _summarizer = new Summarizer();
+        _summarizer = new Summarizer(config.Llm.Model, config.Llm.MaxOutputTokens);
 
         StatusText = "Loading model...";
         IsBusy = true;

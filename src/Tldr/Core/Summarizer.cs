@@ -9,15 +9,17 @@ namespace Tldr.Core;
 public sealed class Summarizer : IAsyncDisposable
 {
     private readonly string _modelAlias;
+    private readonly int _maxOutputTokens;
     private dynamic? _chatClient;
     private dynamic? _model;
 
     /// <summary>Context window size in tokens. Defaults to 128k (Phi-4 Mini). Updated at load time if metadata is available.</summary>
     public int ContextWindowTokens { get; private set; } = 128_000;
 
-    public Summarizer(string modelAlias = "phi-4-mini")
+    public Summarizer(string modelAlias = "phi-4-mini", int maxOutputTokens = 1024)
     {
         _modelAlias = modelAlias;
+        _maxOutputTokens = maxOutputTokens;
     }
 
     public async Task InitializeAsync(Action<float>? onProgress = null, ILogger? logger = null, CancellationToken ct = default)
@@ -55,7 +57,7 @@ public sealed class Summarizer : IAsyncDisposable
         _chatClient = await _model.GetChatClientAsync();
     }
 
-    public async Task<string> SummarizeAsync(string text, string systemPrompt, int maxOutputTokens = 1024, CancellationToken ct = default)
+    public async Task<string> SummarizeAsync(string text, string systemPrompt, CancellationToken ct = default)
     {
         if (_chatClient is null)
             throw new InvalidOperationException("Call InitializeAsync before summarizing.");
@@ -63,7 +65,7 @@ public sealed class Summarizer : IAsyncDisposable
         var inputTokens = EstimateTokens(text);
         var promptTokens = EstimateTokens(systemPrompt);
         var totalInput = inputTokens + promptTokens;
-        var available = ContextWindowTokens - maxOutputTokens;
+        var available = ContextWindowTokens - _maxOutputTokens;
 
         if (totalInput > available)
             throw new ArgumentException(
@@ -71,7 +73,7 @@ public sealed class Summarizer : IAsyncDisposable
                 "Shorten the text or use a lower detail level. Chunked summarization is planned for a future version.");
 
         _chatClient.Settings.Temperature = 0f;
-        _chatClient.Settings.MaxTokens = maxOutputTokens;
+        _chatClient.Settings.MaxTokens = _maxOutputTokens;
 
         var messages = new List<ChatMessage>
         {

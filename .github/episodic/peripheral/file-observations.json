@@ -3,13 +3,10 @@
   "stalledFiles": [
     "github/episodic/peripheral/file-observations.json",
     "implementation.md",
-    "src/Tldr/Platform/App.xaml.cs",
-    "src/Tldr/Platform/MainWindow.xaml.cs",
-    "src/Tldr/Tldr.csproj",
-    "src/Tldr/GlobalUsings.cs",
-    "src/Tldr/Platform/HotkeyManager.cs",
-    "src/Tldr/Platform/TrayIconManager.cs"
+    "src/Tldr/Core/Summarizer.cs",
+    "src/Tldr/Platform/MainViewModel.cs",
+    "src/Tldr/appsettings.default.json"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1775707282168
+  "lastUpdated": 1775707394816
 }
