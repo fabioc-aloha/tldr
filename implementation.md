@@ -8,12 +8,12 @@
 | 2   | Foundry Local Integration     | Done        | 5      | 5      |
 | 3   | Prompt Builder                | Done        | 4      | 4      |
 | 4   | WPF-UI Window (Mode-Shifting) | Done        | 13     | 13     |
-| 5   | Markdown Rendering (WebView2) | Not Started | 6      | 0      |
+| 5   | Markdown Rendering (WebView2) | Done        | 6      | 6      |
 | 6   | Text-to-Speech                | Not Started | 6      | 0      |
 | 7   | System Tray + Hotkeys         | Not Started | 5      | 0      |
 | 8   | Configuration                 | Not Started | 4      | 0      |
 | 9   | Integration + Polish          | Not Started | 7      | 0      |
-|     | **Total**                     |             | **58** | **30** |
+|     | **Total**                     |             | **58** | **36** |
 
 ## Phase 1: Project Scaffolding
 
@@ -85,12 +85,12 @@ Build the Fluent Design window with four visual states: Ready → Loaded → Res
 
 Render LLM markdown output as styled HTML in the output panel.
 
-- [ ] 5.1 Create `assets/output.html`: minimal HTML template with CSS for markdown elements (headings, lists, tables, code blocks, bold/italic). Clean, readable typography.
-- [ ] 5.2 Create `MarkdownRenderer.cs`: use Markdig to convert markdown string to HTML fragment
-- [ ] 5.3 Implement WebView2 initialization in MainWindow: load `output.html` template on startup, inject rendered HTML into the page via `ExecuteScriptAsync` when summary is ready
-- [ ] 5.4 Handle edge cases: empty output, very long output (scrollable), special characters in HTML (XSS-safe via Markdig's HTML encoding)
-- [ ] 5.5 Style output to follow WPF-UI theme: inject CSS variables from system theme (dark/light, accent color, Segoe UI Variable font) into WebView2 page at runtime
-- [ ] 5.6 Add sentence-level markup: wrap each sentence in a `<span data-sentence="N">` during Markdig rendering; expose `highlightSentence(n)` and `clearHighlight()` JS functions for TTS sync in Reading state
+- [x] 5.1 Create `assets/output.html`: minimal HTML template with CSS for markdown elements (headings, lists, tables, code blocks, bold/italic). Clean, readable typography.
+- [x] 5.2 Create `MarkdownRenderer.cs`: use Markdig to convert markdown string to HTML fragment
+- [x] 5.3 Implement WebView2 initialization in MainWindow: load `output.html` template on startup, inject rendered HTML into the page via `ExecuteScriptAsync` when summary is ready
+- [x] 5.4 Handle edge cases: empty output, very long output (scrollable), special characters in HTML (XSS-safe via Markdig's HTML encoding)
+- [x] 5.5 Style output to follow WPF-UI theme: `setTheme()` JS function injects forced dark/light via `data-theme` attribute; system mode uses `prefers-color-scheme` media query
+- [x] 5.6 Add sentence-level markup: `AddSentenceMarkers()` wraps each `<li>`, `<p>`, `<tr>` with `data-sentence="N"` attributes; `highlightSentence(n)` and `clearHighlight()` JS functions for TTS sync
 
 **Exit criteria**: LLM markdown output renders correctly, follows system dark/light theme, and sentence spans are addressable for highlighting.
 

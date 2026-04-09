@@ -125,12 +125,15 @@ public partial class MainWindow : FluentWindow
             {
                 case "Dark":
                     ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+                    _ = SyncWebViewTheme("dark");
                     break;
                 case "Light":
                     ApplicationThemeManager.Apply(ApplicationTheme.Light);
+                    _ = SyncWebViewTheme("light");
                     break;
                 default:
                     ApplicationThemeManager.ApplySystemTheme();
+                    _ = SyncWebViewTheme("system");
                     break;
             }
         }
@@ -157,6 +160,19 @@ public partial class MainWindow : FluentWindow
 
         var escaped = System.Text.Json.JsonSerializer.Serialize(_vm.SummaryHtml);
         await OutputWebView.ExecuteScriptAsync($"setContent({escaped})");
+    }
+
+    private async Task SyncWebViewTheme(string theme)
+    {
+        if (OutputWebView.Source is null || OutputWebView.Source.AbsoluteUri == "about:blank")
+            return;
+
+        try
+        {
+            await OutputWebView.EnsureCoreWebView2Async();
+            await OutputWebView.ExecuteScriptAsync($"setTheme('{theme}')");
+        }
+        catch { /* WebView2 not ready yet */ }
     }
 }
 

@@ -1,15 +1,14 @@
 {
   "hotFiles": [],
   "stalledFiles": [
-    "github/copilot-instructions.md",
+    "github/episodic/peripheral/file-observations.json",
     "implementation.md",
-    "plan.md",
-    "src/Tldr/Core/Summarizer.cs",
-    "src/Tldr/Platform/App.xaml.cs",
-    "smoke-err.txt",
-    "smoke-out.txt",
-    "src/Tldr/SmokeTest.cs"
+    "src/Tldr/Assets/output.html",
+    "src/Tldr/Core/MarkdownRenderer.cs",
+    "src/Tldr/Platform/MainViewModel.cs",
+    "src/Tldr/Platform/MainWindow.xaml.cs",
+    "VSCODE-MEMORY-ARCHITECTURE.md"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1775705625444
+  "lastUpdated": 1775706950693
 }

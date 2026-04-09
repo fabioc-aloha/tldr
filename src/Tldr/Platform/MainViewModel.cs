@@ -20,6 +20,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private double _downloadProgress;
     private string _inputFileName = string.Empty;
     private int _wordCount;
+    private int _sentenceCount;
 
     private Summarizer? _summarizer;
     private PromptBuilder? _promptBuilder;
@@ -104,6 +105,12 @@ public sealed class MainViewModel : INotifyPropertyChanged
         set { _wordCount = value; OnPropertyChanged(); }
     }
 
+    public int SentenceCount
+    {
+        get => _sentenceCount;
+        set { _sentenceCount = value; OnPropertyChanged(); }
+    }
+
     public async Task InitializeAsync()
     {
         _settings = UserSettings.Load();
@@ -164,7 +171,9 @@ public sealed class MainViewModel : INotifyPropertyChanged
             var summary = await Task.Run(() => _summarizer.SummarizeAsync(InputText, systemPrompt));
 
             SummaryMarkdown = summary;
-            SummaryHtml = MarkdownRenderer.ToHtml(summary);
+            var html = MarkdownRenderer.ToHtml(summary);
+            SummaryHtml = MarkdownRenderer.AddSentenceMarkers(html);
+            SentenceCount = MarkdownRenderer.CountSentences(SummaryHtml);
             State = AppState.Result;
             StatusText = "Done.";
         }
