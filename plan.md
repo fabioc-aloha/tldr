@@ -1,5 +1,18 @@
 # TLDR: Local-Only Text Summarizer + TTS
 
+## North Star
+
+Build the fastest, most private text summarizer on Windows: paste anything, get the gist, hear it read aloud. Zero cloud, zero compromise.
+
+### Principles
+
+| # | Principle | Rationale |
+|---|---|---|
+| 1 | **Docs-first development** | We use bleeding-edge, potentially unstable libraries (Foundry Local SDK, ORT-Nightly). Always verify against official GitHub samples and API reference before writing integration code. Never trust cached knowledge or NuGet README examples alone. |
+| 2 | **Local-only privacy** | No data leaves the machine. No cloud APIs, no telemetry phoning home. |
+| 3 | **One-paste simplicity** | Paste or drop, pick style, hit Distill. Three interactions max. |
+| 4 | **Portable Core** | Business logic in Core/ with no platform dependencies. Windows specifics stay in Platform/. |
+
 ## Problem
 
 iOS Shortcuts can summarize clipboard content and read it aloud. No equivalent exists on Windows as a lightweight, always-ready, privacy-first tool.
@@ -661,7 +674,7 @@ Use `Microsoft.ML.OnnxRuntimeGenAI.DirectML` NuGet to load ONNX models directly.
 | Decision          | Selection                                                             | Rationale                                                                           |
 | ----------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | **LLM model**     | Phi-4 Mini (`phi-4-mini`, 3.6 GB)                                     | Best quality/speed ratio; AMD Vitis NPU support; Microsoft's flagship small model   |
-| **LLM runtime**   | Foundry Local Self-Contained SDK (`Microsoft.AI.Foundry.Local.WinML`) | No CLI needed; in-process inference; auto hardware accel; WACK-safe                 |
+| **LLM runtime**   | Foundry Local SDK (`Microsoft.AI.Foundry.Local` 1.0.0-rc5)            | Service-based; auto hardware accel (NPU/GPU/CPU via EP registration); cross-platform API |
 | **Language**      | C# (.NET 9)                                                           | Best SDK docs; native Windows APIs; first-class MSIX; smallest binary               |
 | **TTS engine**    | Edge speech service via WebSocket                                     | Free, natural neural voices, selectable voices and languages                        |
 | **TTS voice**     | Configurable (default: `en-US-AriaNeural`)                            | User picks voice in config; all Edge neural voices available                        |

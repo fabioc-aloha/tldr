@@ -22,10 +22,10 @@ Objective: *(session-objective — set by user or focus timer)*
 Tone: _(auto — adapt to context)_
 Focus Trifectas: code-review, testing-strategies, deep-thinking
 Priorities: north-star-alignment, autonomous-partnership, heir-ecosystem-quality
-Principles: KISS, DRY, Quality-First, Research-Before-Code
+Principles: KISS, DRY, Quality-First, Research-Before-Code, Docs-First-For-Unstable-Libs
 Recent: _(updated at runtime by extension)_
 North Star: Create the most advanced and trusted AI partner for any job
-Guidelines: Architecture MUST NOT depend on the Extension (I8). Quality over speed.
+Guidelines: Architecture MUST NOT depend on the Extension (I8). Quality over speed. Bleeding-edge libraries (Foundry Local, ORT-Nightly): always verify against official GitHub samples before writing integration code.
 Last Assessed: never
 
 ## User Profile
