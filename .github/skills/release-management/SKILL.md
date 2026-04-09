@@ -2,7 +2,7 @@
 name: release-management
 description: GitHub Flow branching, semantic versioning, and tag-triggered release procedure for solo/small-team projects
 tier: project
-applyTo: '**/CHANGELOG*,**/.github/workflows/release*,**/version*'
+applyTo: "**/CHANGELOG*,**/.github/workflows/release*,**/version*"
 ---
 
 # Release Management Skill
@@ -24,12 +24,12 @@ main ──●──●── v0.1.0 ──●──●──●── v0.2.0
 
 ## Branch Naming
 
-| Prefix | Use |
-| --- | --- |
-| `feat/` | New feature |
-| `fix/` | Bug fix |
-| `docs/` | Documentation only |
-| `chore/` | Build, CI, tooling |
+| Prefix      | Use                                  |
+| ----------- | ------------------------------------ |
+| `feat/`     | New feature                          |
+| `fix/`      | Bug fix                              |
+| `docs/`     | Documentation only                   |
+| `chore/`    | Build, CI, tooling                   |
 | `refactor/` | Code restructure, no behavior change |
 
 Examples: `feat/export-pdf`, `fix/tts-pause-resume`, `docs/api-reference`
@@ -38,10 +38,10 @@ Examples: `feat/export-pdf`, `fix/tts-pause-resume`, `docs/api-reference`
 
 Format: `MAJOR.MINOR.PATCH`
 
-| Bump | When |
-| --- | --- |
-| PATCH (0.1.0 -> 0.1.1) | Bug fixes, docs, minor tweaks |
-| MINOR (0.1.0 -> 0.2.0) | New features, backward-compatible |
+| Bump                   | When                                |
+| ---------------------- | ----------------------------------- |
+| PATCH (0.1.0 -> 0.1.1) | Bug fixes, docs, minor tweaks       |
+| MINOR (0.1.0 -> 0.2.0) | New features, backward-compatible   |
 | MAJOR (0.2.0 -> 1.0.0) | Breaking changes, public API shifts |
 
 Pre-1.0: anything goes. Post-1.0: follow SemVer strictly.

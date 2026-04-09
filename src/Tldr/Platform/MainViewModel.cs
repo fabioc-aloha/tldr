@@ -27,7 +27,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     private Summarizer? _summarizer;
     private PromptBuilder? _promptBuilder;
     private UserSettings _settings = new();
-    private SapiTtsEngine? _tts;
+    private ITtsEngine? _tts;
     private CancellationTokenSource? _distillCts;
     private System.Threading.Timer? _saveTimer;
 
@@ -319,8 +319,8 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         if (string.IsNullOrEmpty(SummaryMarkdown))
             return;
 
-        _tts?.Dispose();
-        _tts = new SapiTtsEngine();
+        (_tts as IDisposable)?.Dispose();
+        _tts = CreateTtsEngine();
         _tts.SentenceReached += n =>
             Application.Current.Dispatcher.Invoke(() => SentenceHighlightRequested?.Invoke(n));
         _tts.PlaybackFinished += () =>
@@ -392,10 +392,22 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         _saveTimer = new System.Threading.Timer(_ => _settings.Save(), null, 500, Timeout.Infinite);
     }
 
+    private static ITtsEngine CreateTtsEngine()
+    {
+        try
+        {
+            return new WinRtTtsEngine();
+        }
+        catch
+        {
+            return new SapiTtsEngine();
+        }
+    }
+
     public void Dispose()
     {
         _saveTimer?.Dispose();
-        _tts?.Dispose();
+        (_tts as IDisposable)?.Dispose();
         _distillCts?.Dispose();
     }
 

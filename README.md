@@ -95,7 +95,7 @@ git push origin v0.1.0
 <summary>Manual publish</summary>
 
 ```powershell
-dotnet publish src\Tldr\Tldr.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
+dotnet publish src\Tldr\Tldr.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -o publish
 ```
 
 </details>

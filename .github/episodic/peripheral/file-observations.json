@@ -5,21 +5,22 @@
   "stalledFiles": [
     "github/episodic/peripheral/file-observations.json",
     "README.md",
-    "docs/user/getting-started.md",
-    "docs/user/user-guide.md",
-    "src/Tldr/Assets/icon.ico",
+    "src/Tldr/Core/Config.cs",
+    "src/Tldr/Platform/MainViewModel.cs",
     "src/Tldr/Tldr.csproj",
-    "CHANGELOG.md",
-    "CODE_OF_CONDUCT.md",
-    "CONTRIBUTING.md",
-    "docs/assets/"
+    "src/Tldr/Platform/WinRtTtsEngine.cs"
   ],
   "todoHotspots": [
     {
-      "file": "src/Tldr/obj/Release/net9.0-windows/win-x64/singlefilehost.exe",
+      "file": "src/Tldr/obj/Release/net9.0-windows10.0.22621.0/win-x64/singlefilehost.exe",
       "todoCount": 2,
-      "scannedAt": 1775712301241
+      "scannedAt": 1775713928346
+    },
+    {
+      "file": "src/Tldr/bin/Release/net9.0-windows10.0.22621.0/win-x64/Microsoft.Windows.SDK.NET.dll",
+      "todoCount": 1,
+      "scannedAt": 1775713928346
     }
   ],
-  "lastUpdated": 1775712301241
+  "lastUpdated": 1775713928346
 }

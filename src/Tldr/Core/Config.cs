@@ -44,7 +44,7 @@ public sealed class SummarizationConfig
 
 public sealed class TtsConfig
 {
-    public string Engine { get; set; } = "sapi";
+    public string Engine { get; set; } = "winrt";
     public string Voice { get; set; } = "";
     public string Rate { get; set; } = "Normal";
 }
