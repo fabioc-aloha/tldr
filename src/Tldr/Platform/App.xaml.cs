@@ -7,4 +7,23 @@ namespace Tldr.Platform;
 /// </summary>
 public partial class App : Application
 {
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        if (e.Args.Length > 0 && e.Args[0] == "--smoke-test")
+        {
+            try
+            {
+                await SmokeTest.RunAsync();
+                Shutdown(0);
+            }
+            catch (Exception ex)
+            {
+                Console.Error.WriteLine($"[FAIL] {ex.Message}");
+                Shutdown(1);
+            }
+            return;
+        }
+    }
 }

@@ -12,6 +12,9 @@ public sealed class Summarizer : IAsyncDisposable
     private dynamic? _chatClient;
     private dynamic? _model;
 
+    /// <summary>Context window size in tokens. Defaults to 128k (Phi-4 Mini). Updated at load time if metadata is available.</summary>
+    public int ContextWindowTokens { get; private set; } = 128_000;
+
     public Summarizer(string modelAlias = "phi-4-mini")
     {
         _modelAlias = modelAlias;
@@ -56,6 +59,16 @@ public sealed class Summarizer : IAsyncDisposable
     {
         if (_chatClient is null)
             throw new InvalidOperationException("Call InitializeAsync before summarizing.");
+
+        var inputTokens = EstimateTokens(text);
+        var promptTokens = EstimateTokens(systemPrompt);
+        var totalInput = inputTokens + promptTokens;
+        var available = ContextWindowTokens - maxOutputTokens;
+
+        if (totalInput > available)
+            throw new ArgumentException(
+                $"Input too long: ~{totalInput:N0} tokens (limit ~{available:N0}). " +
+                "Shorten the text or use a lower detail level. Chunked summarization is planned for a future version.");
 
         _chatClient.Settings.Temperature = 0f;
         _chatClient.Settings.MaxTokens = maxOutputTokens;

@@ -1,8 +1,15 @@
 {
   "hotFiles": [],
   "stalledFiles": [
-    "lan.md"
+    "github/copilot-instructions.md",
+    "implementation.md",
+    "plan.md",
+    "src/Tldr/Core/Summarizer.cs",
+    "src/Tldr/Platform/App.xaml.cs",
+    "smoke-err.txt",
+    "smoke-out.txt",
+    "src/Tldr/SmokeTest.cs"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1775705245887
+  "lastUpdated": 1775705625444
 }

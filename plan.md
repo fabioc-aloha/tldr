@@ -6,12 +6,12 @@ Build the fastest, most private text summarizer on Windows: paste anything, get 
 
 ### Principles
 
-| # | Principle | Rationale |
-|---|---|---|
-| 1 | **Docs-first development** | We use bleeding-edge, potentially unstable libraries (Foundry Local SDK, ORT-Nightly). Always verify against official GitHub samples and API reference before writing integration code. Never trust cached knowledge or NuGet README examples alone. |
-| 2 | **Local-only privacy** | No data leaves the machine. No cloud APIs, no telemetry phoning home. |
-| 3 | **One-paste simplicity** | Paste or drop, pick style, hit Distill. Three interactions max. |
-| 4 | **Portable Core** | Business logic in Core/ with no platform dependencies. Windows specifics stay in Platform/. |
+| #   | Principle                  | Rationale                                                                                                                                                                                                                                            |
+| --- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | **Docs-first development** | We use bleeding-edge, potentially unstable libraries (Foundry Local SDK, ORT-Nightly). Always verify against official GitHub samples and API reference before writing integration code. Never trust cached knowledge or NuGet README examples alone. |
+| 2   | **Local-only privacy**     | No data leaves the machine. No cloud APIs, no telemetry phoning home.                                                                                                                                                                                |
+| 3   | **One-paste simplicity**   | Paste or drop, pick style, hit Distill. Three interactions max.                                                                                                                                                                                      |
+| 4   | **Portable Core**          | Business logic in Core/ with no platform dependencies. Windows specifics stay in Platform/.                                                                                                                                                          |
 
 ## Problem
 
@@ -671,28 +671,28 @@ Use `Microsoft.ML.OnnxRuntimeGenAI.DirectML` NuGet to load ONNX models directly.
 
 ## Decisions (v0.1)
 
-| Decision          | Selection                                                             | Rationale                                                                           |
-| ----------------- | --------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| **LLM model**     | Phi-4 Mini (`phi-4-mini`, 3.6 GB)                                     | Best quality/speed ratio; AMD Vitis NPU support; Microsoft's flagship small model   |
-| **LLM runtime**   | Foundry Local SDK (`Microsoft.AI.Foundry.Local` 1.0.0-rc5)            | Service-based; auto hardware accel (NPU/GPU/CPU via EP registration); cross-platform API |
-| **Language**      | C# (.NET 9)                                                           | Best SDK docs; native Windows APIs; first-class MSIX; smallest binary               |
-| **TTS engine**    | Edge speech service via WebSocket                                     | Free, natural neural voices, selectable voices and languages                        |
-| **TTS voice**     | Configurable (default: `en-US-AriaNeural`)                            | User picks voice in config; all Edge neural voices available                        |
-| **TTS fallback**  | System.Speech (SAPI5)                                                 | Built-in .NET; offline fallback when Edge service is unavailable                    |
-| **UI framework**  | WPF + WebView2 + WPF-UI (Fluent Design)                               | Mica backdrop, custom chrome, pill controls, state-driven layout                    |
-| **UI pattern**    | Mode-shifting card (4 states: Ready → Loaded → Result → Reading)      | Show one thing at a time; controls appear/recede contextually                       |
-| **Markdown**      | Markdig (C# lib) → HTML rendered in WebView2                          | Full markdown support: tables, lists, bold, code, headings                          |
-| **Hotkeys**       | `Ctrl+Shift+S` (open window), `Ctrl+Shift+X` (stop reading)           | RegisterHotKey Win32 API; no admin elevation needed                                 |
-| **Summary style** | User-selectable: bullets, list, table, prose, same                    | Pill toggles (no dropdowns); configurable defaults in config                        |
-| **Detail level**  | User-selectable: Brief (~20%) ← Standard (~35%) → Detailed (~50%)     | Slider control; prompt modifier controlling compression ratio                       |
-| **Copy format**   | Rich text (HTML) + plain text dual clipboard                          | HTML for Word/Outlook paste; plain text for Notepad/terminals                       |
-| **File input**    | Drag-and-drop PDF, DOCX, TXT in Ready state                           | Extracts plain text; extends beyond clipboard-only for real document workflow       |
-| **Settings**      | Last-used style + detail persisted to config                          | No re-selection on every launch; reset available in settings flyout                 |
-| **Accessibility** | ARIA labels, keyboard nav, high contrast from MVP                     | Build accessible from day one; retrofitting is harder and misses edge cases         |
-| **Auto-paste**    | Paste only (no auto-distill)                                          | User confirms options before distilling; avoids wasting inference on wrong settings |
-| **License**       | MIT                                                                   | Open source from day one                                                            |
-| **Packaging**     | `dotnet publish` → MSIX for Microsoft Store                           | MVP as WPF app; v0.3 MSIX sideload; v0.4 Store submission                           |
-| **Cloud**         | None                                                                  | Experiment with local-only models; zero internet dependency for LLM                 |
+| Decision          | Selection                                                         | Rationale                                                                                |
+| ----------------- | ----------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| **LLM model**     | Phi-4 Mini (`phi-4-mini`, 3.6 GB)                                 | Best quality/speed ratio; AMD Vitis NPU support; Microsoft's flagship small model        |
+| **LLM runtime**   | Foundry Local SDK (`Microsoft.AI.Foundry.Local` 1.0.0-rc5)        | Service-based; auto hardware accel (NPU/GPU/CPU via EP registration); cross-platform API |
+| **Language**      | C# (.NET 9)                                                       | Best SDK docs; native Windows APIs; first-class MSIX; smallest binary                    |
+| **TTS engine**    | Edge speech service via WebSocket                                 | Free, natural neural voices, selectable voices and languages                             |
+| **TTS voice**     | Configurable (default: `en-US-AriaNeural`)                        | User picks voice in config; all Edge neural voices available                             |
+| **TTS fallback**  | System.Speech (SAPI5)                                             | Built-in .NET; offline fallback when Edge service is unavailable                         |
+| **UI framework**  | WPF + WebView2 + WPF-UI (Fluent Design)                           | Mica backdrop, custom chrome, pill controls, state-driven layout                         |
+| **UI pattern**    | Mode-shifting card (4 states: Ready → Loaded → Result → Reading)  | Show one thing at a time; controls appear/recede contextually                            |
+| **Markdown**      | Markdig (C# lib) → HTML rendered in WebView2                      | Full markdown support: tables, lists, bold, code, headings                               |
+| **Hotkeys**       | `Ctrl+Shift+S` (open window), `Ctrl+Shift+X` (stop reading)       | RegisterHotKey Win32 API; no admin elevation needed                                      |
+| **Summary style** | User-selectable: bullets, list, table, prose, same                | Pill toggles (no dropdowns); configurable defaults in config                             |
+| **Detail level**  | User-selectable: Brief (~20%) ← Standard (~35%) → Detailed (~50%) | Slider control; prompt modifier controlling compression ratio                            |
+| **Copy format**   | Rich text (HTML) + plain text dual clipboard                      | HTML for Word/Outlook paste; plain text for Notepad/terminals                            |
+| **File input**    | Drag-and-drop PDF, DOCX, TXT in Ready state                       | Extracts plain text; extends beyond clipboard-only for real document workflow            |
+| **Settings**      | Last-used style + detail persisted to config                      | No re-selection on every launch; reset available in settings flyout                      |
+| **Accessibility** | ARIA labels, keyboard nav, high contrast from MVP                 | Build accessible from day one; retrofitting is harder and misses edge cases              |
+| **Auto-paste**    | Paste only (no auto-distill)                                      | User confirms options before distilling; avoids wasting inference on wrong settings      |
+| **License**       | MIT                                                               | Open source from day one                                                                 |
+| **Packaging**     | `dotnet publish` → MSIX for Microsoft Store                       | MVP as WPF app; v0.3 MSIX sideload; v0.4 Store submission                                |
+| **Cloud**         | None                                                              | Experiment with local-only models; zero internet dependency for LLM                      |
 
 ## Microsoft Store Distribution
 

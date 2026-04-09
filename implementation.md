@@ -4,29 +4,29 @@
 
 | #   | Phase                         | Status      | Tasks  | Done  |
 | --- | ----------------------------- | ----------- | ------ | ----- |
-| 1   | Project Scaffolding           | Not Started | 8      | 0     |
-| 2   | Foundry Local Integration     | Not Started | 5      | 0     |
-| 3   | Prompt Builder                | Not Started | 4      | 0     |
+| 1   | Project Scaffolding           | Done        | 8      | 8     |
+| 2   | Foundry Local Integration     | Done        | 5      | 5     |
+| 3   | Prompt Builder                | Done        | 4      | 4     |
 | 4   | WPF-UI Window (Mode-Shifting) | Not Started | 13     | 0     |
 | 5   | Markdown Rendering (WebView2) | Not Started | 6      | 0     |
 | 6   | Text-to-Speech                | Not Started | 6      | 0     |
 | 7   | System Tray + Hotkeys         | Not Started | 5      | 0     |
 | 8   | Configuration                 | Not Started | 4      | 0     |
 | 9   | Integration + Polish          | Not Started | 7      | 0     |
-|     | **Total**                     |             | **58** | **0** |
+|     | **Total**                     |             | **58** | **17** |
 
 ## Phase 1: Project Scaffolding
 
 Set up the solution, project file, NuGet feeds, and build verification.
 
-- [ ] 1.1 Create `Tldr.sln` and `src/Tldr/Tldr.csproj` as a .NET 9 WPF project
-- [ ] 1.2 Create `nuget.config` with nuget.org + ORT Azure DevOps feed
-- [ ] 1.3 Add NuGet package references: `Microsoft.AI.Foundry.Local.WinML`, `WPF-UI`, `Microsoft.Web.WebView2`, `Markdig`, `NAudio`, `System.Speech`, `Microsoft.Extensions.Configuration.Json`, `Microsoft.Extensions.Logging`, `DocumentFormat.OpenXml`, `UglyToad.PdfPig`
-- [ ] 1.4 Create `appsettings.json` with default config (model, voice, hotkeys, window, summarization defaults)
-- [ ] 1.5 Create placeholder `assets/icon.ico` and `assets/output.html` (WebView2 template)
-- [ ] 1.6 Create `prompts.json` with initial prompt fragments (base preamble, style variants, detail levels, tones)
-- [ ] 1.7 Create MIT `LICENSE` file at repo root
-- [ ] 1.8 Verify `dotnet build` succeeds with all packages restored
+- [x] 1.1 Create `Tldr.sln` and `src/Tldr/Tldr.csproj` as a .NET 9 WPF project
+- [x] 1.2 Create `nuget.config` with nuget.org + ORT Azure DevOps feed
+- [x] 1.3 Add NuGet package references: `Microsoft.AI.Foundry.Local.WinML`, `WPF-UI`, `Microsoft.Web.WebView2`, `Markdig`, `NAudio`, `System.Speech`, `Microsoft.Extensions.Configuration.Json`, `Microsoft.Extensions.Logging`, `DocumentFormat.OpenXml`, `UglyToad.PdfPig`
+- [x] 1.4 Create `appsettings.json` with default config (model, voice, hotkeys, window, summarization defaults)
+- [x] 1.5 Create placeholder `assets/icon.ico` and `assets/output.html` (WebView2 template)
+- [x] 1.6 Create `prompts.json` with initial prompt fragments (base preamble, style variants, detail levels, tones)
+- [x] 1.7 Create MIT `LICENSE` file at repo root
+- [x] 1.8 Verify `dotnet build` succeeds with all packages restored
 
 **Exit criteria**: `dotnet build` passes. All NuGet packages resolve. Solution opens in VS / VS Code.
 
@@ -34,11 +34,11 @@ Set up the solution, project file, NuGet feeds, and build verification.
 
 Get the LLM running and producing summaries from plain text input.
 
-- [ ] 2.1 Create `Summarizer.cs`: initialize `FoundryLocalManager`, catalog, and model download/load
-- [ ] 2.2 Implement `SummarizeAsync(string text, string systemPrompt, CancellationToken ct)` returning the full summary string
-- [ ] 2.3 Query model metadata at load time to read actual context window size; log it; store for runtime token checks
-- [ ] 2.4 Add token estimation (`text.Length / 4`) and guard: reject input exceeding context window with a user-friendly message (map-reduce is v0.3)
-- [ ] 2.5 Write a console smoke test: hardcode a paragraph, call `SummarizeAsync`, print the result. Verify model downloads and inference runs.
+- [x] 2.1 Create `Summarizer.cs`: initialize `FoundryLocalManager`, catalog, and model download/load
+- [x] 2.2 Implement `SummarizeAsync(string text, string systemPrompt, CancellationToken ct)` returning the full summary string
+- [x] 2.3 Query model metadata at load time to read actual context window size; log it; store for runtime token checks
+- [x] 2.4 Add token estimation (`text.Length / 4`) and guard: reject input exceeding context window with a user-friendly message (map-reduce is v0.3)
+- [x] 2.5 Write a console smoke test: hardcode a paragraph, call `SummarizeAsync`, print the result. Verify model downloads and inference runs.
 
 **Exit criteria**: Running the smoke test downloads Phi-4 Mini on first run, loads the model, and prints a coherent summary to console.
 
@@ -46,10 +46,10 @@ Get the LLM running and producing summaries from plain text input.
 
 Map UI options (style, detail, tone) to system prompts sent to the LLM. All prompts optimized for Phi-4 Mini per Microsoft's model card: short and direct, explicit format instructions, temperature 0.0, max output 4,096 tokens, compression only (never add knowledge).
 
-- [ ] 3.1 Create `prompts.json` at project root with all prompt fragments organized by category: `base` (shared preamble, ~50 tokens), `style` (Bullets, List, Table, Prose, Same), `detail` (Brief, Standard, Detailed), `tone` (Neutral, Formal, Casual). Each fragment is a short, direct instruction optimized for Phi-4 Mini. Combined system prompt must stay under ~200 tokens.
-- [ ] 3.2 Create `PromptBuilder.cs` with enums (`SummaryStyle { Bullets, List, Table, Prose, Same }`, `DetailLevel { Brief, Standard, Detailed }`, `Tone { Neutral, Formal, Casual }`) that loads `prompts.json` at startup and assembles a system prompt by concatenating base + style + detail + tone fragments
-- [ ] 3.3 Validate prompt file on load: ensure all enum keys have a matching entry in `prompts.json`; throw a clear error if a fragment is missing
-- [ ] 3.4 Wire `PromptBuilder` into `Summarizer.SummarizeAsync` so the assembled system prompt is passed to the LLM chat request with temperature 0.0
+- [x] 3.1 Create `prompts.json` at project root with all prompt fragments organized by category: `base` (shared preamble, ~50 tokens), `style` (Bullets, List, Table, Prose, Same), `detail` (Brief, Standard, Detailed), `tone` (Neutral, Formal, Casual). Each fragment is a short, direct instruction optimized for Phi-4 Mini. Combined system prompt must stay under ~200 tokens.
+- [x] 3.2 Create `PromptBuilder.cs` with enums (`SummaryStyle { Bullets, List, Table, Prose, Same }`, `DetailLevel { Brief, Standard, Detailed }`, `Tone { Neutral, Formal, Casual }`) that loads `prompts.json` at startup and assembles a system prompt by concatenating base + style + detail + tone fragments
+- [x] 3.3 Validate prompt file on load: ensure all enum keys have a matching entry in `prompts.json`; throw a clear error if a fragment is missing
+- [x] 3.4 Wire `PromptBuilder` into `Summarizer.SummarizeAsync` so the assembled system prompt is passed to the LLM chat request with temperature 0.0
 
 **Prompt design rules** (from Microsoft Phi-4 Mini documentation):
 - System prompt fragments must be short and imperative ("Summarize as...", not "You are a helpful assistant that...")
