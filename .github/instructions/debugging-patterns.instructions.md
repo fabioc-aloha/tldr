@@ -1,0 +1,79 @@
+---
+description: "Systematic debugging procedure — reproduce, isolate, hypothesize, fix"
+applyTo: "**/*debug*,**/*error*,**/*fix*,**/*issue*,**/*bug*"
+---
+
+# Debugging Procedure
+
+## When to Apply
+
+Activate when: an error occurs, a test fails, or behavior doesn't match expectations.
+
+## 6-Step Protocol
+
+### Step 1: Reproduce
+
+- Run the failing command or test
+- Capture the exact error message and stack trace
+- Note the environment (OS, Node version, VS Code version)
+
+### Step 2: Isolate
+
+- Find the smallest input or scenario that triggers the failure
+- Comment out code to narrow the scope
+- Use `git stash` to test against clean state if recent changes may be the cause
+
+### Step 3: Read the Error
+
+Stack trace reading pattern:
+- **Top frame**: Where the error manifested (symptom)
+- **Middle frames**: Call chain (context)
+- **Bottom frames**: Entry point (trigger)
+- Ignore `node_modules` frames unless the bug is in a dependency
+
+### Step 4: Generate 3+ Competing Hypotheses
+
+Generate **at least 3 competing hypotheses** before investigating any one. This prevents anchoring bias (fixating on the first plausible explanation).
+
+For each hypothesis, document:
+
+| Field | Content |
+|-------|--------|
+| **Theory** | What you think is wrong |
+| **Supporting Evidence** | What makes this plausible |
+| **Contradicting Evidence** | What argues against it |
+| **Verification Plan** | Exact steps to prove/disprove |
+| **Fix Approach** | What you'd change if confirmed |
+
+Investigate from most likely to least likely. After each verification:
+- **CONFIRMED**: Apply fix, skip remaining hypotheses
+- **DENIED**: Cross off, move to next
+- **PARTIAL**: Combine with other hypotheses
+
+If all hypotheses fail: re-examine your assumptions, widen scope (check recent deploys, environment changes, dependency updates), form 3 new hypotheses.
+
+For complex bugs, maintain a `HYPOTHESIS.md` in the working directory to track investigation state across sessions.
+
+### Step 5: Fix ONE Thing
+
+- Make the minimal change that fixes the issue
+- Run the failing test — it should now pass
+- Run the full test suite — nothing else should break
+
+### Step 6: Verify and Document
+
+- Confirm the fix in the original scenario
+- Add a regression test if one didn't exist
+- Write a clear commit message: what was wrong, why, and what fixed it
+
+## VS Code Agent Debugging
+
+- Use `#debugEventsSnapshot` in chat to attach a snapshot of loaded customizations, token consumption, and agent behavior as context.
+- Use `Developer: Open Agent Debug Panel` for real-time skill loading, instruction matching, and hook execution visibility.
+- These tools complement brain-qa by showing runtime loading state vs. disk state.
+
+## Agent Tooling Pitfall
+
+- Avoid large parallel file-creation bursts when generating many text-heavy artifacts in VS Code.
+- More than 4 simultaneous file writes can trigger temporary UI freezes through explorer refresh, file watchers, and preview/render churn.
+- Prefer smaller batches or sequential writes when creating multiple SVG/Markdown/code files in one folder.
