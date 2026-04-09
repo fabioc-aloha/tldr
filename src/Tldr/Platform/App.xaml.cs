@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Wpf.Ui.Appearance;
 
 namespace Tldr.Platform;
 
@@ -25,5 +26,8 @@ public partial class App : Application
             }
             return;
         }
+
+        // Follow system dark/light theme
+        ApplicationThemeManager.ApplySystemTheme();
     }
 }
