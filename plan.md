@@ -676,9 +676,9 @@ Use `Microsoft.ML.OnnxRuntimeGenAI.DirectML` NuGet to load ONNX models directly.
 | **LLM model**     | Phi-4 Mini (`phi-4-mini`, 3.6 GB)                                 | Best quality/speed ratio; AMD Vitis NPU support; Microsoft's flagship small model        |
 | **LLM runtime**   | Foundry Local SDK (`Microsoft.AI.Foundry.Local` 1.0.0-rc5)        | Service-based; auto hardware accel (NPU/GPU/CPU via EP registration); cross-platform API |
 | **Language**      | C# (.NET 9)                                                       | Best SDK docs; native Windows APIs; first-class MSIX; smallest binary                    |
-| **TTS engine**    | Edge speech service via WebSocket                                 | Free, natural neural voices, selectable voices and languages                             |
-| **TTS voice**     | Configurable (default: `en-US-AriaNeural`)                        | User picks voice in config; all Edge neural voices available                             |
-| **TTS fallback**  | System.Speech (SAPI5)                                             | Built-in .NET; offline fallback when Edge service is unavailable                         |
+| **TTS engine**    | System.Speech SAPI5 (`SapiTtsEngine`)                             | Fully offline, legal, reliable; Edge neural TTS deferred to future upgrade               |
+| **TTS voice**     | Configurable (default: system default SAPI5 voice)                | User picks voice in config; all installed SAPI5 voices available                         |
+| **TTS fallback**  | N/A (SAPI5 is primary; Azure Speech SDK or neural voices later)   | Future upgrade path to Windows.Media.SpeechSynthesis or Azure Cognitive Services         |
 | **UI framework**  | WPF + WebView2 + WPF-UI (Fluent Design)                           | Mica backdrop, custom chrome, pill controls, state-driven layout                         |
 | **UI pattern**    | Mode-shifting card (4 states: Ready → Loaded → Result → Reading)  | Show one thing at a time; controls appear/recede contextually                            |
 | **Markdown**      | Markdig (C# lib) → HTML rendered in WebView2                      | Full markdown support: tables, lists, bold, code, headings                               |

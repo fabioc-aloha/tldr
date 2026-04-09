@@ -3,10 +3,34 @@
   "stalledFiles": [
     "github/episodic/peripheral/file-observations.json",
     "implementation.md",
-    "src/Tldr/Core/Summarizer.cs",
-    "src/Tldr/Platform/MainViewModel.cs",
-    "src/Tldr/appsettings.default.json"
+    "plan.md"
   ],
-  "todoHotspots": [],
-  "lastUpdated": 1775707394816
+  "todoHotspots": [
+    {
+      "file": "publish/Microsoft.AI.Foundry.Local.Core.dll",
+      "todoCount": 18,
+      "scannedAt": 1775707510171
+    },
+    {
+      "file": "publish/Wpf.Ui.dll",
+      "todoCount": 18,
+      "scannedAt": 1775707510171
+    },
+    {
+      "file": "publish/onnxruntime.dll",
+      "todoCount": 4,
+      "scannedAt": 1775707510171
+    },
+    {
+      "file": "publish/dxcompiler.dll",
+      "todoCount": 4,
+      "scannedAt": 1775707510171
+    },
+    {
+      "file": "publish/onnxruntime-genai.dll",
+      "todoCount": 1,
+      "scannedAt": 1775707510171
+    }
+  ],
+  "lastUpdated": 1775707510171
 }
