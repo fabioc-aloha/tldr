@@ -2,18 +2,18 @@
 
 ## Progress Tracker
 
-| #   | Phase                         | Status      | Tasks  | Done   |
-| --- | ----------------------------- | ----------- | ------ | ------ |
-| 1   | Project Scaffolding           | Done        | 8      | 8      |
-| 2   | Foundry Local Integration     | Done        | 5      | 5      |
-| 3   | Prompt Builder                | Done        | 4      | 4      |
-| 4   | WPF-UI Window (Mode-Shifting) | Done        | 13     | 13     |
-| 5   | Markdown Rendering (WebView2) | Done        | 6      | 6      |
-| 6   | Text-to-Speech                | Done        | 6      | 6      |
-| 7   | System Tray + Hotkeys         | Done        | 5      | 5      |
-| 8   | Configuration                 | Done        | 4      | 4      |
-| 9   | Integration + Polish          | Done        | 7      | 7      |
-|     | **Total**                     |             | **58** | **58** |
+| #   | Phase                         | Status | Tasks  | Done   |
+| --- | ----------------------------- | ------ | ------ | ------ |
+| 1   | Project Scaffolding           | Done   | 8      | 8      |
+| 2   | Foundry Local Integration     | Done   | 5      | 5      |
+| 3   | Prompt Builder                | Done   | 4      | 4      |
+| 4   | WPF-UI Window (Mode-Shifting) | Done   | 13     | 13     |
+| 5   | Markdown Rendering (WebView2) | Done   | 6      | 6      |
+| 6   | Text-to-Speech                | Done   | 6      | 6      |
+| 7   | System Tray + Hotkeys         | Done   | 5      | 5      |
+| 8   | Configuration                 | Done   | 4      | 4      |
+| 9   | Integration + Polish          | Done   | 7      | 7      |
+|     | **Total**                     |        | **58** | **58** |
 
 ## Phase 1: Project Scaffolding
 

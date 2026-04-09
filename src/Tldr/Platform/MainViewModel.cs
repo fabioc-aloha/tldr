@@ -1,12 +1,13 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using Tldr.Core;
 
 namespace Tldr.Platform;
 
-public sealed class MainViewModel : INotifyPropertyChanged
+public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 {
     private AppState _state = AppState.Ready;
     private string _inputText = string.Empty;
@@ -22,10 +23,13 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private int _wordCount;
     private int _sentenceCount;
 
+    private bool _isPaused;
     private Summarizer? _summarizer;
     private PromptBuilder? _promptBuilder;
     private UserSettings _settings = new();
     private SapiTtsEngine? _tts;
+    private CancellationTokenSource? _distillCts;
+    private System.Threading.Timer? _saveTimer;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event Action<int>? SentenceHighlightRequested;
@@ -34,13 +38,20 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public AppState State
     {
         get => _state;
-        set { _state = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsReady)); OnPropertyChanged(nameof(IsLoaded)); OnPropertyChanged(nameof(IsResult)); OnPropertyChanged(nameof(IsReading)); }
+        set { _state = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsReady)); OnPropertyChanged(nameof(IsLoaded)); OnPropertyChanged(nameof(IsResult)); OnPropertyChanged(nameof(IsReading)); OnPropertyChanged(nameof(IsWebViewVisible)); }
     }
 
     public bool IsReady => State == AppState.Ready;
     public bool IsLoaded => State == AppState.Loaded;
     public bool IsResult => State == AppState.Result;
     public bool IsReading => State == AppState.Reading;
+    public bool IsWebViewVisible => State == AppState.Result || State == AppState.Reading;
+
+    public bool IsPaused
+    {
+        get => _isPaused;
+        private set { _isPaused = value; OnPropertyChanged(); }
+    }
 
     public string InputText
     {
@@ -63,19 +74,19 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public SummaryStyle Style
     {
         get => _style;
-        set { _style = value; OnPropertyChanged(); _settings.Style = value.ToString(); _settings.Save(); }
+        set { _style = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsStyleBullets)); OnPropertyChanged(nameof(IsStyleList)); OnPropertyChanged(nameof(IsStyleTable)); OnPropertyChanged(nameof(IsStyleProse)); OnPropertyChanged(nameof(IsStyleSame)); _settings.Style = value.ToString(); ScheduleSave(); }
     }
 
     public DetailLevel Detail
     {
         get => _detail;
-        set { _detail = value; OnPropertyChanged(); _settings.Detail = value.ToString(); _settings.Save(); }
+        set { _detail = value; OnPropertyChanged(); _settings.Detail = value.ToString(); ScheduleSave(); }
     }
 
     public Tone Tone
     {
         get => _tone;
-        set { _tone = value; OnPropertyChanged(); _settings.Tone = value.ToString(); _settings.Save(); }
+        set { _tone = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsToneNeutral)); OnPropertyChanged(nameof(IsToneFormal)); OnPropertyChanged(nameof(IsToneCasual)); _settings.Tone = value.ToString(); ScheduleSave(); }
     }
 
     public bool IsBusy
@@ -114,6 +125,17 @@ public sealed class MainViewModel : INotifyPropertyChanged
         set { _sentenceCount = value; OnPropertyChanged(); }
     }
 
+    // Computed properties for radio button bindings
+    public bool IsStyleBullets => Style == SummaryStyle.Bullets;
+    public bool IsStyleList => Style == SummaryStyle.List;
+    public bool IsStyleTable => Style == SummaryStyle.Table;
+    public bool IsStyleProse => Style == SummaryStyle.Prose;
+    public bool IsStyleSame => Style == SummaryStyle.Same;
+
+    public bool IsToneNeutral => Tone == Tone.Neutral;
+    public bool IsToneFormal => Tone == Tone.Formal;
+    public bool IsToneCasual => Tone == Tone.Casual;
+
     public async Task InitializeAsync()
     {
         // Load user settings (last-used style/detail/tone)
@@ -124,6 +146,14 @@ public sealed class MainViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(Style));
         OnPropertyChanged(nameof(Detail));
         OnPropertyChanged(nameof(Tone));
+        OnPropertyChanged(nameof(IsStyleBullets));
+        OnPropertyChanged(nameof(IsStyleList));
+        OnPropertyChanged(nameof(IsStyleTable));
+        OnPropertyChanged(nameof(IsStyleProse));
+        OnPropertyChanged(nameof(IsStyleSame));
+        OnPropertyChanged(nameof(IsToneNeutral));
+        OnPropertyChanged(nameof(IsToneFormal));
+        OnPropertyChanged(nameof(IsToneCasual));
 
         // Load app config
         var configPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
@@ -135,19 +165,43 @@ public sealed class MainViewModel : INotifyPropertyChanged
         StatusText = "Loading model...";
         IsBusy = true;
 
-        await _summarizer.InitializeAsync(
-            onProgress: p => Application.Current.Dispatcher.Invoke(() =>
-            {
-                DownloadProgress = p;
-                StatusText = p < 100f ? $"Downloading model: {p:F0}%" : "Loading model...";
-            }));
+        try
+        {
+            await _summarizer.InitializeAsync(
+                onProgress: p => Application.Current.Dispatcher.Invoke(() =>
+                {
+                    DownloadProgress = p;
+                    StatusText = p < 100f ? $"Downloading model: {p:F0}%" : "Loading model...";
+                }));
 
-        StatusText = "Paste or drop a file. I'll distill it.";
-        IsBusy = false;
+            StatusText = "Paste or drop a file. I'll distill it.";
+        }
+        catch (Exception ex)
+        {
+            StatusText = "Model failed to load. Ensure Foundry Local is installed.";
+            System.Diagnostics.Debug.WriteLine($"[Init] {ex}");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
     }
+
+    private const int MaxInputChars = 2_000_000; // ~500K tokens, well within 10MB extracted text
 
     public void LoadText(string text, string fileName = "")
     {
+        if (text.Length > MaxInputChars)
+        {
+            StatusText = $"Input too large ({text.Length:N0} chars). Maximum is {MaxInputChars:N0}.";
+            return;
+        }
+
+        // Stop any in-progress TTS or distill when re-entering
+        if (State == AppState.Reading)
+            StopTts();
+        _distillCts?.Cancel();
+
         InputText = text;
         InputFileName = fileName;
         State = AppState.Loaded;
@@ -161,8 +215,19 @@ public sealed class MainViewModel : INotifyPropertyChanged
             return;
         }
 
-        var text = FileExtractor.Extract(filePath);
-        LoadText(text, Path.GetFileName(filePath));
+        try
+        {
+            var text = FileExtractor.Extract(filePath);
+            LoadText(text, Path.GetFileName(filePath));
+        }
+        catch (InvalidOperationException ex)
+        {
+            StatusText = ex.Message; // file-too-large message
+        }
+        catch (Exception)
+        {
+            StatusText = $"Failed to read file: {Path.GetFileName(filePath)}";
+        }
     }
 
     public async Task DistillAsync()
@@ -173,17 +238,34 @@ public sealed class MainViewModel : INotifyPropertyChanged
         IsBusy = true;
         StatusText = "Distilling...";
 
+        _distillCts?.Cancel();
+        _distillCts = new CancellationTokenSource();
+        var ct = _distillCts.Token;
+
         try
         {
             var systemPrompt = _promptBuilder.Build(Style, Detail, Tone);
-            var summary = await Task.Run(() => _summarizer.SummarizeAsync(InputText, systemPrompt));
+            var summary = await Task.Run(() => _summarizer.SummarizeAsync(InputText, systemPrompt, ct), ct);
 
             SummaryMarkdown = summary;
-            var html = MarkdownRenderer.ToHtml(summary);
+
+            // R3: Grounding guard - flag if output is suspiciously longer than input
+            var inputLen = InputText.Length;
+            var outputLen = summary.Length;
+            if (outputLen > inputLen)
+            {
+                SummaryMarkdown = $"> **Note:** This summary is longer than the original text. The model may have added content not in the source document. Review carefully.\n\n{summary}";
+            }
+
+            var html = MarkdownRenderer.ToHtml(SummaryMarkdown);
             SummaryHtml = MarkdownRenderer.AddSentenceMarkers(html);
             SentenceCount = MarkdownRenderer.CountSentences(SummaryHtml);
             State = AppState.Result;
             StatusText = "Done.";
+        }
+        catch (OperationCanceledException)
+        {
+            StatusText = "Cancelled.";
         }
         catch (ArgumentException ex)
         {
@@ -191,7 +273,11 @@ public sealed class MainViewModel : INotifyPropertyChanged
         }
         catch (Exception ex)
         {
-            StatusText = $"Error: {ex.Message}";
+            // Show generic message; avoid leaking document content from inner exceptions
+            StatusText = ex is InvalidOperationException
+                ? $"Error: {ex.Message}"
+                : "An unexpected error occurred. Please try again.";
+            System.Diagnostics.Debug.WriteLine($"[Distill] {ex}");
         }
         finally
         {
@@ -215,10 +301,15 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     public void BackToReady()
     {
-        InputText = string.Empty;
-        InputFileName = string.Empty;
-        SummaryMarkdown = string.Empty;
-        SummaryHtml = string.Empty;
+        // Release potentially large text buffers
+        _inputText = string.Empty;
+        _inputFileName = string.Empty;
+        _summaryMarkdown = string.Empty;
+        _summaryHtml = string.Empty;
+        OnPropertyChanged(nameof(InputText));
+        OnPropertyChanged(nameof(InputFileName));
+        OnPropertyChanged(nameof(SummaryMarkdown));
+        OnPropertyChanged(nameof(SummaryHtml));
         State = AppState.Ready;
         StatusText = "Paste or drop a file. I'll distill it.";
     }
@@ -241,22 +332,43 @@ public sealed class MainViewModel : INotifyPropertyChanged
             });
 
         State = AppState.Reading;
+        IsPaused = false;
         StatusText = "Reading aloud...";
 
-        // Use the plain markdown text split into sentences by line
-        var textForTts = SummaryMarkdown
-            .Replace("- ", "")
-            .Replace("* ", "")
-            .Replace("| ", " ")
-            .Replace("|", " ");
+        // Strip markdown syntax line-by-line for clean TTS
+        var lines = SummaryMarkdown.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        var sb = new StringBuilder();
+        foreach (var line in lines)
+        {
+            if (line.StartsWith('#'))
+                sb.AppendLine(line.TrimStart('#').TrimStart());
+            else if (line.StartsWith("- ") || line.StartsWith("* "))
+                sb.AppendLine(line[2..]);
+            else if (line.Contains("---"))
+                continue;
+            else if (line.StartsWith('|') && line.EndsWith('|'))
+                sb.AppendLine(line.Trim('|').Replace('|', ',').Trim());
+            else
+                sb.AppendLine(line);
+        }
 
-        await _tts.SpeakAsync(textForTts, string.Empty, 1f, CancellationToken.None);
+        await _tts.SpeakAsync(sb.ToString(), string.Empty, 1f, CancellationToken.None);
     }
 
-    public void PauseTts()
+    public void TogglePauseTts()
     {
-        _tts?.Pause();
-        StatusText = "Paused.";
+        if (_isPaused)
+        {
+            _tts?.Resume();
+            IsPaused = false;
+            StatusText = "Reading aloud...";
+        }
+        else
+        {
+            _tts?.Pause();
+            IsPaused = true;
+            StatusText = "Paused.";
+        }
     }
 
     public void ResumeTts()
@@ -268,9 +380,23 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public void StopTts()
     {
         _tts?.Stop();
+        IsPaused = false;
         SentenceHighlightCleared?.Invoke();
         State = AppState.Result;
         StatusText = "Done.";
+    }
+
+    private void ScheduleSave()
+    {
+        _saveTimer?.Dispose();
+        _saveTimer = new System.Threading.Timer(_ => _settings.Save(), null, 500, Timeout.Infinite);
+    }
+
+    public void Dispose()
+    {
+        _saveTimer?.Dispose();
+        _tts?.Dispose();
+        _distillCts?.Dispose();
     }
 
     private static string FormatHtmlClipboard(string htmlFragment)
@@ -281,11 +407,12 @@ public sealed class MainViewModel : INotifyPropertyChanged
         var htmlStart = "<html><body>" + startFragment;
         var htmlEnd = endFragment + "</body></html>";
 
-        var headerLength = string.Format(header, 0, 0, 0, 0).Length;
+        var enc = Encoding.UTF8;
+        var headerLength = enc.GetByteCount(string.Format(header, 0, 0, 0, 0));
         var startHtml = headerLength;
-        var startFrag = startHtml + htmlStart.Length;
-        var endFrag = startFrag + htmlFragment.Length;
-        var endHtml = endFrag + htmlEnd.Length;
+        var startFrag = startHtml + enc.GetByteCount(htmlStart);
+        var endFrag = startFrag + enc.GetByteCount(htmlFragment);
+        var endHtml = endFrag + enc.GetByteCount(htmlEnd);
 
         return string.Format(header, startHtml, endHtml, startFrag, endFrag) + htmlStart + htmlFragment + htmlEnd;
     }

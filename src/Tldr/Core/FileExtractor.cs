@@ -18,8 +18,14 @@ public static class FileExtractor
         return SupportedExtensions.Contains(ext);
     }
 
+    private const long MaxFileSizeBytes = 10 * 1024 * 1024; // 10 MB
+
     public static string Extract(string filePath)
     {
+        var info = new FileInfo(filePath);
+        if (info.Length > MaxFileSizeBytes)
+            throw new InvalidOperationException($"File too large ({info.Length / (1024 * 1024):N0} MB). Maximum is {MaxFileSizeBytes / (1024 * 1024)} MB.");
+
         var ext = Path.GetExtension(filePath).ToLowerInvariant();
         return ext switch
         {

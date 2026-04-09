@@ -65,7 +65,8 @@ public sealed class SapiTtsEngine : ITtsEngine, IDisposable
                 await Task.Delay(100, CancellationToken.None);
         }
 
-        PlaybackFinished?.Invoke();
+        if (!_cts.Token.IsCancellationRequested)
+            PlaybackFinished?.Invoke();
     }
 
     public void Pause()

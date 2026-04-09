@@ -5,16 +5,26 @@ namespace Tldr.Core;
 
 public sealed class PromptBuilder
 {
-    private readonly JsonDocument _prompts;
+    private readonly Dictionary<string, Dictionary<string, string>> _fragments;
     private readonly string _base;
 
     public PromptBuilder(string promptsJsonPath)
     {
         var json = File.ReadAllText(promptsJsonPath);
-        _prompts = JsonDocument.Parse(json);
+        using var doc = JsonDocument.Parse(json);
 
-        _base = _prompts.RootElement.GetProperty("base").GetString()
+        _base = doc.RootElement.GetProperty("base").GetString()
             ?? throw new InvalidOperationException("Missing 'base' prompt fragment.");
+
+        _fragments = new Dictionary<string, Dictionary<string, string>>(StringComparer.OrdinalIgnoreCase);
+        foreach (var category in new[] { "style", "detail", "tone" })
+        {
+            var section = doc.RootElement.GetProperty(category);
+            var dict = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var prop in section.EnumerateObject())
+                dict[prop.Name] = prop.Value.GetString() ?? "";
+            _fragments[category] = dict;
+        }
 
         ValidateFragments();
     }
@@ -35,9 +45,9 @@ public sealed class PromptBuilder
 
     private string GetFragment(string category, string key)
     {
-        var section = _prompts.RootElement.GetProperty(category);
-        return section.GetProperty(key).GetString()
-            ?? throw new InvalidOperationException($"Missing prompt fragment: {category}.{key}");
+        if (!_fragments.TryGetValue(category, out var section) || !section.TryGetValue(key, out var value))
+            throw new InvalidOperationException($"Missing prompt fragment: {category}.{key}");
+        return value;
     }
 
     private void ValidateFragments()

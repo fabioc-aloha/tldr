@@ -1,36 +1,19 @@
 {
-  "hotFiles": [],
+  "hotFiles": [
+    "src/Tldr/prompts.json"
+  ],
   "stalledFiles": [
     "github/episodic/peripheral/file-observations.json",
+    "VSCODE-MEMORY-ARCHITECTURE.md",
+    "plan.md -> docs/plans/plan.md",
+    "port.md -> docs/port/port.md",
     "implementation.md",
-    "plan.md"
+    "src/Tldr/Assets/output.html",
+    "src/Tldr/Core/Config.cs",
+    "src/Tldr/Core/FileExtractor.cs",
+    "src/Tldr/Core/MarkdownRenderer.cs",
+    "src/Tldr/Core/PromptBuilder.cs"
   ],
-  "todoHotspots": [
-    {
-      "file": "publish/Microsoft.AI.Foundry.Local.Core.dll",
-      "todoCount": 18,
-      "scannedAt": 1775707510171
-    },
-    {
-      "file": "publish/Wpf.Ui.dll",
-      "todoCount": 18,
-      "scannedAt": 1775707510171
-    },
-    {
-      "file": "publish/onnxruntime.dll",
-      "todoCount": 4,
-      "scannedAt": 1775707510171
-    },
-    {
-      "file": "publish/dxcompiler.dll",
-      "todoCount": 4,
-      "scannedAt": 1775707510171
-    },
-    {
-      "file": "publish/onnxruntime-genai.dll",
-      "todoCount": 1,
-      "scannedAt": 1775707510171
-    }
-  ],
-  "lastUpdated": 1775707510171
+  "todoHotspots": [],
+  "lastUpdated": 1775710405920
 }

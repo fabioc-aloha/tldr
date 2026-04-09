@@ -44,8 +44,8 @@ public sealed class SummarizationConfig
 
 public sealed class TtsConfig
 {
-    public string Engine { get; set; } = "edge";
-    public string Voice { get; set; } = "en-US-AriaNeural";
+    public string Engine { get; set; } = "sapi";
+    public string Voice { get; set; } = "";
     public string Rate { get; set; } = "Normal";
 }
 

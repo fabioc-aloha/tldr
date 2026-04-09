@@ -2,7 +2,6 @@ using Microsoft.AI.Foundry.Local;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Betalgo.Ranul.OpenAI.ObjectModels.RequestModels;
-using System.Text;
 
 namespace Tldr.Core;
 
@@ -30,6 +29,7 @@ public sealed class Summarizer : IAsyncDisposable
             LogLevel = Microsoft.AI.Foundry.Local.LogLevel.Warning
         };
 
+        ct.ThrowIfCancellationRequested();
         await FoundryLocalManager.CreateAsync(config, logger ?? NullLogger.Instance);
         var mgr = FoundryLocalManager.Instance;
 
@@ -37,6 +37,7 @@ public sealed class Summarizer : IAsyncDisposable
         // Skips download if already cached; built-in CPU fallback if this fails.
         try
         {
+            ct.ThrowIfCancellationRequested();
             await mgr.DownloadAndRegisterEpsAsync();
         }
         catch
@@ -48,11 +49,13 @@ public sealed class Summarizer : IAsyncDisposable
         _model = await catalog.GetModelAsync(_modelAlias)
             ?? throw new InvalidOperationException($"Model '{_modelAlias}' not found in catalog.");
 
+        ct.ThrowIfCancellationRequested();
         await _model.DownloadAsync(new Action<float>(progress =>
         {
             onProgress?.Invoke(progress);
         }));
 
+        ct.ThrowIfCancellationRequested();
         await _model.LoadAsync();
         _chatClient = await _model.GetChatClientAsync();
     }
@@ -78,7 +81,7 @@ public sealed class Summarizer : IAsyncDisposable
         var messages = new List<ChatMessage>
         {
             new ChatMessage { Role = "system", Content = systemPrompt },
-            new ChatMessage { Role = "user", Content = text }
+            new ChatMessage { Role = "user", Content = $"<document>\n{text}\n</document>" }
         };
 
         var response = await _chatClient.CompleteChatAsync(messages, ct);

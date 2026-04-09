@@ -19,16 +19,32 @@ public sealed class UserSettings
         if (!File.Exists(SettingsPath))
             return new UserSettings();
 
-        var json = File.ReadAllText(SettingsPath);
-        return JsonSerializer.Deserialize<UserSettings>(json) ?? new UserSettings();
+        try
+        {
+            var json = File.ReadAllText(SettingsPath);
+            return JsonSerializer.Deserialize<UserSettings>(json) ?? new UserSettings();
+        }
+        catch
+        {
+            // Corrupt settings file; reset to defaults
+            return new UserSettings();
+        }
     }
 
     public void Save()
     {
-        var dir = Path.GetDirectoryName(SettingsPath)!;
-        Directory.CreateDirectory(dir);
+        try
+        {
+            var dir = Path.GetDirectoryName(SettingsPath)!;
+            Directory.CreateDirectory(dir);
 
-        var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(SettingsPath, json);
+            var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(SettingsPath, json);
+        }
+        catch
+        {
+            // Non-fatal: settings not persisted this time
+            System.Diagnostics.Debug.WriteLine("[Settings] Save failed (disk full or permission denied)");
+        }
     }
 }

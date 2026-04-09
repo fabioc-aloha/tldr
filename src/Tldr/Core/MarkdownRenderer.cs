@@ -20,6 +20,7 @@ public static partial class MarkdownRenderer
     public static string AddSentenceMarkers(string html)
     {
         int n = 0;
+        html = SentenceHRegex().Replace(html, m => $"<h{m.Groups[1].Value} data-sentence=\"{n++}\">");
         html = SentenceLiRegex().Replace(html, _ => $"<li data-sentence=\"{n++}\">");
         html = SentencePRegex().Replace(html, _ => $"<p data-sentence=\"{n++}\">");
         html = SentenceTrRegex().Replace(html, _ => $"<tr data-sentence=\"{n++}\">");
@@ -31,6 +32,9 @@ public static partial class MarkdownRenderer
     {
         return SentenceAttrRegex().Count(markedHtml);
     }
+
+    [GeneratedRegex(@"<h(\d)(?=>)", RegexOptions.IgnoreCase)]
+    private static partial Regex SentenceHRegex();
 
     [GeneratedRegex(@"<li(?=>)", RegexOptions.IgnoreCase)]
     private static partial Regex SentenceLiRegex();

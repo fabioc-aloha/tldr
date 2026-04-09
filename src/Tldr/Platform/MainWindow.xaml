@@ -28,6 +28,15 @@
         <!-- Content Area -->
         <Grid Grid.Row="1" Margin="16,0,16,0">
 
+            <!-- Drag-drop overlay -->
+            <Border x:Name="DragOverlay"
+                    BorderBrush="{ui:ThemeResource SystemAccentColorPrimaryBrush}"
+                    BorderThickness="2" CornerRadius="8"
+                    Background="Transparent"
+                    IsHitTestVisible="False"
+                    Visibility="Collapsed"
+                    Panel.ZIndex="10" />
+
             <!-- READY STATE -->
             <Grid x:Name="ReadyPanel"
                   Visibility="{Binding IsReady, Converter={StaticResource BoolToVis}}">
@@ -64,48 +73,73 @@
                 </Grid.RowDefinitions>
 
                 <!-- Input preview -->
-                <ui:Card Grid.Row="0" Margin="0,8,0,0">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock Grid.Row="0" Text="{Binding InputText}"
-                                   MaxHeight="60" TextTrimming="CharacterEllipsis"
-                                   TextWrapping="Wrap" Margin="0,0,0,4" />
-                        <StackPanel Grid.Row="1" Orientation="Horizontal">
-                            <ui:Badge Appearance="Secondary">
-                                <TextBlock>
-                                    <Run Text="{Binding WordCount, Mode=OneWay}" />
-                                    <Run Text="words" />
-                                </TextBlock>
-                            </ui:Badge>
-                            <TextBlock Text="{Binding InputFileName}"
-                                       Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                                       Margin="8,0,0,0"
-                                       VerticalAlignment="Center" />
-                        </StackPanel>
-                    </Grid>
-                </ui:Card>
+                <Grid Grid.Row="0" Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:Card Grid.Column="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="{Binding InputText}"
+                                       MaxHeight="60" TextTrimming="CharacterEllipsis"
+                                       TextWrapping="Wrap" Margin="0,0,0,4" />
+                            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                                <ui:Badge Appearance="Secondary">
+                                    <TextBlock>
+                                        <Run Text="{Binding WordCount, Mode=OneWay}" />
+                                        <Run Text="words" />
+                                    </TextBlock>
+                                </ui:Badge>
+                                <TextBlock Text="{Binding InputFileName}"
+                                           Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                           Margin="8,0,0,0"
+                                           VerticalAlignment="Center" />
+                            </StackPanel>
+                        </Grid>
+                    </ui:Card>
+                    <ui:Button Grid.Column="1"
+                               Icon="{ui:SymbolIcon Dismiss24}"
+                               Appearance="Transparent"
+                               Click="Clear_Click"
+                               VerticalAlignment="Top"
+                               Margin="4,0,0,0"
+                               Padding="4"
+                               AutomationProperties.Name="Clear input" />
+                </Grid>
 
                 <!-- Style pills -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,12,0,0"
-                            HorizontalAlignment="Center">
+                            HorizontalAlignment="Center"
+                            KeyboardNavigation.TabNavigation="Local"
+                            AutomationProperties.Name="Summary style">
                     <RadioButton Content="Bullets" GroupName="Style"
-                                 IsChecked="True"
+                                 IsChecked="{Binding IsStyleBullets, Mode=OneWay}"
                                  Checked="StylePill_Checked" Tag="Bullets"
+                                 AutomationProperties.Name="Bullet list style"
                                  Style="{StaticResource {x:Type RadioButton}}" />
                     <RadioButton Content="List" GroupName="Style"
+                                 IsChecked="{Binding IsStyleList, Mode=OneWay}"
                                  Checked="StylePill_Checked" Tag="List"
+                                 AutomationProperties.Name="Numbered list style"
                                  Margin="4,0,0,0" />
                     <RadioButton Content="Table" GroupName="Style"
+                                 IsChecked="{Binding IsStyleTable, Mode=OneWay}"
                                  Checked="StylePill_Checked" Tag="Table"
+                                 AutomationProperties.Name="Table style"
                                  Margin="4,0,0,0" />
                     <RadioButton Content="Prose" GroupName="Style"
+                                 IsChecked="{Binding IsStyleProse, Mode=OneWay}"
                                  Checked="StylePill_Checked" Tag="Prose"
+                                 AutomationProperties.Name="Prose style"
                                  Margin="4,0,0,0" />
                     <RadioButton Content="Same" GroupName="Style"
+                                 IsChecked="{Binding IsStyleSame, Mode=OneWay}"
                                  Checked="StylePill_Checked" Tag="Same"
+                                 AutomationProperties.Name="Same as original style"
                                  Margin="4,0,0,0" />
                 </StackPanel>
 
@@ -120,7 +154,8 @@
                                Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
                                VerticalAlignment="Center" />
                     <Slider Grid.Column="1" x:Name="DetailSlider"
-                            Minimum="0" Maximum="2" Value="1"
+                            Minimum="0" Maximum="2"
+                            Value="{Binding Detail, Mode=OneWay, Converter={local:DetailLevelToDoubleConverter}}"
                             IsSnapToTickEnabled="True" TickFrequency="1"
                             Margin="8,0,8,0"
                             AutomationProperties.Name="Detail level"
@@ -140,31 +175,37 @@
                            AutomationProperties.Name="Distill summary" />
 
                 <!-- Busy indicator -->
-                <ui:ProgressRing Grid.Row="4" IsIndeterminate="True"
-                                 Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"
-                                 Width="32" Height="32"
-                                 VerticalAlignment="Center"
-                                 AutomationProperties.Name="Distilling" />
+                <StackPanel Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center"
+                            Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
+                    <ui:ProgressRing IsIndeterminate="True"
+                                     Width="32" Height="32"
+                                     AutomationProperties.Name="Distilling" />
+                    <ui:TextBlock Text="{Binding StatusText}"
+                                  FontTypography="Caption"
+                                  Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                  HorizontalAlignment="Center"
+                                  Margin="0,8,0,0" />
+                </StackPanel>
             </Grid>
 
-            <!-- RESULT STATE -->
-            <Grid x:Name="ResultPanel"
-                  Visibility="{Binding IsResult, Converter={StaticResource BoolToVis}}">
+            <!-- RESULT + READING STATE (shared WebView2) -->
+            <Grid Visibility="{Binding IsWebViewVisible, Converter={StaticResource BoolToVis}}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
-                <!-- WebView2 output -->
+                <!-- WebView2 output (visible during both Result and Reading) -->
                 <wv2:WebView2 Grid.Row="0" x:Name="OutputWebView"
                               Margin="0,8,0,0"
                               DefaultBackgroundColor="Transparent"
                               AutomationProperties.Name="Summary output" />
 
-                <!-- Action bar -->
+                <!-- Result action bar -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal"
                             HorizontalAlignment="Center"
-                            Margin="0,8,0,8">
+                            Margin="0,8,0,8"
+                            Visibility="{Binding IsResult, Converter={StaticResource BoolToVis}}">
                     <ui:Button Content="Copy" Icon="{ui:SymbolIcon Copy24}"
                                Click="Copy_Click" Margin="0,0,4,0"
                                AutomationProperties.Name="Copy summary to clipboard" />
@@ -172,29 +213,36 @@
                                Click="Redistill_Click" Margin="4,0,4,0"
                                AutomationProperties.Name="Re-distill with different options" />
                     <ui:Button Content="Read Aloud" Icon="{ui:SymbolIcon Speaker224}"
-                               Click="ReadAloud_Click" Margin="4,0,0,0"
+                               Click="ReadAloud_Click" Margin="4,0,4,0"
                                AutomationProperties.Name="Read summary aloud" />
+                    <ui:Badge Appearance="Info" Margin="4,0,0,0" VerticalAlignment="Center">
+                        <TextBlock>
+                            <Run Text="{Binding SentenceCount, Mode=OneWay}" />
+                            <Run Text="sentences" />
+                        </TextBlock>
+                    </ui:Badge>
                 </StackPanel>
-            </Grid>
 
-            <!-- READING STATE -->
-            <Grid x:Name="ReadingPanel"
-                  Visibility="{Binding IsReading, Converter={StaticResource BoolToVis}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <!-- WebView2 reused from Result (same control) -->
-                <!-- The OutputWebView is shared between Result and Reading -->
-
-                <!-- Playback controls -->
+                <!-- Reading playback controls -->
                 <StackPanel Grid.Row="1" Orientation="Horizontal"
                             HorizontalAlignment="Center"
-                            Margin="0,8,0,8">
-                    <ui:Button Content="Pause" Icon="{ui:SymbolIcon Pause24}"
-                               Click="Pause_Click"
-                               AutomationProperties.Name="Pause reading" />
+                            Margin="0,8,0,8"
+                            Visibility="{Binding IsReading, Converter={StaticResource BoolToVis}}">
+                    <ui:Button Click="Pause_Click"
+                               AutomationProperties.Name="Pause or resume reading">
+                        <ui:Button.Style>
+                            <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                                <Setter Property="Content" Value="Pause" />
+                                <Setter Property="Icon" Value="{ui:SymbolIcon Pause24}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPaused}" Value="True">
+                                        <Setter Property="Content" Value="Resume" />
+                                        <Setter Property="Icon" Value="{ui:SymbolIcon Play24}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:Button.Style>
+                    </ui:Button>
                     <ui:Button Content="Stop" Icon="{ui:SymbolIcon Stop24}"
                                Click="Stop_Click" Margin="8,0,0,0"
                                AutomationProperties.Name="Stop reading" />
@@ -229,21 +277,30 @@
                         BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
                         BorderThickness="1" CornerRadius="8"
                         Padding="16" Margin="4">
-                    <StackPanel Width="180">
-                        <TextBlock Text="Tone" FontWeight="SemiBold" Margin="0,0,0,4" />
+                    <StackPanel Width="180"
+                                KeyboardNavigation.TabNavigation="Local">
+                        <TextBlock Text="Tone" FontWeight="SemiBold" Margin="0,0,0,4"
+                                   AutomationProperties.HeadingLevel="Level2" />
                         <RadioButton Content="Neutral" GroupName="Tone" Tag="Neutral"
-                                     IsChecked="True" Checked="TonePill_Checked" />
+                                     AutomationProperties.Name="Neutral tone"
+                                     IsChecked="{Binding IsToneNeutral, Mode=OneWay}" Checked="TonePill_Checked" />
                         <RadioButton Content="Formal" GroupName="Tone" Tag="Formal"
-                                     Checked="TonePill_Checked" />
+                                     AutomationProperties.Name="Formal tone"
+                                     IsChecked="{Binding IsToneFormal, Mode=OneWay}" Checked="TonePill_Checked" />
                         <RadioButton Content="Casual" GroupName="Tone" Tag="Casual"
-                                     Checked="TonePill_Checked" />
+                                     AutomationProperties.Name="Casual tone"
+                                     IsChecked="{Binding IsToneCasual, Mode=OneWay}" Checked="TonePill_Checked" />
                         <Separator Margin="0,8" />
-                        <TextBlock Text="Theme" FontWeight="SemiBold" Margin="0,0,0,4" />
+                        <TextBlock Text="Theme" FontWeight="SemiBold" Margin="0,0,0,4"
+                                   AutomationProperties.HeadingLevel="Level2" />
                         <RadioButton Content="System" GroupName="Theme" Tag="System"
+                                     AutomationProperties.Name="System theme"
                                      IsChecked="True" Checked="ThemePill_Checked" />
                         <RadioButton Content="Dark" GroupName="Theme" Tag="Dark"
+                                     AutomationProperties.Name="Dark theme"
                                      Checked="ThemePill_Checked" />
                         <RadioButton Content="Light" GroupName="Theme" Tag="Light"
+                                     AutomationProperties.Name="Light theme"
                                      Checked="ThemePill_Checked" />
                     </StackPanel>
                 </Border>

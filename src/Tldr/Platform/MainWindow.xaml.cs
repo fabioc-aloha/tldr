@@ -24,6 +24,7 @@ public partial class MainWindow : FluentWindow
         AllowDrop = true;
         Drop += OnDrop;
         DragOver += OnDragOver;
+        DragLeave += (_, _) => DragOverlay.Visibility = Visibility.Collapsed;
         KeyDown += OnKeyDown;
 
         Loaded += async (_, _) =>
@@ -52,6 +53,7 @@ public partial class MainWindow : FluentWindow
             }
             _hotkeys?.Dispose();
             _tray?.Dispose();
+            _vm.Dispose();
         };
 
         _vm.SentenceHighlightRequested += async n =>
@@ -80,18 +82,26 @@ public partial class MainWindow : FluentWindow
         if (e.Key == System.Windows.Input.Key.V &&
             (System.Windows.Input.Keyboard.Modifiers & System.Windows.Input.ModifierKeys.Control) != 0)
         {
-            if (_vm.State == AppState.Ready && Clipboard.ContainsText())
+            if (Clipboard.ContainsText())
             {
                 _vm.LoadText(Clipboard.GetText());
                 e.Handled = true;
             }
+        }
+        else if (e.Key == System.Windows.Input.Key.Escape && SettingsPopup.IsOpen)
+        {
+            SettingsPopup.IsOpen = false;
+            e.Handled = true;
         }
     }
 
     private void OnDragOver(object sender, DragEventArgs e)
     {
         if (e.Data.GetDataPresent(DataFormats.FileDrop))
+        {
             e.Effects = DragDropEffects.Copy;
+            DragOverlay.Visibility = Visibility.Visible;
+        }
         else
             e.Effects = DragDropEffects.None;
         e.Handled = true;
@@ -99,6 +109,7 @@ public partial class MainWindow : FluentWindow
 
     private void OnDrop(object sender, DragEventArgs e)
     {
+        DragOverlay.Visibility = Visibility.Collapsed;
         if (e.Data.GetDataPresent(DataFormats.FileDrop) &&
             e.Data.GetData(DataFormats.FileDrop) is string[] files &&
             files.Length > 0)
@@ -135,7 +146,7 @@ public partial class MainWindow : FluentWindow
         _vm.CopyToClipboard();
     }
 
-    private async void Redistill_Click(object sender, RoutedEventArgs e)
+    private void Redistill_Click(object sender, RoutedEventArgs e)
     {
         _vm.BackToLoaded();
     }
@@ -147,12 +158,17 @@ public partial class MainWindow : FluentWindow
 
     private void Pause_Click(object sender, RoutedEventArgs e)
     {
-        _vm.PauseTts();
+        _vm.TogglePauseTts();
     }
 
     private void Stop_Click(object sender, RoutedEventArgs e)
     {
         _vm.StopTts();
+    }
+
+    private void Clear_Click(object sender, RoutedEventArgs e)
+    {
+        _vm.BackToReady();
     }
 
     private void TonePill_Checked(object sender, RoutedEventArgs e)
@@ -195,13 +211,29 @@ public partial class MainWindow : FluentWindow
     {
         await OutputWebView.EnsureCoreWebView2Async();
 
+        // S2: Block navigation to external URLs (defense-in-depth)
+        OutputWebView.CoreWebView2.NavigationStarting += (s, args) =>
+        {
+            if (args.Uri is not null &&
+                !args.Uri.StartsWith("file://", StringComparison.OrdinalIgnoreCase) &&
+                !args.Uri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
+            {
+                args.Cancel = true;
+            }
+        };
+
         if (OutputWebView.Source is null || OutputWebView.Source.AbsoluteUri == "about:blank")
         {
             var templatePath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "output.html");
             OutputWebView.Source = new Uri(templatePath);
             // Wait for navigation to complete
             var tcs = new TaskCompletionSource();
-            OutputWebView.NavigationCompleted += (_, _) => tcs.TrySetResult();
+            void onNav(object? s, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs a)
+            {
+                OutputWebView.NavigationCompleted -= onNav;
+                tcs.TrySetResult();
+            }
+            OutputWebView.NavigationCompleted += onNav;
             await tcs.Task;
         }
 
