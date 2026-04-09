@@ -25,8 +25,11 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private Summarizer? _summarizer;
     private PromptBuilder? _promptBuilder;
     private UserSettings _settings = new();
+    private SapiTtsEngine? _tts;
 
     public event PropertyChangedEventHandler? PropertyChanged;
+    public event Action<int>? SentenceHighlightRequested;
+    public event Action? SentenceHighlightCleared;
 
     public AppState State
     {
@@ -213,6 +216,56 @@ public sealed class MainViewModel : INotifyPropertyChanged
         SummaryHtml = string.Empty;
         State = AppState.Ready;
         StatusText = "Paste or drop a file. I'll distill it.";
+    }
+
+    public async Task ReadAloudAsync()
+    {
+        if (string.IsNullOrEmpty(SummaryMarkdown))
+            return;
+
+        _tts?.Dispose();
+        _tts = new SapiTtsEngine();
+        _tts.SentenceReached += n =>
+            Application.Current.Dispatcher.Invoke(() => SentenceHighlightRequested?.Invoke(n));
+        _tts.PlaybackFinished += () =>
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                SentenceHighlightCleared?.Invoke();
+                State = AppState.Result;
+                StatusText = "Done.";
+            });
+
+        State = AppState.Reading;
+        StatusText = "Reading aloud...";
+
+        // Use the plain markdown text split into sentences by line
+        var textForTts = SummaryMarkdown
+            .Replace("- ", "")
+            .Replace("* ", "")
+            .Replace("| ", " ")
+            .Replace("|", " ");
+
+        await _tts.SpeakAsync(textForTts, string.Empty, 1f, CancellationToken.None);
+    }
+
+    public void PauseTts()
+    {
+        _tts?.Pause();
+        StatusText = "Paused.";
+    }
+
+    public void ResumeTts()
+    {
+        _tts?.Resume();
+        StatusText = "Reading aloud...";
+    }
+
+    public void StopTts()
+    {
+        _tts?.Stop();
+        SentenceHighlightCleared?.Invoke();
+        State = AppState.Result;
+        StatusText = "Done.";
     }
 
     private static string FormatHtmlClipboard(string htmlFragment)

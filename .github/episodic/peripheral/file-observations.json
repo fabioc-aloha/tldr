@@ -3,12 +3,10 @@
   "stalledFiles": [
     "github/episodic/peripheral/file-observations.json",
     "implementation.md",
-    "src/Tldr/Assets/output.html",
-    "src/Tldr/Core/MarkdownRenderer.cs",
     "src/Tldr/Platform/MainViewModel.cs",
     "src/Tldr/Platform/MainWindow.xaml.cs",
-    "VSCODE-MEMORY-ARCHITECTURE.md"
+    "src/Tldr/Platform/SapiTtsEngine.cs"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1775706950693
+  "lastUpdated": 1775707088804
 }

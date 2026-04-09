@@ -24,6 +24,26 @@ public partial class MainWindow : FluentWindow
         KeyDown += OnKeyDown;
 
         Loaded += async (_, _) => await _vm.InitializeAsync();
+
+        _vm.SentenceHighlightRequested += async n =>
+        {
+            try
+            {
+                await OutputWebView.EnsureCoreWebView2Async();
+                await OutputWebView.ExecuteScriptAsync($"highlightSentence({n})");
+            }
+            catch { }
+        };
+
+        _vm.SentenceHighlightCleared += async () =>
+        {
+            try
+            {
+                await OutputWebView.EnsureCoreWebView2Async();
+                await OutputWebView.ExecuteScriptAsync("clearHighlight()");
+            }
+            catch { }
+        };
     }
 
     private void OnKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -91,21 +111,19 @@ public partial class MainWindow : FluentWindow
         _vm.BackToLoaded();
     }
 
-    private void ReadAloud_Click(object sender, RoutedEventArgs e)
+    private async void ReadAloud_Click(object sender, RoutedEventArgs e)
     {
-        _vm.State = AppState.Reading;
-        // TTS wiring in Phase 6
+        await _vm.ReadAloudAsync();
     }
 
     private void Pause_Click(object sender, RoutedEventArgs e)
     {
-        // TTS pause in Phase 6
+        _vm.PauseTts();
     }
 
     private void Stop_Click(object sender, RoutedEventArgs e)
     {
-        _vm.State = AppState.Result;
-        // TTS stop in Phase 6
+        _vm.StopTts();
     }
 
     private void TonePill_Checked(object sender, RoutedEventArgs e)

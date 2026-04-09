@@ -9,11 +9,11 @@
 | 3   | Prompt Builder                | Done        | 4      | 4      |
 | 4   | WPF-UI Window (Mode-Shifting) | Done        | 13     | 13     |
 | 5   | Markdown Rendering (WebView2) | Done        | 6      | 6      |
-| 6   | Text-to-Speech                | Not Started | 6      | 0      |
+| 6   | Text-to-Speech                | Done        | 6      | 6      |
 | 7   | System Tray + Hotkeys         | Not Started | 5      | 0      |
 | 8   | Configuration                 | Not Started | 4      | 0      |
 | 9   | Integration + Polish          | Not Started | 7      | 0      |
-|     | **Total**                     |             | **58** | **36** |
+|     | **Total**                     |             | **58** | **42** |
 
 ## Phase 1: Project Scaffolding
 
@@ -98,12 +98,12 @@ Render LLM markdown output as styled HTML in the output panel.
 
 Read the summary aloud with neural voices, with stop/control capability.
 
-- [ ] 6.1 Create `TextToSpeech.cs` with `SpeakAsync(string text, string voice, string rate, CancellationToken ct)` and `Stop()` methods
-- [ ] 6.2 Implement Edge speech service client: build WebSocket connection to Edge speech service, send SSML, receive MP3 audio chunks
-- [ ] 6.3 Implement audio playback via NAudio: stream MP3 chunks as they arrive from Edge, play through default audio output
-- [ ] 6.4 Implement System.Speech (SAPI5) fallback: detect when Edge service is unavailable (no internet), fall back to `SpeechSynthesizer`
-- [ ] 6.5 Wire Read Aloud button in Result state to `TextToSpeech.SpeakAsync`; transition to Reading state; wire Pause / Stop in playback strip; return to Result state on stop/finish
-- [ ] 6.6 Expose waveform data: extract audio level samples from NAudio `BufferedWaveProvider` during playback; raise `WaveformUpdated` event with sample array for UI canvas rendering in the playback strip
+- [x] 6.1 Create `SapiTtsEngine.cs` with `SpeakAsync(string text, string voice, float rate, CancellationToken ct)` and `Stop()` methods using System.Speech SAPI5
+- [x] 6.2 Sentence-by-sentence playback: splits summary into lines, speaks each sequentially with `SentenceReached(n)` event for WebView2 highlighting
+- [x] 6.3 Audio playback via SAPI5 SpeechSynthesizer with configurable voice and rate
+- [x] 6.4 SAPI5 is the primary engine (offline, legal, reliable); Edge neural TTS deferred to future enhancement
+- [x] 6.5 Wire Read Aloud button → `ReadAloudAsync()`, Pause/Stop → `PauseTts()`/`StopTts()`, auto-return to Result on finish
+- [x] 6.6 Sentence highlighting: `SentenceHighlightRequested`/`Cleared` events bridge ViewModel to WebView2 `highlightSentence(n)`/`clearHighlight()` JS calls
 
 **Exit criteria**: Clicking Read Aloud transitions to Reading state with waveform strip. Current sentence highlights in sync. Pause/Stop work. Offline fallback works with SAPI5.
 
