@@ -3,10 +3,13 @@
   "stalledFiles": [
     "github/episodic/peripheral/file-observations.json",
     "implementation.md",
-    "src/Tldr/Platform/MainViewModel.cs",
+    "src/Tldr/Platform/App.xaml.cs",
     "src/Tldr/Platform/MainWindow.xaml.cs",
-    "src/Tldr/Platform/SapiTtsEngine.cs"
+    "src/Tldr/Tldr.csproj",
+    "src/Tldr/GlobalUsings.cs",
+    "src/Tldr/Platform/HotkeyManager.cs",
+    "src/Tldr/Platform/TrayIconManager.cs"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1775707088804
+  "lastUpdated": 1775707282168
 }

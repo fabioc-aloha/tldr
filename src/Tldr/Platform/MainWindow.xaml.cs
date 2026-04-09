@@ -12,6 +12,9 @@ namespace Tldr.Platform;
 public partial class MainWindow : FluentWindow
 {
     private readonly MainViewModel _vm = new();
+    private TrayIconManager? _tray;
+    private HotkeyManager? _hotkeys;
+    private bool _forceClose;
 
     public MainWindow()
     {
@@ -23,7 +26,33 @@ public partial class MainWindow : FluentWindow
         DragOver += OnDragOver;
         KeyDown += OnKeyDown;
 
-        Loaded += async (_, _) => await _vm.InitializeAsync();
+        Loaded += async (_, _) =>
+        {
+            // Tray icon
+            _tray = new TrayIconManager(
+                showWindow: () => Dispatcher.Invoke(() => { Show(); Activate(); }),
+                exitApp: () => Dispatcher.Invoke(() => { _forceClose = true; Close(); }));
+
+            // Global hotkeys
+            _hotkeys = new HotkeyManager();
+            _hotkeys.OpenRequested += () => Dispatcher.Invoke(() => { Show(); Activate(); if (_vm.State == AppState.Ready && System.Windows.Clipboard.ContainsText()) _vm.LoadText(System.Windows.Clipboard.GetText()); });
+            _hotkeys.StopRequested += () => Dispatcher.Invoke(() => _vm.StopTts());
+            _hotkeys.Register(this);
+
+            await _vm.InitializeAsync();
+        };
+
+        Closing += (_, e) =>
+        {
+            if (!_forceClose)
+            {
+                e.Cancel = true;
+                Hide();
+                return;
+            }
+            _hotkeys?.Dispose();
+            _tray?.Dispose();
+        };
 
         _vm.SentenceHighlightRequested += async n =>
         {

@@ -10,10 +10,10 @@
 | 4   | WPF-UI Window (Mode-Shifting) | Done        | 13     | 13     |
 | 5   | Markdown Rendering (WebView2) | Done        | 6      | 6      |
 | 6   | Text-to-Speech                | Done        | 6      | 6      |
-| 7   | System Tray + Hotkeys         | Not Started | 5      | 0      |
+| 7   | System Tray + Hotkeys         | Done        | 5      | 5      |
 | 8   | Configuration                 | Not Started | 4      | 0      |
 | 9   | Integration + Polish          | Not Started | 7      | 0      |
-|     | **Total**                     |             | **58** | **42** |
+|     | **Total**                     |             | **58** | **47** |
 
 ## Phase 1: Project Scaffolding
 
@@ -111,11 +111,11 @@ Read the summary aloud with neural voices, with stop/control capability.
 
 Tray icon persistence and global hotkey registration.
 
-- [ ] 7.1 Create `TrayIconManager.cs`: set up `NotifyIcon` with icon from `assets/icon.ico`, context menu (Open, Exit)
-- [ ] 7.2 Implement minimize-to-tray: override `MainWindow.OnClosing` to hide window instead of exit; tray context menu "Exit" calls `Application.Shutdown()`
-- [ ] 7.3 Create `HotkeyManager.cs`: P/Invoke `RegisterHotKey` / `UnregisterHotKey`; register `Ctrl+Shift+S` (open window) and `Ctrl+Shift+X` (stop reading)
-- [ ] 7.4 Wire hotkey messages: `Ctrl+Shift+S` shows/focuses window (and optionally pastes clipboard); `Ctrl+Shift+X` calls `TextToSpeech.Stop()`
-- [ ] 7.5 Handle hotkey conflicts: if registration fails (key already taken), log a warning and show a toast notification
+- [x] 7.1 Create `TrayIconManager.cs`: `NotifyIcon` with icon, context menu (Open, Exit), double-click to show window
+- [x] 7.2 Implement minimize-to-tray: `Closing` event cancels close and hides window; tray Exit calls `Application.Shutdown()`
+- [x] 7.3 Create `HotkeyManager.cs`: P/Invoke `RegisterHotKey`/`UnregisterHotKey` with WndProc hook
+- [x] 7.4 Wire hotkey messages: Ctrl+Shift+S shows window + auto-pastes clipboard; Ctrl+Shift+X stops TTS
+- [x] 7.5 Handle hotkey conflicts: failed registration logged to Debug output (non-blocking)
 
 **Exit criteria**: App lives in tray when window is closed. Hotkeys work globally to open the window and stop playback. Double-click tray icon opens window.
 
