@@ -40,9 +40,11 @@ public sealed class Summarizer : IAsyncDisposable
             ct.ThrowIfCancellationRequested();
             await mgr.DownloadAndRegisterEpsAsync();
         }
-        catch
+        catch (OperationCanceledException) { throw; }
+        catch (Exception ex)
         {
             // Non-fatal: built-in execution providers still work.
+            System.Diagnostics.Debug.WriteLine($"[Summarizer] EP registration failed (CPU fallback): {ex.Message}");
         }
 
         var catalog = await mgr.GetCatalogAsync();
@@ -62,8 +64,13 @@ public sealed class Summarizer : IAsyncDisposable
 
     public async Task<string> SummarizeAsync(string text, string systemPrompt, CancellationToken ct = default)
     {
+        // NASA Rule 5: Assertions at system boundary
         if (_chatClient is null)
             throw new InvalidOperationException("Call InitializeAsync before summarizing.");
+        if (string.IsNullOrWhiteSpace(text))
+            throw new ArgumentException("Input text must not be empty.", nameof(text));
+        if (string.IsNullOrWhiteSpace(systemPrompt))
+            throw new ArgumentException("System prompt must not be empty.", nameof(systemPrompt));
 
         var inputTokens = EstimateTokens(text);
         var promptTokens = EstimateTokens(systemPrompt);
@@ -85,7 +92,13 @@ public sealed class Summarizer : IAsyncDisposable
         };
 
         var response = await _chatClient.CompleteChatAsync(messages, ct);
-        return (string)response.Choices[0].Message.Content;
+
+        // NASA Rule 5: Validate model output at system boundary
+        string? content = (string?)response.Choices[0].Message.Content;
+        if (string.IsNullOrWhiteSpace(content))
+            throw new InvalidOperationException("Model returned an empty response. Try again or use a different detail level.");
+
+        return content;
     }
 
     public static int EstimateTokens(string text) => text.Length / 4;
@@ -94,7 +107,11 @@ public sealed class Summarizer : IAsyncDisposable
     {
         if (_model is not null)
         {
-            try { await _model.UnloadAsync(); } catch { }
+            try { await _model.UnloadAsync(); }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Summarizer] Model unload failed: {ex.Message}");
+            }
             _model = null;
         }
         _chatClient = null;

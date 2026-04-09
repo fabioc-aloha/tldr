@@ -20,9 +20,10 @@
 | Feature              | Description                                                  |
 | -------------------- | ------------------------------------------------------------ |
 | **Local AI**         | Phi-4 Mini via Microsoft Foundry Local (CPU, GPU, or NPU)    |
-| **5 summary styles** | Bullets, Numbered List, Table, Prose, Same Format            |
+| **6 summary styles** | Bullets, Numbered List, Table, Prose, Simple, Same Format    |
 | **3 detail levels**  | Brief (~20%), Standard (~35%), Detailed (~50%)               |
-| **Read Aloud**       | Sentence-by-sentence TTS with synchronized highlighting      |
+| **3 tones**          | Neutral, Formal, Casual (selectable in the main window)      |
+| **Read Aloud**       | Neural TTS with sentence highlighting and voice picker       |
 | **File support**     | PDF, DOCX, TXT, Markdown drag-and-drop                       |
 | **Global hotkeys**   | Ctrl+Shift+S to open and paste, Ctrl+Shift+X to stop reading |
 | **System tray**      | Runs in background, always one hotkey away                   |
@@ -52,7 +53,7 @@ On first launch the app downloads Phi-4 Mini (~2.4 GB). After that it works full
 
 1. **Paste** text with Ctrl+V, or press Ctrl+Shift+S from any app
 2. **Or drop** a PDF, DOCX, TXT, or Markdown file onto the window
-3. **Pick** a style and detail level
+3. **Pick** a style, detail level, and tone
 4. **Click Distill** to summarize locally
 5. **Read Aloud** to hear it spoken with sentence highlighting
 
@@ -69,7 +70,7 @@ On first launch the app downloads Phi-4 Mini (~2.4 GB). After that it works full
 ```
 src/Tldr/
   Core/             Summarizer, PromptBuilder, FileExtractor, MarkdownRenderer, Config
-  Platform/         MainWindow, ViewModel, SapiTtsEngine, HotkeyManager, TrayIcon
+  Platform/         MainWindow, ViewModel, EdgeTtsEngine, SapiTtsEngine, HotkeyManager, TrayIcon
   Assets/           output.html (WebView2 template), icon
   prompts.json      LLM prompt fragments
   appsettings.json  Runtime configuration

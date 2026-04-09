@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Edge_tts_sharp" Version="1.1.7" />
     <PackageReference Include="Microsoft.AI.Foundry.Local" Version="1.0.0-rc5" />
     <PackageReference Include="WPF-UI" Version="4.2.0" />
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3856.49" />

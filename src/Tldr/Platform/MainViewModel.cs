@@ -1,7 +1,9 @@
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using Tldr.Core;
 
@@ -30,6 +32,9 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     private ITtsEngine? _tts;
     private CancellationTokenSource? _distillCts;
     private System.Threading.Timer? _saveTimer;
+    private string _selectedVoice = string.Empty;
+    private string _ttsEngineName = "Edge (Neural)";
+    private string _machineInfo = string.Empty;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event Action<int>? SentenceHighlightRequested;
@@ -56,8 +61,10 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     public string InputText
     {
         get => _inputText;
-        set { _inputText = value; WordCount = value.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).Length; OnPropertyChanged(); }
+        set { _inputText = value; WordCount = value.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).Length; OnPropertyChanged(); OnPropertyChanged(nameof(InputPreview)); }
     }
+
+    public string InputPreview => StripMarkdown(_inputText);
 
     public string SummaryMarkdown
     {
@@ -74,13 +81,13 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     public SummaryStyle Style
     {
         get => _style;
-        set { _style = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsStyleBullets)); OnPropertyChanged(nameof(IsStyleList)); OnPropertyChanged(nameof(IsStyleTable)); OnPropertyChanged(nameof(IsStyleProse)); OnPropertyChanged(nameof(IsStyleSame)); _settings.Style = value.ToString(); ScheduleSave(); }
+        set { _style = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsStyleBullets)); OnPropertyChanged(nameof(IsStyleList)); OnPropertyChanged(nameof(IsStyleTable)); OnPropertyChanged(nameof(IsStyleProse)); OnPropertyChanged(nameof(IsStyleSimple)); OnPropertyChanged(nameof(IsStyleSame)); _settings.Style = value.ToString(); ScheduleSave(); }
     }
 
     public DetailLevel Detail
     {
         get => _detail;
-        set { _detail = value; OnPropertyChanged(); _settings.Detail = value.ToString(); ScheduleSave(); }
+        set { _detail = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsDetailBrief)); OnPropertyChanged(nameof(IsDetailStandard)); OnPropertyChanged(nameof(IsDetailDetailed)); _settings.Detail = value.ToString(); ScheduleSave(); }
     }
 
     public Tone Tone
@@ -125,16 +132,41 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         set { _sentenceCount = value; OnPropertyChanged(); }
     }
 
-    // Computed properties for radio button bindings
+    // Computed properties for chip toggle bindings
     public bool IsStyleBullets => Style == SummaryStyle.Bullets;
     public bool IsStyleList => Style == SummaryStyle.List;
     public bool IsStyleTable => Style == SummaryStyle.Table;
     public bool IsStyleProse => Style == SummaryStyle.Prose;
+    public bool IsStyleSimple => Style == SummaryStyle.Simple;
     public bool IsStyleSame => Style == SummaryStyle.Same;
+
+    public bool IsDetailBrief => Detail == DetailLevel.Brief;
+    public bool IsDetailStandard => Detail == DetailLevel.Standard;
+    public bool IsDetailDetailed => Detail == DetailLevel.Detailed;
 
     public bool IsToneNeutral => Tone == Tone.Neutral;
     public bool IsToneFormal => Tone == Tone.Formal;
     public bool IsToneCasual => Tone == Tone.Casual;
+
+    public string SelectedVoice
+    {
+        get => _selectedVoice;
+        set { _selectedVoice = value; OnPropertyChanged(); _settings.Voice = value; ScheduleSave(); }
+    }
+
+    public string TtsEngineName
+    {
+        get => _ttsEngineName;
+        private set { _ttsEngineName = value; OnPropertyChanged(); }
+    }
+
+    public string MachineInfo
+    {
+        get => _machineInfo;
+        private set { _machineInfo = value; OnPropertyChanged(); }
+    }
+
+    public ObservableCollection<string> AvailableVoices { get; } = new();
 
     public async Task InitializeAsync()
     {
@@ -151,6 +183,9 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         OnPropertyChanged(nameof(IsStyleTable));
         OnPropertyChanged(nameof(IsStyleProse));
         OnPropertyChanged(nameof(IsStyleSame));
+        OnPropertyChanged(nameof(IsDetailBrief));
+        OnPropertyChanged(nameof(IsDetailStandard));
+        OnPropertyChanged(nameof(IsDetailDetailed));
         OnPropertyChanged(nameof(IsToneNeutral));
         OnPropertyChanged(nameof(IsToneFormal));
         OnPropertyChanged(nameof(IsToneCasual));
@@ -178,13 +213,52 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         }
         catch (Exception ex)
         {
-            StatusText = "Model failed to load. Ensure Foundry Local is installed.";
-            System.Diagnostics.Debug.WriteLine($"[Init] {ex}");
+            StatusText = ClassifyError(ex, "Init");
+            LogError("Init", ex);
         }
         finally
         {
             IsBusy = false;
         }
+
+        // Load voice from saved settings
+        if (!string.IsNullOrEmpty(_settings.Voice))
+        {
+            _selectedVoice = _settings.Voice;
+            OnPropertyChanged(nameof(SelectedVoice));
+        }
+
+        // Populate machine info
+        PopulateMachineInfo(config.Llm.Model);
+
+        // Populate available voices (background, non-blocking)
+        _ = Task.Run(() =>
+        {
+            try
+            {
+                var voices = Edge_tts_sharp.Edge_tts.GetVoice();
+                var enVoices = voices
+                    .Where(v => v.Locale != null && v.Locale.StartsWith("en-", StringComparison.OrdinalIgnoreCase) && v.ShortName != null)
+                    .Select(v => v.ShortName!)
+                    .OrderBy(n => n)
+                    .ToList();
+
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    AvailableVoices.Clear();
+                    foreach (var v in enVoices) AvailableVoices.Add(v);
+                    if (string.IsNullOrEmpty(SelectedVoice) && AvailableVoices.Count > 0)
+                    {
+                        var aria = AvailableVoices.FirstOrDefault(v => v.Contains("AriaNeural", StringComparison.OrdinalIgnoreCase));
+                        SelectedVoice = aria ?? AvailableVoices[0];
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[Voices] Failed to enumerate: {ex.Message}");
+            }
+        });
     }
 
     private const int MaxInputChars = 2_000_000; // ~500K tokens, well within 10MB extracted text
@@ -224,8 +298,9 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         {
             StatusText = ex.Message; // file-too-large message
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"[LoadFile] {ex.GetType().Name}: {ex.Message}");
             StatusText = $"Failed to read file: {Path.GetFileName(filePath)}";
         }
     }
@@ -233,7 +308,17 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     public async Task DistillAsync()
     {
         if (_summarizer is null || _promptBuilder is null)
+        {
+            StatusText = "Model not loaded. Restart the app.";
+            System.Diagnostics.Debug.WriteLine("[Distill] Called before InitializeAsync completed");
             return;
+        }
+
+        if (string.IsNullOrWhiteSpace(InputText))
+        {
+            StatusText = "Nothing to distill. Paste some text first.";
+            return;
+        }
 
         IsBusy = true;
         StatusText = "Distilling...";
@@ -273,11 +358,8 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         }
         catch (Exception ex)
         {
-            // Show generic message; avoid leaking document content from inner exceptions
-            StatusText = ex is InvalidOperationException
-                ? $"Error: {ex.Message}"
-                : "An unexpected error occurred. Please try again.";
-            System.Diagnostics.Debug.WriteLine($"[Distill] {ex}");
+            StatusText = ClassifyError(ex, "Distill");
+            LogError("Distill", ex);
         }
         finally
         {
@@ -352,7 +434,16 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
                 sb.AppendLine(line);
         }
 
-        await _tts.SpeakAsync(sb.ToString(), string.Empty, 1f, CancellationToken.None);
+        try
+        {
+            await _tts.SpeakAsync(sb.ToString(), _selectedVoice, 1f, CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            LogError("ReadAloud", ex);
+            StatusText = $"Read aloud failed: {ex.Message}";
+            State = AppState.Result;
+        }
     }
 
     public void TogglePauseTts()
@@ -392,16 +483,41 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         _saveTimer = new System.Threading.Timer(_ => _settings.Save(), null, 500, Timeout.Infinite);
     }
 
-    private static ITtsEngine CreateTtsEngine()
+    private void PopulateMachineInfo(string modelAlias)
     {
+        var sb = new StringBuilder();
+        sb.AppendLine($"Model: {modelAlias}");
+        sb.AppendLine($"Context: {_summarizer?.ContextWindowTokens ?? 128_000:N0} tokens");
+        sb.AppendLine($"CPU: {Environment.ProcessorCount} cores");
         try
         {
-            return new WinRtTtsEngine();
+            var mem = GC.GetGCMemoryInfo();
+            sb.AppendLine($"Memory: {mem.TotalAvailableMemoryBytes / (1024 * 1024 * 1024.0):F1} GB");
         }
-        catch
+        catch { sb.AppendLine("Memory: unknown"); }
+        sb.AppendLine($"TTS: {TtsEngineName}");
+        MachineInfo = sb.ToString().TrimEnd();
+    }
+
+    private static ITtsEngine CreateTtsEngine()
+    {
+        // Edge TTS: neural voices via Microsoft Edge service (best quality, needs network)
+        try { return new EdgeTtsEngine(); }
+        catch (Exception ex)
         {
-            return new SapiTtsEngine();
+            System.Diagnostics.Debug.WriteLine($"[TTS] Edge engine failed, falling back: {ex.GetType().Name}: {ex.Message}");
         }
+
+        // WinRT: local Windows voices (works offline, quality depends on installed voices)
+        try { return new WinRtTtsEngine(); }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[TTS] WinRT engine failed, falling back: {ex.GetType().Name}: {ex.Message}");
+        }
+
+        // SAPI5: legacy fallback (always available on Windows)
+        System.Diagnostics.Debug.WriteLine("[TTS] Using SAPI5 fallback engine");
+        return new SapiTtsEngine();
     }
 
     public void Dispose()
@@ -409,6 +525,82 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         _saveTimer?.Dispose();
         (_tts as IDisposable)?.Dispose();
         _distillCts?.Dispose();
+    }
+
+    private static string ClassifyError(Exception ex, string phase)
+    {
+        var inner = ex.InnerException ?? ex;
+        var msg = inner.Message;
+
+        // Connection/network errors (Foundry Local not running)
+        if (inner is System.Net.Http.HttpRequestException or System.Net.Sockets.SocketException
+            || msg.Contains("connection", StringComparison.OrdinalIgnoreCase)
+            || msg.Contains("refused", StringComparison.OrdinalIgnoreCase))
+            return "Cannot reach Foundry Local. Is it running? Start it and try again.";
+
+        // Model not found or not loaded
+        if (msg.Contains("not found", StringComparison.OrdinalIgnoreCase)
+            || msg.Contains("catalog", StringComparison.OrdinalIgnoreCase))
+            return $"Model not found. Ensure the model is installed in Foundry Local.";
+
+        // Timeout
+        if (inner is TimeoutException || inner is TaskCanceledException { InnerException: TimeoutException })
+            return "Request timed out. The model may be overloaded. Try a shorter text.";
+
+        // Dynamic/runtime binding (response structure changed)
+        if (inner is Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)
+            return $"Unexpected model response format. ({inner.Message})";
+
+        // InvalidOperationException from our code (show directly)
+        if (ex is InvalidOperationException)
+            return $"Error: {ex.Message}";
+
+        // Fallback: show the exception type + message (never the full stack)
+        return $"{phase} error: [{inner.GetType().Name}] {msg}";
+    }
+
+    private const long MaxLogFileBytes = 512 * 1024; // 512 KB log rotation threshold
+
+    private static void LogError(string phase, Exception ex)
+    {
+        System.Diagnostics.Debug.WriteLine($"[{phase}] {ex}");
+        try
+        {
+            var logDir = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TLDR");
+            Directory.CreateDirectory(logDir);
+            var logFile = Path.Combine(logDir, "errors.log");
+
+            // NASA Rule 3: Bounded data — rotate log to prevent unbounded disk growth
+            if (File.Exists(logFile) && new FileInfo(logFile).Length > MaxLogFileBytes)
+            {
+                var archivePath = logFile + ".old";
+                File.Copy(logFile, archivePath, overwrite: true);
+                File.WriteAllText(logFile, string.Empty);
+            }
+
+            var entry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [{phase}] {ex}\n";
+            File.AppendAllText(logFile, entry);
+        }
+        catch (Exception logEx)
+        {
+            // Logging must not throw, but never silently swallow
+            System.Diagnostics.Debug.WriteLine($"[LogError] Failed to write log: {logEx.Message}");
+        }
+    }
+
+    private static readonly Regex MarkdownPattern = new(
+        @"\*\*|__|\*|_|~~|`{1,3}|^#{1,6}\s|^>\s?|^[-*+]\s|^\d+\.\s|!?\[([^\]]*)\]\([^)]*\)",
+        RegexOptions.Multiline | RegexOptions.Compiled);
+
+    private static string StripMarkdown(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return text;
+        // Replace links with just their display text
+        var result = Regex.Replace(text, @"!?\[([^\]]*)\]\([^)]*\)", "$1");
+        // Remove remaining markdown syntax
+        result = MarkdownPattern.Replace(result, "");
+        return result.Trim();
     }
 
     private static string FormatHtmlClipboard(string htmlFragment)

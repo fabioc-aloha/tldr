@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Markup;
 using Tldr.Core;
@@ -15,6 +16,8 @@ public partial class MainWindow : FluentWindow
     private TrayIconManager? _tray;
     private HotkeyManager? _hotkeys;
     private bool _forceClose;
+    private string _activeTheme = "System";
+    private bool _webViewInitialized;
 
     public MainWindow()
     {
@@ -63,7 +66,10 @@ public partial class MainWindow : FluentWindow
                 await OutputWebView.EnsureCoreWebView2Async();
                 await OutputWebView.ExecuteScriptAsync($"highlightSentence({n})");
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[WebView] Highlight failed: {ex.Message}");
+            }
         };
 
         _vm.SentenceHighlightCleared += async () =>
@@ -73,7 +79,10 @@ public partial class MainWindow : FluentWindow
                 await OutputWebView.EnsureCoreWebView2Async();
                 await OutputWebView.ExecuteScriptAsync("clearHighlight()");
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[WebView] Clear highlight failed: {ex.Message}");
+            }
         };
     }
 
@@ -118,18 +127,36 @@ public partial class MainWindow : FluentWindow
         }
     }
 
-    private void StylePill_Checked(object sender, RoutedEventArgs e)
+    private void StyleChip_Checked(object sender, RoutedEventArgs e)
     {
-        if (sender is RadioButton rb && rb.Tag is string tag &&
+        if (sender is ToggleButton tb && tb.Tag is string tag &&
             Enum.TryParse<SummaryStyle>(tag, out var style))
         {
             _vm.Style = style;
         }
     }
 
-    private void DetailSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    private void StyleChip_Unchecked(object sender, RoutedEventArgs e)
     {
-        _vm.Detail = (DetailLevel)(int)e.NewValue;
+        // Only prevent uncheck if this chip is still the active style
+        if (sender is ToggleButton tb && tb.Tag is string tag &&
+            Enum.TryParse<SummaryStyle>(tag, out var style) && _vm.Style == style)
+            tb.IsChecked = true;
+    }
+
+    private void DetailChip_Checked(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleButton tb && tb.Tag is string tag && int.TryParse(tag, out var level))
+        {
+            _vm.Detail = (DetailLevel)level;
+        }
+    }
+
+    private void DetailChip_Unchecked(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleButton tb && tb.Tag is string tag &&
+            int.TryParse(tag, out var level) && _vm.Detail == (DetailLevel)level)
+            tb.IsChecked = true;
     }
 
     private async void Distill_Click(object sender, RoutedEventArgs e)
@@ -137,7 +164,15 @@ public partial class MainWindow : FluentWindow
         await _vm.DistillAsync();
         if (_vm.State == AppState.Result)
         {
-            await LoadHtmlIntoWebView();
+            try
+            {
+                await LoadHtmlIntoWebView();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[WebView] LoadHtml failed: {ex.Message}");
+                _vm.StatusText = "Failed to render summary. Try re-distilling.";
+            }
         }
     }
 
@@ -171,19 +206,38 @@ public partial class MainWindow : FluentWindow
         _vm.BackToReady();
     }
 
-    private void TonePill_Checked(object sender, RoutedEventArgs e)
+    private void ToneChip_Checked(object sender, RoutedEventArgs e)
     {
-        if (sender is RadioButton rb && rb.Tag is string tag &&
+        if (sender is ToggleButton tb && tb.Tag is string tag &&
             Enum.TryParse<Tone>(tag, out var tone))
         {
             _vm.Tone = tone;
         }
     }
 
-    private void ThemePill_Checked(object sender, RoutedEventArgs e)
+    private void ToneChip_Unchecked(object sender, RoutedEventArgs e)
     {
-        if (sender is RadioButton rb && rb.Tag is string tag)
+        if (sender is ToggleButton tb && tb.Tag is string tag &&
+            Enum.TryParse<Tone>(tag, out var tone) && _vm.Tone == tone)
+            tb.IsChecked = true;
+    }
+
+    private void ThemeChip_Checked(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleButton tb && tb.Tag is string tag)
         {
+            _activeTheme = tag;
+
+            // Uncheck sibling theme chips
+            if (tb.Parent is System.Windows.Controls.WrapPanel panel)
+            {
+                foreach (var child in panel.Children)
+                {
+                    if (child is ToggleButton sibling && sibling != tb)
+                        sibling.IsChecked = false;
+                }
+            }
+
             switch (tag)
             {
                 case "Dark":
@@ -202,6 +256,12 @@ public partial class MainWindow : FluentWindow
         }
     }
 
+    private void ThemeChip_Unchecked(object sender, RoutedEventArgs e)
+    {
+        if (sender is ToggleButton tb && tb.Tag is string tag && tag == _activeTheme)
+            tb.IsChecked = true;
+    }
+
     private void Settings_Click(object sender, RoutedEventArgs e)
     {
         SettingsPopup.IsOpen = !SettingsPopup.IsOpen;
@@ -211,16 +271,20 @@ public partial class MainWindow : FluentWindow
     {
         await OutputWebView.EnsureCoreWebView2Async();
 
-        // S2: Block navigation to external URLs (defense-in-depth)
-        OutputWebView.CoreWebView2.NavigationStarting += (s, args) =>
+        // S2: Block navigation to external URLs (defense-in-depth) — register once
+        if (!_webViewInitialized)
         {
-            if (args.Uri is not null &&
-                !args.Uri.StartsWith("file://", StringComparison.OrdinalIgnoreCase) &&
-                !args.Uri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
+            _webViewInitialized = true;
+            OutputWebView.CoreWebView2.NavigationStarting += (s, args) =>
             {
-                args.Cancel = true;
-            }
-        };
+                if (args.Uri is not null &&
+                    !args.Uri.StartsWith("file://", StringComparison.OrdinalIgnoreCase) &&
+                    !args.Uri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
+                {
+                    args.Cancel = true;
+                }
+            };
+        }
 
         if (OutputWebView.Source is null || OutputWebView.Source.AbsoluteUri == "about:blank")
         {

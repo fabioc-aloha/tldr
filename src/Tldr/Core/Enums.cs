@@ -6,6 +6,7 @@ public enum SummaryStyle
     List,
     Table,
     Prose,
+    Simple,
     Same
 }
 

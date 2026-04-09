@@ -31,15 +31,16 @@ Press Ctrl+Shift+S from any application. TLDR opens (or comes to the foreground)
 
 ### Style
 
-Select one of five output formats before distilling:
+Select one of six output formats before distilling:
 
-| Style       | Description                                          |
-| ----------- | ---------------------------------------------------- |
-| **Bullets** | Markdown bullet list of key points                   |
-| **List**    | Numbered list ordered by importance                  |
-| **Table**   | Three-column table: Topic, Key Points, Details       |
-| **Prose**   | Flowing paragraph summary                            |
-| **Same**    | Condensed version preserving the original formatting |
+| Style       | Description                                           |
+| ----------- | ----------------------------------------------------- |
+| **Bullets** | Markdown bullet list of key points                    |
+| **List**    | Numbered list ordered by importance                   |
+| **Table**   | Three-column table: Topic, Key Points, Details        |
+| **Prose**   | Flowing paragraph summary                             |
+| **Simple**  | Plain everyday language, no jargon or technical terms |
+| **Same**    | Condensed version preserving the original formatting  |
 
 ### Detail Level
 
@@ -51,7 +52,7 @@ A slider with three positions controls how much of the original content is retai
 
 ### Tone
 
-Found in the Settings popup (gear icon in the status bar):
+Chip toggles in the main window, below the detail level:
 
 - **Neutral**: No tone modification (default)
 - **Formal**: Professional, academic language
@@ -72,7 +73,7 @@ Click **Re-distill** to return to the Loaded state with your original text intac
 
 ### Read Aloud
 
-Click **Read Aloud** to hear the summary spoken sentence by sentence. The current sentence highlights in the output view as it's read.
+Click **Read Aloud** to hear the summary spoken sentence by sentence. The current sentence highlights in the output view as it's read. The voice can be changed in Settings.
 
 Controls during playback:
 
@@ -82,6 +83,12 @@ Controls during playback:
 | **Stop**  | Stops speech and returns to the result view |
 
 Press Ctrl+Shift+X from any application to stop reading immediately.
+
+## Voice
+
+Open Settings (gear icon) and select a voice from the dropdown. The list shows available English neural voices from the Edge speech service. Your selection is saved and restored on next launch.
+
+The TTS engine falls back automatically: Edge neural voices (best quality, needs network) > WinRT voices > SAPI5 (offline, always available).
 
 ## Theme
 
@@ -101,9 +108,19 @@ Closing the window minimizes TLDR to the system tray instead of exiting. Use the
 - **Right-click > Open**: Restore the window
 - **Right-click > Exit**: Quit the application
 
+## Machine Info
+
+The Settings popup includes a machine configuration box showing:
+
+- AI model name and context window size
+- CPU core count and available RAM
+- Active TTS engine
+
+This helps verify which hardware resources the app is using.
+
 ## Settings Persistence
 
-Your last-used Style, Detail, Tone, and Theme choices are saved automatically to `%APPDATA%\Tldr\settings.json` and restored on next launch.
+Your last-used Style, Detail, Tone, Theme, and Voice choices are saved automatically to `%APPDATA%\Tldr\settings.json` and restored on next launch.
 
 ## Configuration
 

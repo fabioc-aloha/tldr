@@ -13,6 +13,7 @@ public sealed class UserSettings
     public string Detail { get; set; } = "Standard";
     public string Tone { get; set; } = "Neutral";
     public string Theme { get; set; } = "System";
+    public string Voice { get; set; } = "";
 
     public static UserSettings Load()
     {
@@ -24,9 +25,10 @@ public sealed class UserSettings
             var json = File.ReadAllText(SettingsPath);
             return JsonSerializer.Deserialize<UserSettings>(json) ?? new UserSettings();
         }
-        catch
+        catch (Exception ex)
         {
             // Corrupt settings file; reset to defaults
+            System.Diagnostics.Debug.WriteLine($"[Settings] Load failed, using defaults: {ex.Message}");
             return new UserSettings();
         }
     }
@@ -41,10 +43,10 @@ public sealed class UserSettings
             var json = JsonSerializer.Serialize(this, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(SettingsPath, json);
         }
-        catch
+        catch (Exception ex)
         {
             // Non-fatal: settings not persisted this time
-            System.Diagnostics.Debug.WriteLine("[Settings] Save failed (disk full or permission denied)");
+            System.Diagnostics.Debug.WriteLine($"[Settings] Save failed: {ex.Message}");
         }
     }
 }

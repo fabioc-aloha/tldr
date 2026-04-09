@@ -23,7 +23,10 @@ public sealed class SapiTtsEngine : ITtsEngine, IDisposable
         if (!string.IsNullOrEmpty(voice))
         {
             try { _synth.SelectVoice(voice); }
-            catch { /* fall back to default voice */ }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[SAPI] Voice '{voice}' not found, using default: {ex.Message}");
+            }
         }
 
         // Rate: SAPI range is -10 to 10, map our 0.5-2.0 range
@@ -60,9 +63,16 @@ public sealed class SapiTtsEngine : ITtsEngine, IDisposable
                 _synth.SpeakCompleted -= handler;
             }
 
-            // Spin while paused
-            while (_isPaused && !_cts.Token.IsCancellationRequested)
+            // NASA Rule 2: Bounded pause loop — 30 min max prevents infinite spin
+            const int maxPauseIterations = 18_000; // 100ms * 18,000 = 30 min
+            int pauseIter = 0;
+            while (_isPaused && !_cts.Token.IsCancellationRequested && pauseIter++ < maxPauseIterations)
                 await Task.Delay(100, CancellationToken.None);
+            if (pauseIter >= maxPauseIterations)
+            {
+                System.Diagnostics.Debug.WriteLine("[SAPI] Pause exceeded 30 min, auto-resuming");
+                _isPaused = false;
+            }
         }
 
         if (!_cts.Token.IsCancellationRequested)

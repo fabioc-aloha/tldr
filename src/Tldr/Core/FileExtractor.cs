@@ -22,6 +22,12 @@ public static class FileExtractor
 
     public static string Extract(string filePath)
     {
+        // NASA Rule 5: Precondition assertions
+        if (string.IsNullOrWhiteSpace(filePath))
+            throw new ArgumentException("File path must not be empty.", nameof(filePath));
+        if (!File.Exists(filePath))
+            throw new FileNotFoundException($"File not found: {filePath}", filePath);
+
         var info = new FileInfo(filePath);
         if (info.Length > MaxFileSizeBytes)
             throw new InvalidOperationException($"File too large ({info.Length / (1024 * 1024):N0} MB). Maximum is {MaxFileSizeBytes / (1024 * 1024)} MB.");

@@ -5,6 +5,7 @@
     "List": "Return a numbered markdown list of the key points in order of importance.",
     "Table": "Return a markdown table with columns: Topic, Key Points, Details.",
     "Prose": "Return a concise paragraph summary in flowing prose.",
+    "Simple": "Explain the key points in plain, everyday language. Avoid jargon, technical terms, and complex sentences. Write as if explaining to someone unfamiliar with the topic.",
     "Same": "Condense the text while preserving its original formatting style (paragraphs, headings, lists)."
   },
   "detail": {

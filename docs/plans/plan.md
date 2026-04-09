@@ -59,6 +59,7 @@ flowchart TD
 AMD Ryzen 7 PRO 7840U, Radeon 780M iGPU, AMD XDNA NPU (~10 TOPS), 64 GB RAM.
 No NVIDIA GPU (CUDA/TensorRT unavailable). Not Copilot+ (NPU < 40 TOPS, Phi Silica ineligible).
 Foundry Local will use **CPU (Generic)** or **NPU (AMD Vitis AI)** variants.
+Future: v0.4 adds Windows AI / Phi Silica support for Copilot+ PCs (40+ TOPS NPU). See Feature Roadmap.
 
 ## Technology Stack
 
@@ -462,6 +463,57 @@ Rolling summary is not used by default (quality degrades). Available as a user-s
 - [ ] Startup with Windows (registry or Task Scheduler)
 - [ ] MSIX packaging; sideload testing
 
+### v0.4: Windows AI Integration (Copilot+ PCs)
+
+Windows App SDK 1.7-1.8 ships **Phi Silica**, an NPU-tuned language model built into Windows on Copilot+ PCs, exposed via `Microsoft.Windows.AI.Text`. It includes three Text Intelligence Skills directly relevant to TLDR:
+
+| Skill             | API                                   | TLDR Use                                                |
+| ----------------- | ------------------------------------- | ------------------------------------------------------- |
+| **Summarize**     | `TextSummarizer.SummarizeAsync(text)` | Replace Foundry Local for summarization on Copilot+ PCs |
+| **Rewrite**       | `TextRewriter` with tone parameter    | Power the Tone feature natively (Formal, Casual, etc.)  |
+| **Text-to-table** | Structured table formatting           | Enhance the Table style option                          |
+
+#### Integration Plan
+
+1. **Detect availability** at startup via `LanguageModel.GetReadyState()`
+2. **Prefer Phi Silica** when available (zero model download, NPU-accelerated, battery-efficient)
+3. **Fall back to Foundry Local** + Phi-4 Mini on non-Copilot+ PCs (current approach)
+4. Engine selection automatic, surfaced in Settings as "Summarization Engine: Windows AI / Foundry Local"
+
+```csharp
+using Microsoft.Windows.AI.Text;
+
+// Check availability
+if (LanguageModel.GetReadyState() == AIFeatureReadyState.EnsureNeeded)
+    await LanguageModel.EnsureReadyAsync();
+
+using LanguageModel languageModel = await LanguageModel.CreateAsync();
+var summarizer = new TextSummarizer(languageModel);
+var result = await summarizer.SummarizeAsync(text);
+```
+
+#### Caveats
+
+- **Copilot+ PCs only** (requires NPU with 40+ TOPS)
+- **Limited Access Feature** during preview: requires [unlock token from Microsoft](https://go.microsoft.com/fwlink/?linkid=2271232&c1cid=04x409)
+- Not available in China
+- This machine (AMD XDNA ~10 TOPS) does not qualify; Foundry Local remains the primary engine
+- Phi Silica uses speculative decoding (small draft model proposes tokens, main model validates in parallel)
+
+#### Additional v0.4 Items
+
+- [ ] WACK validation; Partner Center submission
+- [ ] Phi Silica summarization engine (Copilot+ PCs, Windows App SDK 1.8+)
+- [ ] Phi Silica TextRewriter for native tone control
+- [ ] Engine auto-detection: Windows AI preferred, Foundry Local fallback
+- [ ] Voice input via Foundry Local Whisper models (speech-to-text for hands-free dictation)
+
+### v0.5
+
+- [ ] Public Microsoft Store listing; auto-update pipeline
+- [ ] LoRA fine-tuning for Phi Silica (custom summarization style, SDK 1.8+)
+- [ ] Semantic Search integration (Windows AI private preview) for context-aware summarization
+
 ## Project Structure
 
 ```
@@ -746,9 +798,9 @@ flowchart LR
 
 ### Store Timeline in Roadmap
 
-| Phase      | Milestone                                  |
-| ---------- | ------------------------------------------ |
-| v0.1 (MVP) | Run as WPF app with full UI from source    |
-| v0.3       | MSIX packaging; sideload testing           |
-| v0.4       | WACK validation; Partner Center submission |
-| v0.5       | Public Store listing; auto-update pipeline |
+| Phase      | Milestone                                                          |
+| ---------- | ------------------------------------------------------------------ |
+| v0.1 (MVP) | Run as WPF app with full UI from source                            |
+| v0.3       | MSIX packaging; sideload testing                                   |
+| v0.4       | WACK validation; Partner Center submission; Windows AI integration |
+| v0.5       | Public Store listing; auto-update pipeline                         |

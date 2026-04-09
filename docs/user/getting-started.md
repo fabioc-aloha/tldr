@@ -45,9 +45,8 @@ On first launch the app downloads Phi-4 Mini (~2.4 GB). After that it works full
 
 1. **Paste text**: Press Ctrl+V in the TLDR window, or copy text first and press Ctrl+Shift+S from anywhere.
 2. **Or drop a file**: Drag a `.pdf`, `.docx`, `.txt`, or `.md` file onto the window.
-3. **Pick a style**: Choose Bullets, List, Table, Prose, or Same.
-4. **Set detail level**: Slide between Brief (~20%), Standard (~35%), and Detailed (~50%).
-5. **Click Distill**: The model processes your text locally and produces a summary.
+3. **Pick options**: Choose a style (Bullets, List, Table, Prose, Simple, or Same), detail level, and tone.
+4. **Click Distill**: The model processes your text locally and produces a summary.
 
 ## What's Next
 
