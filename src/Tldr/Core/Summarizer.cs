@@ -28,6 +28,17 @@ public sealed class Summarizer : IAsyncDisposable
         await FoundryLocalManager.CreateAsync(config, logger ?? NullLogger.Instance);
         var mgr = FoundryLocalManager.Instance;
 
+        // Register hardware execution providers (NPU/GPU) for acceleration.
+        // Skips download if already cached; built-in CPU fallback if this fails.
+        try
+        {
+            await mgr.DownloadAndRegisterEpsAsync();
+        }
+        catch
+        {
+            // Non-fatal: built-in execution providers still work.
+        }
+
         var catalog = await mgr.GetCatalogAsync();
         _model = await catalog.GetModelAsync(_modelAlias)
             ?? throw new InvalidOperationException($"Model '{_modelAlias}' not found in catalog.");
@@ -45,6 +56,9 @@ public sealed class Summarizer : IAsyncDisposable
     {
         if (_chatClient is null)
             throw new InvalidOperationException("Call InitializeAsync before summarizing.");
+
+        _chatClient.Settings.Temperature = 0f;
+        _chatClient.Settings.MaxTokens = maxOutputTokens;
 
         var messages = new List<ChatMessage>
         {

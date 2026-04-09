@@ -2,16 +2,10 @@
   "hotFiles": [],
   "stalledFiles": [
     "github/episodic/peripheral/file-observations.json",
-    "port.md",
-    "src/Tldr/App.xaml",
-    "src/Tldr/App.xaml.cs",
-    "src/Tldr/AssemblyInfo.cs",
-    "src/Tldr/MainWindow.xaml",
-    "src/Tldr/MainWindow.xaml.cs",
-    "src/Tldr/Tldr.csproj",
-    "src/Tldr/Core/",
-    "src/Tldr/Platform/"
+    "nuget.config",
+    "src/Tldr/Core/Summarizer.cs",
+    "src/Tldr/Tldr.csproj"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1775704835820
+  "lastUpdated": 1775705094629
 }
