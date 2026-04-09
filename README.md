@@ -1,6 +1,19 @@
-# TLDR
+<p align="center">
+  <img src="docs/assets/banner.png" alt="TLDR — Local AI Document Summarizer" />
+</p>
 
-Local-first document summarizer for Windows. Paste or drop text and get a concise summary powered by a small language model running entirely on your machine. No cloud, no API keys, no data leaves your computer.
+<h1 align="center">TLDR</h1>
+
+<p align="center">
+  Local AI document summarizer for Windows.<br/>
+  Paste or drop text, get a concise summary. No cloud, no API keys, no data leaves your machine.
+</p>
+
+<p align="center">
+  <a href="../../releases/latest"><img src="https://img.shields.io/github/v/release/fabioc-aloha/tldr?style=flat-square" alt="Latest Release" /></a>
+  <img src="https://img.shields.io/badge/platform-Windows%2010%2B-blue?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/github/license/fabioc-aloha/tldr?style=flat-square" alt="License" />
+</p>
 
 ## Features
 
@@ -13,61 +26,79 @@ Local-first document summarizer for Windows. Paste or drop text and get a concis
 | **File support**     | PDF, DOCX, TXT, Markdown drag-and-drop                       |
 | **Global hotkeys**   | Ctrl+Shift+S to open and paste, Ctrl+Shift+X to stop reading |
 | **System tray**      | Runs in background, always one hotkey away                   |
-| **Fluent UI**        | WPF-UI Mica window with dark/light/system theme              |
+| **Fluent UI**        | WPF-UI Mica window with dark, light, and system themes       |
 
-## Requirements
+## Install
 
-- Windows 10 21H2 or later
-- .NET 9 Desktop Runtime
-- [Microsoft Foundry Local](https://github.com/microsoft/foundry-local)
-- ~4 GB disk space for model download
+**Option A: Download release** (recommended)
 
-## Quick Start
+1. Install [Microsoft Foundry Local](https://github.com/microsoft/foundry-local): `winget install Microsoft.FoundryLocal`
+2. Download the latest ZIP from [Releases](../../releases/latest)
+3. Extract and run `Tldr.exe`
+
+The release is self-contained: no .NET install needed.
+
+**Option B: Build from source**
 
 ```powershell
-# Install Foundry Local
 winget install Microsoft.FoundryLocal
-
-# Build
 dotnet build src\Tldr\Tldr.csproj
-
-# Run
 dotnet run --project src\Tldr\Tldr.csproj
 ```
 
 On first launch the app downloads Phi-4 Mini (~2.4 GB). After that it works fully offline.
 
-## Publish
+## Usage
 
-```powershell
-dotnet publish src\Tldr\Tldr.csproj -c Release --self-contained -o publish
-```
+1. **Paste** text with Ctrl+V, or press Ctrl+Shift+S from any app
+2. **Or drop** a PDF, DOCX, TXT, or Markdown file onto the window
+3. **Pick** a style and detail level
+4. **Click Distill** to summarize locally
+5. **Read Aloud** to hear it spoken with sentence highlighting
+
+## Documentation
+
+| Document                                              | Description                       |
+| ----------------------------------------------------- | --------------------------------- |
+| [Getting Started](docs/user/getting-started.md)       | Installation, first summarization |
+| [User Guide](docs/user/user-guide.md)                 | Full feature reference            |
+| [Keyboard Shortcuts](docs/user/keyboard-shortcuts.md) | Hotkey quick reference            |
 
 ## Project Structure
 
 ```
 src/Tldr/
-  Core/           Summarizer, PromptBuilder, FileExtractor, MarkdownRenderer, Config, Enums
-  Platform/       MainWindow (WPF-UI), ViewModel, SapiTtsEngine, HotkeyManager, TrayIcon, Converters
-  Assets/         output.html (WebView2 template), icon.ico
-  prompts.json    LLM prompt fragments (style, detail, tone)
+  Core/             Summarizer, PromptBuilder, FileExtractor, MarkdownRenderer, Config
+  Platform/         MainWindow, ViewModel, SapiTtsEngine, HotkeyManager, TrayIcon
+  Assets/           output.html (WebView2 template), icon
+  prompts.json      LLM prompt fragments
   appsettings.json  Runtime configuration
-  SmokeTest.cs    Console smoke test (--smoke-test flag)
-  GlobalUsings.cs Type alias disambiguation for WPF/WinForms
 docs/
-  plans/          Implementation plan and solution vision
-  port/           Port/migration notes
-  reviews/        Code, UI/UX, security, RAI, accessibility, resilience, performance, license reviews
-  user/           Getting started, user guide, keyboard shortcuts
-test-cases/       Sample documents for testing
+  assets/           Banner and branding images
+  plans/            Implementation plan and solution vision
+  reviews/          Code, UI/UX, security, RAI, accessibility, resilience, performance, license
+  user/             Getting started, user guide, keyboard shortcuts
+scripts/            Replicate image generation (banner, icon)
+test-cases/         Sample documents for testing
 ```
 
-## Documentation
+## Release
 
-- [Getting Started](docs/user/getting-started.md)
-- [User Guide](docs/user/user-guide.md)
-- [Keyboard Shortcuts](docs/user/keyboard-shortcuts.md)
-- [Reviews](docs/reviews/) (code, UI/UX, security, RAI, accessibility, resilience, performance, license)
+Pushing a version tag triggers the GitHub Actions pipeline, which builds a self-contained single-file exe and publishes a GitHub Release with the ZIP attached.
+
+```powershell
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+<details>
+<summary>Manual publish</summary>
+
+```powershell
+dotnet publish src\Tldr\Tldr.csproj -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
+```
+
+</details>
 
 ## License
 

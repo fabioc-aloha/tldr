@@ -2,13 +2,13 @@
 
 ## Overview
 
-TLDR takes long text and produces a focused summary using a local AI model. Everything runs on your machine with no cloud dependency.
+TLDR takes long text and produces a focused summary using a local AI model (Phi-4 Mini via Microsoft Foundry Local). Everything runs on your machine with no cloud dependency.
 
 ## Input Methods
 
 ### Paste from Clipboard
 
-Press `Ctrl+V` at any time. If you're viewing a result or listening to a reading, the current operation stops and TLDR loads the new clipboard text.
+Press Ctrl+V at any time. If you're viewing a result or listening to a reading, the current operation stops and TLDR loads the new clipboard text.
 
 ### Drag and Drop
 
@@ -21,9 +21,11 @@ Drag any supported file onto the window:
 | Plain text | `.txt`    |
 | Markdown   | `.md`     |
 
+**Limits**: 10 MB per file, 2,000,000 characters maximum.
+
 ### Global Hotkey
 
-Press `Ctrl+Shift+S` from any application. TLDR opens (or comes to the foreground), reads the clipboard, and loads the text automatically.
+Press Ctrl+Shift+S from any application. TLDR opens (or comes to the foreground), reads the clipboard, and loads the text automatically.
 
 ## Summary Options
 
@@ -79,7 +81,7 @@ Controls during playback:
 | **Pause** | Pauses speech; click again to resume        |
 | **Stop**  | Stops speech and returns to the result view |
 
-Press `Ctrl+Shift+X` from any application to stop reading immediately.
+Press Ctrl+Shift+X from any application to stop reading immediately.
 
 ## Theme
 
@@ -117,8 +119,8 @@ Advanced settings live in `appsettings.json` beside the executable:
 
 ## Limitations
 
-- **File size**: Maximum 10 MB per file. Larger files are rejected with a size message.
-- **Input length**: Maximum 2,000,000 characters. The model has a 128k token context window. Inputs exceeding the limit (after reserving space for the prompt and output) are rejected with a message showing the token counts.
-- **Languages**: The model works best with English text. Other languages may produce lower quality summaries.
-- **First launch**: Model download requires an internet connection. After that, TLDR works fully offline.
-- **AI-generated content**: Every summary shows an AI disclosure footer. If the summary is longer than the original text, a warning banner flags possible model-added content.
+- **File size**: 10 MB per file maximum.
+- **Input length**: 2,000,000 characters maximum. The model's 128k token context window is the effective ceiling; inputs that exceed it (after reserving space for prompt and output) are rejected with a message.
+- **Languages**: Best results with English. Other languages may produce lower quality summaries.
+- **First launch**: Model download (~2.4 GB) requires an internet connection. After that, TLDR works fully offline.
+- **AI disclosure**: Every summary shows an AI-generated content footer. If the summary is longer than the input, a warning banner flags possible hallucinated content.

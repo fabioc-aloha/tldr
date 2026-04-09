@@ -7,3 +7,5 @@ publish/
 *.cache
 *.log
 launch-err.txt
+.env
+node_modules/

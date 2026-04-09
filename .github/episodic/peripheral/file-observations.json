@@ -4,16 +4,22 @@
   ],
   "stalledFiles": [
     "github/episodic/peripheral/file-observations.json",
-    "VSCODE-MEMORY-ARCHITECTURE.md",
-    "plan.md -> docs/plans/plan.md",
-    "port.md -> docs/port/port.md",
-    "implementation.md",
-    "src/Tldr/Assets/output.html",
-    "src/Tldr/Core/Config.cs",
-    "src/Tldr/Core/FileExtractor.cs",
-    "src/Tldr/Core/MarkdownRenderer.cs",
-    "src/Tldr/Core/PromptBuilder.cs"
+    "README.md",
+    "docs/user/getting-started.md",
+    "docs/user/user-guide.md",
+    "src/Tldr/Assets/icon.ico",
+    "src/Tldr/Tldr.csproj",
+    "CHANGELOG.md",
+    "CODE_OF_CONDUCT.md",
+    "CONTRIBUTING.md",
+    "docs/assets/"
   ],
-  "todoHotspots": [],
-  "lastUpdated": 1775710405920
+  "todoHotspots": [
+    {
+      "file": "src/Tldr/obj/Release/net9.0-windows/win-x64/singlefilehost.exe",
+      "todoCount": 2,
+      "scannedAt": 1775712301241
+    }
+  ],
+  "lastUpdated": 1775712301241
 }
