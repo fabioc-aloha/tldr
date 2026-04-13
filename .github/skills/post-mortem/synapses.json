@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "post-mortem",
-  "version": "1.1.0",
-  "created": "2026-02-01",
-  "description": "Blameless retrospectives, learning from failures",
+  "version": "1.2.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/incident-response/SKILL.md",
@@ -55,7 +53,7 @@
       "yields": "testing strategies contextual assessment"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "post-mortem",
     "postmortem",
     "retrospective",
@@ -66,7 +64,9 @@
     "after action",
     "RCA meeting"
   ],
-  "activationContexts": [
+  "notes": "Blameless retrospectives, learning from failures",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "post-mortem",
     "postmortem",
     "retrospective",

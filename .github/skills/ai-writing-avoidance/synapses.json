@@ -1,10 +1,7 @@
 {
-  "schemaVersion": "1.0.0",
-  "skillId": "ai-writing-avoidance",
   "$schema": "../schemas/synapses.schema.json",
-  "skillName": "ai-writing-avoidance",
-  "description": "Connections for authentic writing and AI pattern detection",
-  "lastValidated": "2026-03-05",
+  "skillId": "ai-writing-avoidance",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/documentation-quality-assurance/SKILL.md",
@@ -28,6 +25,16 @@
       "type": "supports"
     }
   ],
+  "activationContexts": [
+    "ai-writing-avoidance",
+    "ai writing avoidance",
+    "writing",
+    "avoidance"
+  ],
+  "notes": "Connections for authentic writing and AI pattern detection",
+  "schemaVersion": "1.0.0",
+  "skillName": "ai-writing-avoidance",
+  "lastValidated": "2026-03-05",
   "activationContext": {
     "triggers": [
       "writing policy",
@@ -42,11 +49,5 @@
       "technical documentation",
       "API references"
     ]
-  },
-  "activationContexts": [
-    "ai-writing-avoidance",
-    "ai writing avoidance",
-    "writing",
-    "avoidance"
-  ]
+  }
 }

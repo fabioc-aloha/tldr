@@ -1,10 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "azure-devops-automation",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "created": "2026-02-10",
-  "connectionCount": 5,
+  "skillId": "azure-devops-automation",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "type": "relates",
@@ -18,6 +16,42 @@
       "notes": "Surface Azure architecture + IaC helpers when pipelines are discussed"
     }
   ],
+  "activationContexts": [
+    {
+      "context": "CI/CD pipelines",
+      "keywords": [
+        "Azure DevOps",
+        "pipeline",
+        "YAML pipeline",
+        "build agent",
+        "release gate",
+        "artifact"
+      ]
+    },
+    {
+      "context": "Work item automation",
+      "keywords": [
+        "work item",
+        "board",
+        "sprint",
+        "backlog",
+        "ADO query",
+        "automation rule"
+      ]
+    },
+    {
+      "context": "DevOps integration",
+      "keywords": [
+        "service connection",
+        "variable group",
+        "environment",
+        "deployment job",
+        "approval"
+      ]
+    }
+  ],
+  "schemaVersion": "2.1.0",
+  "connectionCount": 5,
   "synapses": [
     {
       "id": "DEVOPS-001",
@@ -63,40 +97,6 @@
     {
       "trigger": "rollback|blue-green|slot|feature flag",
       "confidence": 0.8
-    }
-  ],
-  "activationContexts": [
-    {
-      "context": "CI/CD pipelines",
-      "keywords": [
-        "Azure DevOps",
-        "pipeline",
-        "YAML pipeline",
-        "build agent",
-        "release gate",
-        "artifact"
-      ]
-    },
-    {
-      "context": "Work item automation",
-      "keywords": [
-        "work item",
-        "board",
-        "sprint",
-        "backlog",
-        "ADO query",
-        "automation rule"
-      ]
-    },
-    {
-      "context": "DevOps integration",
-      "keywords": [
-        "service connection",
-        "variable group",
-        "environment",
-        "deployment job",
-        "approval"
-      ]
     }
   ]
 }

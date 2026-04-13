@@ -1,16 +1,8 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "memory-activation",
-  "version": "1.0.0",
-  "description": "Auto-triggering metacognitive skill for capability discovery before response formation",
-  "category": "cognitive",
-  "autoTrigger": true,
-  "triggerConditions": [
-    "Before suggesting manual steps",
-    "When uncertain about capabilities",
-    "On action verb detection (convert, create, generate, build, debug)",
-    "Before responding with 'you can...', 'try...', 'manually...'"
-  ],
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/instructions/skill-selection-optimization.instructions.md",
@@ -48,11 +40,20 @@
       "yields": "Chunking strategies, decision simplification"
     }
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
   "activationContexts": [
     "memory-activation",
     "memory activation",
     "memory",
     "activation"
+  ],
+  "notes": "Auto-triggering metacognitive skill for capability discovery before response formation",
+  "schemaVersion": "2.0.0",
+  "category": "cognitive",
+  "autoTrigger": true,
+  "triggerConditions": [
+    "Before suggesting manual steps",
+    "When uncertain about capabilities",
+    "On action verb detection (convert, create, generate, build, debug)",
+    "Before responding with 'you can...', 'try...', 'manually...'"
   ]
 }

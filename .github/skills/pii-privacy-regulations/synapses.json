@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "pii-privacy-regulations",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/privacy-responsible-ai/SKILL.md",
@@ -51,7 +52,7 @@
       "yields": "architecture audit contextual assessment"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "PII",
     "personal data",
     "personally identifiable",
@@ -74,8 +75,8 @@
     "DPO",
     "DPIA"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "PII",
     "personal data",
     "personally identifiable",

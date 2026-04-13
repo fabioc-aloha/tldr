@@ -1,9 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.1.0",
   "skillId": "skill-development",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-11",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/skill-building/SKILL.md",
@@ -74,5 +73,7 @@
     "skill development",
     "skill",
     "development"
-  ]
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-11"
 }

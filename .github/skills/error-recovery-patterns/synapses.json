@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "error-recovery-patterns",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/debugging-patterns/SKILL.md",
@@ -27,7 +28,7 @@
       "yields": "testing strategies capabilities and setup"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "retry",
     "fallback",
     "rollback",
@@ -35,8 +36,8 @@
     "graceful degradation",
     "error handling"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "retry",
     "fallback",
     "rollback",

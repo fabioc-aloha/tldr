@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "api-documentation",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "reason": "Documentation project structure and templates",
@@ -43,7 +44,7 @@
       "yields": "lint clean markdown patterns and guidance"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "documentation",
     "docs",
     "api",
@@ -55,8 +56,8 @@
     "openapi",
     "swagger"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "documentation",
     "docs",
     "api",

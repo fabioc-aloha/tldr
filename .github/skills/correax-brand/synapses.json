@@ -1,10 +1,8 @@
 {
-  "schemaVersion": "1.0",
-  "skillId": "correax-brand",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-28",
-  "description": "CorreaX visual design system — colors, typography, components, WCAG compliance",
+  "skillId": "correax-brand",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/brand-asset-management/SKILL.md",
@@ -42,6 +40,15 @@
       "yields": "Extension webviews that match the CorreaX visual identity"
     }
   ],
+  "activationContexts": [
+    "correax-brand",
+    "correax brand",
+    "correax",
+    "brand"
+  ],
+  "notes": "CorreaX visual design system — colors, typography, components, WCAG compliance",
+  "schemaVersion": "1.0",
+  "lastValidated": "2026-02-28",
   "triggers": {
     "keywords": [
       "design system",
@@ -90,11 +97,5 @@
     }
   ],
   "when": "User asks about brand colors, design tokens, CSS variables, typography choices, component patterns, visual identity, or WCAG compliance for any CorreaX product",
-  "yields": "Authoritative color values, typography specs, component CSS, VS Code token mappings, and accessibility compliance guidance",
-  "activationContexts": [
-    "correax-brand",
-    "correax brand",
-    "correax",
-    "brand"
-  ]
+  "yields": "Authoritative color values, typography specs, component CSS, VS Code token mappings, and accessibility compliance guidance"
 }

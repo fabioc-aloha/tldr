@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "vscode-environment",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/project-scaffolding/SKILL.md",
@@ -35,7 +36,7 @@
       "yields": "debugging patterns supporting context"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "VS Code setup",
     "workspace settings",
     "extensions",
@@ -43,8 +44,8 @@
     "tasks.json",
     "dev environment"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "VS Code setup",
     "workspace settings",
     "extensions",

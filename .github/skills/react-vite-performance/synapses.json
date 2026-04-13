@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "react-vite-performance",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/performance-profiling/SKILL.md",
@@ -67,5 +67,6 @@
         "performance profiling"
       ]
     }
-  ]
+  ],
+  "schemaVersion": "2.0.0"
 }

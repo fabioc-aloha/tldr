@@ -1,9 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "performance-profiling",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-11",
+  "skillId": "performance-profiling",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/observability-monitoring/SKILL.md",
@@ -54,6 +53,27 @@
       "yields": "VS Code extension patterns supporting context"
     }
   ],
+  "activationContexts": [
+    "performance",
+    "profiling",
+    "benchmark",
+    "bottleneck",
+    "slow",
+    "latency",
+    "CPU",
+    "memory",
+    "heap",
+    "flame graph",
+    "optimization",
+    "cache",
+    "throughput",
+    "performance profiling",
+    "memory leak",
+    "CPU usage",
+    "latency issue"
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-11",
   "activationBoost": [
     "performance",
     "profiling",
@@ -82,24 +102,5 @@
   "inhibitors": [
     "prototype phase",
     "correctness first"
-  ],
-  "activationContexts": [
-    "performance",
-    "profiling",
-    "benchmark",
-    "bottleneck",
-    "slow",
-    "latency",
-    "CPU",
-    "memory",
-    "heap",
-    "flame graph",
-    "optimization",
-    "cache",
-    "throughput",
-    "performance profiling",
-    "memory leak",
-    "CPU usage",
-    "latency issue"
   ]
 }

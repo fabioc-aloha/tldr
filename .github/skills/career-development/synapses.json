@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "career-development",
-  "version": "1.0.0",
-  "created": "2026-03-09",
-  "description": "Resume crafting, interview prep, job search strategy, professional growth",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/creative-writing/SKILL.md",
@@ -47,7 +45,7 @@
       "yields": "prompt engineering patterns and guidance"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "resume",
     "CV",
     "cover letter",
@@ -65,7 +63,9 @@
     "promotion",
     "networking"
   ],
-  "activationContexts": [
+  "notes": "Resume crafting, interview prep, job search strategy, professional growth",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "resume",
     "CV",
     "cover letter",

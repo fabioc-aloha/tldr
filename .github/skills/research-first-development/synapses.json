@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "research-first-development",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/bootstrap-learning/SKILL.md",
@@ -75,18 +76,7 @@
       "yields": "architecture audit gap analysis inputs"
     }
   ],
-  "triggers": [
-    "new project",
-    "gap analysis",
-    "research first",
-    "before coding",
-    "knowledge encoding",
-    "two-agent pattern",
-    "synapse hygiene",
-    "pre-implementation",
-    "project setup"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "new project",
     "gap analysis",
     "research first",
@@ -122,8 +112,19 @@
     "preparation",
     "groundwork"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
+    "new project",
+    "gap analysis",
+    "research first",
+    "before coding",
+    "knowledge encoding",
+    "two-agent pattern",
+    "synapse hygiene",
+    "pre-implementation",
+    "project setup"
+  ],
+  "activationBoost": [
     "new project",
     "gap analysis",
     "research first",

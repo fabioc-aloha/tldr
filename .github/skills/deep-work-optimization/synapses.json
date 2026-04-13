@@ -1,10 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "deep-work-optimization",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "created": "2026-02-10",
-  "connectionCount": 7,
+  "skillId": "deep-work-optimization",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "type": "relates",
@@ -19,6 +17,40 @@
       "notes": "Route deep work requests to adjacent skills that protect focus and build habits"
     }
   ],
+  "activationContexts": [
+    {
+      "context": "Focus and flow",
+      "keywords": [
+        "deep work",
+        "flow state",
+        "focus",
+        "distraction",
+        "time blocking",
+        "pomodoro"
+      ]
+    },
+    {
+      "context": "Productivity systems",
+      "keywords": [
+        "productivity",
+        "attention management",
+        "cognitive load",
+        "task batching",
+        "energy management"
+      ]
+    },
+    {
+      "context": "Work environment",
+      "keywords": [
+        "workspace optimization",
+        "notification management",
+        "context switching",
+        "single-tasking"
+      ]
+    }
+  ],
+  "schemaVersion": "2.1.0",
+  "connectionCount": 7,
   "synapses": [
     {
       "id": "DEEP-001",
@@ -95,38 +127,6 @@
     {
       "trigger": "time block|schedule focus|protect time",
       "confidence": 0.85
-    }
-  ],
-  "activationContexts": [
-    {
-      "context": "Focus and flow",
-      "keywords": [
-        "deep work",
-        "flow state",
-        "focus",
-        "distraction",
-        "time blocking",
-        "pomodoro"
-      ]
-    },
-    {
-      "context": "Productivity systems",
-      "keywords": [
-        "productivity",
-        "attention management",
-        "cognitive load",
-        "task batching",
-        "energy management"
-      ]
-    },
-    {
-      "context": "Work environment",
-      "keywords": [
-        "workspace optimization",
-        "notification management",
-        "context switching",
-        "single-tasking"
-      ]
     }
   ]
 }

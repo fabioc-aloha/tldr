@@ -1,10 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "citation-management",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "created": "2026-02-10",
-  "connectionCount": 5,
+  "skillId": "citation-management",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "type": "relates",
@@ -19,6 +17,43 @@
       "notes": "Route citation tasks to research/dissertation helpers"
     }
   ],
+  "activationContexts": [
+    {
+      "context": "Reference management",
+      "keywords": [
+        "citation",
+        "bibliography",
+        "reference",
+        "footnote",
+        "endnote",
+        "citation style"
+      ]
+    },
+    {
+      "context": "Academic standards",
+      "keywords": [
+        "APA",
+        "MLA",
+        "Chicago",
+        "IEEE",
+        "Harvard",
+        "DOI",
+        "cross-reference"
+      ]
+    },
+    {
+      "context": "Source tracking",
+      "keywords": [
+        "source attribution",
+        "plagiarism",
+        "quotation",
+        "paraphrase",
+        "citation graph"
+      ]
+    }
+  ],
+  "schemaVersion": "2.1.0",
+  "connectionCount": 5,
   "synapses": [
     {
       "id": "CITE-001",
@@ -69,41 +104,6 @@
     {
       "trigger": "DOI|in-text|reference list",
       "confidence": 0.85
-    }
-  ],
-  "activationContexts": [
-    {
-      "context": "Reference management",
-      "keywords": [
-        "citation",
-        "bibliography",
-        "reference",
-        "footnote",
-        "endnote",
-        "citation style"
-      ]
-    },
-    {
-      "context": "Academic standards",
-      "keywords": [
-        "APA",
-        "MLA",
-        "Chicago",
-        "IEEE",
-        "Harvard",
-        "DOI",
-        "cross-reference"
-      ]
-    },
-    {
-      "context": "Source tracking",
-      "keywords": [
-        "source attribution",
-        "plagiarism",
-        "quotation",
-        "paraphrase",
-        "citation graph"
-      ]
     }
   ]
 }

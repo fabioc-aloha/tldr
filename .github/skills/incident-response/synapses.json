@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "incident-response",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/root-cause-analysis/SKILL.md",
@@ -27,7 +28,7 @@
       "yields": "debugging patterns patterns and guidance"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "incident",
     "outage",
     "production issue",
@@ -36,8 +37,8 @@
     "on-call",
     "post-mortem"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "incident",
     "outage",
     "production issue",

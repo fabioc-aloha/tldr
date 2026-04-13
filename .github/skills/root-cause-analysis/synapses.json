@@ -1,9 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.1.0",
   "skillId": "root-cause-analysis",
-  "version": "1.1.0",
-  "lastValidated": "2026-02-14",
+  "version": "1.2.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/debugging-patterns/SKILL.md",
@@ -38,14 +37,7 @@
       "yields": "VS Code extension patterns contextual assessment"
     }
   ],
-  "activationPatterns": [
-    "systematic debugging",
-    "find root cause",
-    "post-mortem analysis",
-    "prevent future failures",
-    "investigate production errors"
-  ],
-  "triggers": [
+  "activationContexts": [
     "root cause",
     "5 whys",
     "post-mortem",
@@ -54,7 +46,16 @@
     "TDZ error",
     "production failure"
   ],
-  "activationContexts": [
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-14",
+  "activationPatterns": [
+    "systematic debugging",
+    "find root cause",
+    "post-mortem analysis",
+    "prevent future failures",
+    "investigate production errors"
+  ],
+  "triggers": [
     "root cause",
     "5 whys",
     "post-mortem",

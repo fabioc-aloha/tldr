@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
-  "skillId": "cross-cultural-collaboration",
   "$schema": "../SYNAPSE-SCHEMA.json",
+  "skillId": "cross-cultural-collaboration",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/localization/SKILL.md",
@@ -52,16 +52,17 @@
       "yields": "appropriate reliance complementary techniques"
     }
   ],
-  "metadata": {
-    "lastUpdated": "2026-02-08",
-    "synapseCount": 6,
-    "avgStrength": 0.78
-  },
   "activationContexts": [
     "cross-cultural-collaboration",
     "cross cultural collaboration",
     "cross",
     "cultural",
     "collaboration"
-  ]
+  ],
+  "schemaVersion": "2.0.0",
+  "metadata": {
+    "lastUpdated": "2026-02-08",
+    "synapseCount": 6,
+    "avgStrength": 0.78
+  }
 }

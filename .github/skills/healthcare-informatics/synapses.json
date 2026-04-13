@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "healthcare-informatics",
-  "version": "1.0.0",
-  "created": "2026-03-09",
-  "description": "Clinical terminology, HIPAA/HITECH compliance, EHR patterns, health data management",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/pii-privacy-regulations/SKILL.md",
@@ -47,7 +45,7 @@
       "yields": "privacy responsible AI enhanced capabilities"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "HIPAA",
     "clinical",
     "patient",
@@ -64,7 +62,9 @@
     "clinical trial",
     "IRB"
   ],
-  "activationContexts": [
+  "notes": "Clinical terminology, HIPAA/HITECH compliance, EHR patterns, health data management",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "HIPAA",
     "clinical",
     "patient",

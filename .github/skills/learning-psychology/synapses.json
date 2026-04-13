@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "learning-psychology",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/instructions/bootstrap-learning.instructions.md",
@@ -24,6 +25,22 @@
       "yields": "alex identity integration foundational principles"
     }
   ],
+  "activationContexts": [
+    "teach",
+    "learn",
+    "explain",
+    "tutor",
+    "help understand",
+    "walk me through",
+    "learning",
+    "memory",
+    "cognition",
+    "spaced repetition",
+    "retrieval practice",
+    "scaffolding",
+    "zone of proximal"
+  ],
+  "schemaVersion": "2.0.0",
   "activationBoost": [
     "teach",
     "learn",
@@ -33,22 +50,6 @@
     "walk me through"
   ],
   "triggers": [
-    "learning",
-    "memory",
-    "cognition",
-    "spaced repetition",
-    "retrieval practice",
-    "scaffolding",
-    "zone of proximal"
-  ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
-    "teach",
-    "learn",
-    "explain",
-    "tutor",
-    "help understand",
-    "walk me through",
     "learning",
     "memory",
     "cognition",

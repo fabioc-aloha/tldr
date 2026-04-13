@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "project-management",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "reason": "Projects drive organizational change",
@@ -50,7 +51,7 @@
       "yields": "cross cultural collaboration related patterns and guidance"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "project",
     "timeline",
     "milestone",
@@ -61,8 +62,8 @@
     "backlog",
     "estimation"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "project",
     "timeline",
     "milestone",

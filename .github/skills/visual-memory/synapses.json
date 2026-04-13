@@ -1,9 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "visual-memory",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-03-02",
+  "skillId": "visual-memory",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/ai-character-reference-generation/SKILL.md",
@@ -54,6 +53,33 @@
       "yields": "distribution security required patterns and guidance"
     }
   ],
+  "activationContexts": [
+    "visual memory",
+    "reference photos",
+    "add to visual memory",
+    "add reference photos",
+    "face consistent",
+    "face consistency",
+    "embed photos",
+    "base64 photos",
+    "base64 reference",
+    "self-sufficient skill",
+    "portable skill",
+    "voice cloning",
+    "add voice sample",
+    "add to audio memory",
+    "convert to base64",
+    "resize photos",
+    "new subject",
+    "add person to memory",
+    "add subject",
+    "visual-memory.json",
+    "reference-portrait",
+    "nano-banana-pro",
+    "image_input"
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-03-02",
   "activationBoost": [
     "visual memory",
     "reference photos",
@@ -83,30 +109,5 @@
     "generic image generation without likeness requirement",
     "diagram or infographic generation",
     "SVG or vector generation"
-  ],
-  "activationContexts": [
-    "visual memory",
-    "reference photos",
-    "add to visual memory",
-    "add reference photos",
-    "face consistent",
-    "face consistency",
-    "embed photos",
-    "base64 photos",
-    "base64 reference",
-    "self-sufficient skill",
-    "portable skill",
-    "voice cloning",
-    "add voice sample",
-    "add to audio memory",
-    "convert to base64",
-    "resize photos",
-    "new subject",
-    "add person to memory",
-    "add subject",
-    "visual-memory.json",
-    "reference-portrait",
-    "nano-banana-pro",
-    "image_input"
   ]
 }

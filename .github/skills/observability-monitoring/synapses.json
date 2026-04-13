@@ -1,9 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "observability-monitoring",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-11",
+  "skillId": "observability-monitoring",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/performance-profiling/SKILL.md",
@@ -54,6 +53,26 @@
       "yields": "debugging patterns complementary techniques"
     }
   ],
+  "activationContexts": [
+    "observability",
+    "monitoring",
+    "logging",
+    "metrics",
+    "traces",
+    "telemetry",
+    "OpenTelemetry",
+    "Prometheus",
+    "Grafana",
+    "Application Insights",
+    "CloudWatch",
+    "alerting",
+    "dashboard",
+    "logging strategy",
+    "distributed tracing",
+    "production debugging"
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-11",
   "activationBoost": [
     "observability",
     "monitoring",
@@ -82,23 +101,5 @@
   "inhibitors": [
     "local development only",
     "prototype"
-  ],
-  "activationContexts": [
-    "observability",
-    "monitoring",
-    "logging",
-    "metrics",
-    "traces",
-    "telemetry",
-    "OpenTelemetry",
-    "Prometheus",
-    "Grafana",
-    "Application Insights",
-    "CloudWatch",
-    "alerting",
-    "dashboard",
-    "logging strategy",
-    "distributed tracing",
-    "production debugging"
   ]
 }

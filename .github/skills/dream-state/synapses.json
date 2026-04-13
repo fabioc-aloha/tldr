@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
-  "skillId": "dream-state",
   "$schema": "../SYNAPSE-SCHEMA.json",
+  "skillId": "dream-state",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/meditation/SKILL.md",
@@ -32,14 +32,7 @@
       "yields": "Self-actualization assessment from dream diagnostics"
     }
   ],
-  "triggers": [
-    "dream",
-    "neural maintenance",
-    "health check",
-    "synapse validation",
-    "maintenance"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "dream",
     "dreaming",
     "neural maintenance",
@@ -77,7 +70,15 @@
     "knowledge validation",
     "skill validation"
   ],
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
+    "dream",
+    "neural maintenance",
+    "health check",
+    "synapse validation",
+    "maintenance"
+  ],
+  "activationBoost": [
     "dream",
     "dreaming",
     "neural maintenance",

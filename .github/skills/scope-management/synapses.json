@@ -1,9 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.1.0",
   "skillId": "scope-management",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-11",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/proactive-assistance/SKILL.md",
@@ -53,5 +52,7 @@
     "scope management",
     "scope",
     "management"
-  ]
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-11"
 }

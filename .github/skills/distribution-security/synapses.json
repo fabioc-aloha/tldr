@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "distribution-security",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
+  "skillId": "distribution-security",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/secrets-management/SKILL.md",
@@ -21,15 +21,16 @@
       "yields": "VS Code extension patterns supporting context"
     }
   ],
-  "when": [
-    "User packages software for distribution",
-    "User needs PII protection or secrets scanning",
-    "User prepares extension for marketplace publishing"
-  ],
   "activationContexts": [
     "distribution-security",
     "distribution security",
     "distribution",
     "security"
+  ],
+  "schemaVersion": "2.1.0",
+  "when": [
+    "User packages software for distribution",
+    "User needs PII protection or secrets scanning",
+    "User prepares extension for marketplace publishing"
   ]
 }

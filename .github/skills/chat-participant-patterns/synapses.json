@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "chat-participant-patterns",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/vscode-extension-patterns/SKILL.md",
@@ -27,14 +28,7 @@
       "yields": "cognitive load patterns and guidance"
     }
   ],
-  "triggers": [
-    "chat participant",
-    "copilot extension",
-    "language model",
-    "chat API",
-    "streaming response"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "chat participant",
     "copilot extension",
     "language model",
@@ -68,8 +62,15 @@
     "GitHub Copilot extension",
     "chat extension"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
+    "chat participant",
+    "copilot extension",
+    "language model",
+    "chat API",
+    "streaming response"
+  ],
+  "activationBoost": [
     "chat participant",
     "copilot extension",
     "language model",

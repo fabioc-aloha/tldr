@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "project-scaffolding",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/markdown-mermaid/SKILL.md",
@@ -57,7 +58,7 @@
       "yields": "creative writing extension patterns"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "new project",
     "scaffold",
     "initialize",
@@ -65,8 +66,8 @@
     "project template",
     "README"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "new project",
     "scaffold",
     "initialize",

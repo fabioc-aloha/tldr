@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "prompt-evolution-system",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/prompt-engineering/SKILL.md",
@@ -75,5 +75,6 @@
         "output parsing"
       ]
     }
-  ]
+  ],
+  "schemaVersion": "2.0.0"
 }

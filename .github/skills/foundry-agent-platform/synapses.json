@@ -1,9 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.1.0",
   "skillId": "foundry-agent-platform",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-12",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/ai-agent-design/SKILL.md",
@@ -66,5 +65,7 @@
     "agent deployment",
     "realtime API voice"
   ],
-  "notes": "Created during v5.7.0 platform expansion meditation. Foundry is the backend platform (not a surface heir) that enables always-on, multi-agent, cloud-native Alex."
+  "notes": "Created during v5.7.0 platform expansion meditation. Foundry is the backend platform (not a surface heir) that enables always-on, multi-agent, cloud-native Alex.",
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-12"
 }

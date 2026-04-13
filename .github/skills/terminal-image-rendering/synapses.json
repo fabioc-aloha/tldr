@@ -1,9 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.1.0",
   "skillId": "terminal-image-rendering",
-  "version": "1.0.0",
-  "lastValidated": "2026-03-04",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/brand-asset-management/SKILL.md",
@@ -30,6 +29,15 @@
       "yields": "VS Code extension patterns patterns and guidance"
     }
   ],
+  "activationContexts": [
+    "terminal image",
+    "kitty",
+    "imgcat",
+    "inline image",
+    "terminal preview"
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-03-04",
   "activationPatterns": [
     "terminal image",
     "display image in terminal",
@@ -40,13 +48,6 @@
     "render image inline"
   ],
   "triggers": [
-    "terminal image",
-    "kitty",
-    "imgcat",
-    "inline image",
-    "terminal preview"
-  ],
-  "activationContexts": [
     "terminal image",
     "kitty",
     "imgcat",

@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "airs-appropriate-reliance",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/appropriate-reliance/SKILL.md",
@@ -39,7 +40,7 @@
       "yields": "testing strategies enhanced capabilities"
     }
   ],
-  "activationBoost": [
+  "activationContexts": [
     "AIRS",
     "AIRS-16",
     "AIRS-18",
@@ -57,8 +58,8 @@
     "under-reliance",
     "behavioral intention"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "activationBoost": [
     "AIRS",
     "AIRS-16",
     "AIRS-18",

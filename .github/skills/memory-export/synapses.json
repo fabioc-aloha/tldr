@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "memory-export",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/knowledge-synthesis/SKILL.md",
@@ -36,6 +36,19 @@
       "yields": "security filtering rules"
     }
   ],
+  "activationContexts": [
+    "export all memories",
+    "export my context",
+    "port alex to claude",
+    "move alex to another surface",
+    "portable file of everything you know",
+    "dump everything you know about me",
+    "seed claude code with my preferences",
+    "transfer to chatgpt",
+    "copy my profile to another ai",
+    "what do you know about me export"
+  ],
+  "schemaVersion": "2.0.0",
   "triggers": [
     "export memory",
     "export context",
@@ -48,18 +61,6 @@
     "transfer context"
   ],
   "activationBoost": [
-    "export all memories",
-    "export my context",
-    "port alex to claude",
-    "move alex to another surface",
-    "portable file of everything you know",
-    "dump everything you know about me",
-    "seed claude code with my preferences",
-    "transfer to chatgpt",
-    "copy my profile to another ai",
-    "what do you know about me export"
-  ],
-  "activationContexts": [
     "export all memories",
     "export my context",
     "port alex to claude",

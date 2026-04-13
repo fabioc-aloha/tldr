@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "2.0.0",
-  "skillId": "architecture-health",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
+  "skillId": "architecture-health",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/self-actualization/SKILL.md",
@@ -37,16 +37,17 @@
       "yields": "boundary verification techniques applied to code quality"
     }
   ],
-  "when": [
-    "User asks about synapse health or architecture status",
-    "Dream report contains warnings",
-    "Pre-meditation health assessment needed",
-    "User wants to validate architecture integrity"
-  ],
   "activationContexts": [
     "architecture-health",
     "architecture health",
     "architecture",
     "health"
+  ],
+  "schemaVersion": "2.0.0",
+  "when": [
+    "User asks about synapse health or architecture status",
+    "Dream report contains warnings",
+    "Pre-meditation health assessment needed",
+    "User wants to validate architecture integrity"
   ]
 }

@@ -1,7 +1,8 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "infrastructure-as-code",
-  "version": "1.1.0",
+  "version": "1.2.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/security-review/SKILL.md",
@@ -44,6 +45,21 @@
       "yields": "MCP development complementary techniques"
     }
   ],
+  "activationContexts": [
+    "infrastructure as code",
+    "IaC",
+    "Terraform",
+    "Bicep",
+    "Pulumi",
+    "CloudFormation",
+    "ARM template",
+    "CDK",
+    "tfvars",
+    "terraform.tfstate",
+    "GitOps",
+    "provision infrastructure"
+  ],
+  "schemaVersion": "2.0.0",
   "activationTriggers": [
     "infrastructure as code",
     "IaC",
@@ -64,20 +80,5 @@
     "prerequisites": [
       "git-workflow"
     ]
-  },
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
-    "infrastructure as code",
-    "IaC",
-    "Terraform",
-    "Bicep",
-    "Pulumi",
-    "CloudFormation",
-    "ARM template",
-    "CDK",
-    "tfvars",
-    "terraform.tfstate",
-    "GitOps",
-    "provision infrastructure"
-  ]
+  }
 }

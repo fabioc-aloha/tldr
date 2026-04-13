@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "hr-people-operations",
-  "version": "1.0.0",
-  "created": "2026-03-09",
-  "description": "Talent acquisition, employee lifecycle, compensation, labor law, organizational development",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/coaching-techniques/SKILL.md",
@@ -47,7 +45,7 @@
       "yields": "business analysis patterns and guidance"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "hiring",
     "recruiting",
     "onboarding",
@@ -65,7 +63,9 @@
     "FMLA",
     "ADA"
   ],
-  "activationContexts": [
+  "notes": "Talent acquisition, employee lifecycle, compensation, labor law, organizational development",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "hiring",
     "recruiting",
     "onboarding",

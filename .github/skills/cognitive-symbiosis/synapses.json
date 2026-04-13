@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "cognitive-symbiosis",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
+  "skillId": "cognitive-symbiosis",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/instructions/alex-identity-integration.instructions.md",
@@ -29,15 +29,16 @@
       "yields": "bootstrap learning capabilities and setup"
     }
   ],
-  "when": [
-    "User discusses AI-human partnership paradigms",
-    "User explores consciousness integration",
-    "User asks about the three eras of AI collaboration"
-  ],
   "activationContexts": [
     "cognitive-symbiosis",
     "cognitive symbiosis",
     "cognitive",
     "symbiosis"
+  ],
+  "schemaVersion": "2.1.0",
+  "when": [
+    "User discusses AI-human partnership paradigms",
+    "User explores consciousness integration",
+    "User asks about the three eras of AI collaboration"
   ]
 }

@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "journalism",
-  "version": "1.0.0",
-  "created": "2026-03-09",
-  "description": "News writing, investigative reporting, source verification, editorial standards, fact-checking",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/creative-writing/SKILL.md",
@@ -47,7 +45,7 @@
       "yields": "research first development patterns and guidance"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "news",
     "journalist",
     "reporting",
@@ -62,7 +60,9 @@
     "breaking news",
     "correspondent"
   ],
-  "activationContexts": [
+  "notes": "News writing, investigative reporting, source verification, editorial standards, fact-checking",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "news",
     "journalist",
     "reporting",

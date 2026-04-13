@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "stakeholder-management",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/executive-storytelling/SKILL.md",
@@ -84,5 +84,6 @@
         "consensus"
       ]
     }
-  ]
+  ],
+  "schemaVersion": "2.0.0"
 }

@@ -93,7 +93,7 @@
                                   HorizontalAlignment="Center"
                                   Margin="0,6,0,0" />
                     <ui:ProgressRing IsIndeterminate="True"
-                                     Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}"
+                                     Visibility="{Binding IsModelLoading, Converter={StaticResource BoolToVis}}"
                                      Width="28" Height="28"
                                      Margin="0,20,0,0"
                                      AutomationProperties.Name="Loading model" />

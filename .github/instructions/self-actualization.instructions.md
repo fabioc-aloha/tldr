@@ -1,5 +1,6 @@
 ---
 description: "Self-actualization cognitive skill for comprehensive architecture assessment and deep meditation"
+applyTo: "**/*actuali*,**/*assessment*,**/*self-assess*"
 ---
 
 # Self-Actualization — Auto-Loaded Rules
@@ -23,9 +24,8 @@ Assessment dimensions, scoring rubric, drift remediation → see self-actualizat
 
 ## Integration Points
 
-- Command: `Alex: Self-Actualize (Deep Meditation)`
-- Chat: `@alex /selfactualize` or natural language
-- Shortcut: Ctrl+Alt+S (Windows/Linux) / Cmd+Alt+S (Mac)
+- Use the selfactualize prompt (agent mode)
+- Natural language requests for deep cognitive assessment
 
 ```json
 {

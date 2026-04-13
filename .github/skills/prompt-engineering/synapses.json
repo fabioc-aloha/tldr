@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "prompt-engineering",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/rag-architecture/SKILL.md",
@@ -47,7 +48,7 @@
       "yields": "testing strategies required patterns and guidance"
     }
   ],
-  "activationBoost": [
+  "activationContexts": [
     "prompt",
     "prompting",
     "LLM",
@@ -67,8 +68,8 @@
     "AI agent",
     "copilot"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "activationBoost": [
     "prompt",
     "prompting",
     "LLM",

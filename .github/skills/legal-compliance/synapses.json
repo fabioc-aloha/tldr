@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "legal-compliance",
-  "version": "1.0.0",
-  "created": "2026-03-09",
-  "description": "Legal research, contract analysis, regulatory compliance, case law citation",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/pii-privacy-regulations/SKILL.md",
@@ -47,7 +45,7 @@
       "yields": "creative writing patterns and guidance"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "legal research",
     "contract",
     "compliance",
@@ -65,7 +63,9 @@
     "attorney",
     "legal memorandum"
   ],
-  "activationContexts": [
+  "notes": "Legal research, contract analysis, regulatory compliance, case law citation",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "legal research",
     "contract",
     "compliance",

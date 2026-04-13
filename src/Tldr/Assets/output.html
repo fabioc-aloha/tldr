@@ -71,9 +71,20 @@
   <div id="ai-disclosure" class="ai-disclosure" style="display:none;">AI-generated summary. May not fully represent the source material. Verify important details against the original document.</div>
   <script>
     function setContent(html) {
-      // Sanitize: strip event handler attributes to prevent XSS from LLM output
-      const sanitized = html.replace(/\s+on\w+\s*=\s*(["']).*?\1/gi, '')
-                            .replace(/\s+on\w+\s*=\s*[^\s>]+/gi, '');
+      // Sanitize LLM output: defense-in-depth against XSS
+      var sanitized = html
+        .replace(/<script[\s\S]*?<\/script>/gi, '')       // strip <script> blocks
+        .replace(/<script[^>]*>/gi, '')                    // strip unclosed <script>
+        .replace(/<\/(script)>/gi, '')                     // strip orphan </script>
+        .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')       // strip <iframe>
+        .replace(/<iframe[^>]*>/gi, '')
+        .replace(/<object[\s\S]*?<\/object>/gi, '')       // strip <object>
+        .replace(/<embed[^>]*>/gi, '')                     // strip <embed>
+        .replace(/<form[\s\S]*?<\/form>/gi, '')           // strip <form>
+        .replace(/\s+on\w+\s*=\s*(["']).*?\1/gi, '')     // strip on* handlers (quoted)
+        .replace(/\s+on\w+\s*=\s*[^\s>]+/gi, '')         // strip on* handlers (unquoted)
+        .replace(/href\s*=\s*(["'])\s*javascript:/gi, 'href=$1#')  // neutralize javascript: URIs
+        .replace(/src\s*=\s*(["'])\s*javascript:/gi, 'src=$1#');   // neutralize javascript: src
       document.getElementById('content').innerHTML = sanitized;
       document.getElementById('ai-disclosure').style.display = 'block';
     }

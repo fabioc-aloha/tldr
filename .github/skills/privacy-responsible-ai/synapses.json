@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "privacy-responsible-ai",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/security-review/SKILL.md",
@@ -43,7 +44,7 @@
       "yields": "appropriate reliance complementary techniques"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "privacy",
     "PII",
     "GDPR",
@@ -60,8 +61,8 @@
     "HAX",
     "human oversight"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "privacy",
     "PII",
     "GDPR",

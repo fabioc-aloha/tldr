@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "academic-research",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "reason": "Knowledge acquisition methodology for literature reviews",
@@ -62,7 +63,7 @@
       "yields": "defense preparation strategies, committee navigation, Q&A practice"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "academic",
     "research",
     "literature review",
@@ -73,8 +74,8 @@
     "dissertation",
     "scholarly"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "academic",
     "research",
     "literature review",

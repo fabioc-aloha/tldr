@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "msal-authentication",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/microsoft-graph-api/SKILL.md",
@@ -70,5 +70,6 @@
         "tenant"
       ]
     }
-  ]
+  ],
+  "schemaVersion": "2.0.0"
 }

@@ -26,14 +26,18 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     private int _sentenceCount;
 
     private bool _isPaused;
+    private bool _isModelLoading;
     private Summarizer? _summarizer;
     private PromptBuilder? _promptBuilder;
     private UserSettings _settings = new();
     private ITtsEngine? _tts;
     private CancellationTokenSource? _distillCts;
+    private CancellationTokenSource? _ttsCts;
     private System.Threading.Timer? _saveTimer;
+    private Task? _modelLoadTask;
     private string _selectedVoice = string.Empty;
     private string _ttsEngineName = "Edge (Neural)";
+    private string _ttsEnginePreference = "edge";
     private string _machineInfo = string.Empty;
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -100,6 +104,12 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     {
         get => _isBusy;
         set { _isBusy = value; OnPropertyChanged(); }
+    }
+
+    public bool IsModelLoading
+    {
+        get => _isModelLoading;
+        private set { _isModelLoading = value; OnPropertyChanged(); }
     }
 
     public string StatusText
@@ -196,30 +206,12 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
         _promptBuilder = new PromptBuilder(Path.Combine(AppContext.BaseDirectory, "prompts.json"));
         _summarizer = new Summarizer(config.Llm.Model, config.Llm.MaxOutputTokens);
+        _ttsEnginePreference = config.Tts.Engine?.ToLowerInvariant() ?? "edge";
 
-        StatusText = "Loading model...";
-        IsBusy = true;
-
-        try
-        {
-            await _summarizer.InitializeAsync(
-                onProgress: p => Application.Current.Dispatcher.Invoke(() =>
-                {
-                    DownloadProgress = p;
-                    StatusText = p < 100f ? $"Downloading model: {p:F0}%" : "Loading model...";
-                }));
-
-            StatusText = "Paste or drop a file. I'll distill it.";
-        }
-        catch (Exception ex)
-        {
-            StatusText = ClassifyError(ex, "Init");
-            LogError("Init", ex);
-        }
-        finally
-        {
-            IsBusy = false;
-        }
+        // Start model loading in background — user can paste/drop immediately
+        IsModelLoading = true;
+        StatusText = "Loading model in background...";
+        _modelLoadTask = Task.Run(() => LoadModelAsync());
 
         // Load voice from saved settings
         if (!string.IsNullOrEmpty(_settings.Voice))
@@ -259,6 +251,35 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
                 System.Diagnostics.Debug.WriteLine($"[Voices] Failed to enumerate: {ex.Message}");
             }
         });
+    }
+
+    private async Task LoadModelAsync()
+    {
+        try
+        {
+            await _summarizer!.InitializeAsync(
+                onProgress: p => Application.Current.Dispatcher.Invoke(() =>
+                {
+                    DownloadProgress = p;
+                    StatusText = p < 100f ? $"Downloading model: {p:F0}%" : "Loading model...";
+                }));
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                StatusText = State == AppState.Ready
+                    ? "Paste or drop a file. I'll distill it."
+                    : "Model ready.";
+            });
+        }
+        catch (Exception ex)
+        {
+            Application.Current.Dispatcher.Invoke(() => StatusText = ClassifyError(ex, "Init"));
+            LogError("Init", ex);
+        }
+        finally
+        {
+            Application.Current.Dispatcher.Invoke(() => IsModelLoading = false);
+        }
     }
 
     private const int MaxInputChars = 2_000_000; // ~500K tokens, well within 10MB extracted text
@@ -318,6 +339,14 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         {
             StatusText = "Nothing to distill. Paste some text first.";
             return;
+        }
+
+        // Wait for model if still loading in background
+        if (_modelLoadTask is { IsCompleted: false })
+        {
+            IsBusy = true;
+            StatusText = "Waiting for model to finish loading...";
+            await _modelLoadTask;
         }
 
         IsBusy = true;
@@ -401,7 +430,13 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         if (string.IsNullOrEmpty(SummaryMarkdown))
             return;
 
+        // Cancel any in-progress TTS before starting new one (race condition guard)
+        _ttsCts?.Cancel();
         (_tts as IDisposable)?.Dispose();
+
+        _ttsCts = new CancellationTokenSource();
+        var ct = _ttsCts.Token;
+
         _tts = CreateTtsEngine();
         _tts.SentenceReached += n =>
             Application.Current.Dispatcher.Invoke(() => SentenceHighlightRequested?.Invoke(n));
@@ -436,7 +471,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
         try
         {
-            await _tts.SpeakAsync(sb.ToString(), _selectedVoice, 1f, CancellationToken.None);
+            await _tts.SpeakAsync(sb.ToString(), _selectedVoice, 1f, ct);
         }
         catch (Exception ex)
         {
@@ -470,6 +505,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
     public void StopTts()
     {
+        _ttsCts?.Cancel();
         _tts?.Stop();
         IsPaused = false;
         SentenceHighlightCleared?.Invoke();
@@ -499,32 +535,69 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         MachineInfo = sb.ToString().TrimEnd();
     }
 
-    private static ITtsEngine CreateTtsEngine()
+    private ITtsEngine CreateTtsEngine()
     {
-        // Edge TTS: neural voices via Microsoft Edge service (best quality, needs network)
-        try { return new EdgeTtsEngine(); }
+        // Respect config preference: "edge", "winrt", or "sapi"
+        if (_ttsEnginePreference == "sapi")
+        {
+            TtsEngineName = "SAPI5 (Offline)";
+            return new SapiTtsEngine();
+        }
+
+        if (_ttsEnginePreference == "winrt")
+        {
+            try
+            {
+                TtsEngineName = "WinRT (Local)";
+                return new WinRtTtsEngine();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"[TTS] WinRT engine failed, falling back: {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        // Default: Edge TTS → WinRT → SAPI5 cascade
+        try
+        {
+            TtsEngineName = "Edge (Neural)";
+            return new EdgeTtsEngine();
+        }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"[TTS] Edge engine failed, falling back: {ex.GetType().Name}: {ex.Message}");
         }
 
-        // WinRT: local Windows voices (works offline, quality depends on installed voices)
-        try { return new WinRtTtsEngine(); }
+        try
+        {
+            TtsEngineName = "WinRT (Local)";
+            return new WinRtTtsEngine();
+        }
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"[TTS] WinRT engine failed, falling back: {ex.GetType().Name}: {ex.Message}");
         }
 
-        // SAPI5: legacy fallback (always available on Windows)
         System.Diagnostics.Debug.WriteLine("[TTS] Using SAPI5 fallback engine");
+        TtsEngineName = "SAPI5 (Offline)";
         return new SapiTtsEngine();
     }
 
     public void Dispose()
     {
         _saveTimer?.Dispose();
+        _ttsCts?.Cancel();
         (_tts as IDisposable)?.Dispose();
+        _ttsCts?.Dispose();
         _distillCts?.Dispose();
+
+        // Summarizer holds the loaded LLM model; fire-and-forget async dispose
+        if (_summarizer is not null)
+        {
+            _ = _summarizer.DisposeAsync().AsTask().ContinueWith(
+                t => System.Diagnostics.Debug.WriteLine($"[Dispose] Summarizer: {t.Exception?.InnerException?.Message}"),
+                TaskContinuationOptions.OnlyOnFaulted);
+        }
     }
 
     private static string ClassifyError(Exception ex, string phase)

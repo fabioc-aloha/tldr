@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "debugging-patterns",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/git-workflow/SKILL.md",
@@ -24,6 +25,23 @@
       "yields": "testing strategies complementary techniques"
     }
   ],
+  "activationContexts": [
+    "debug",
+    "error",
+    "bug",
+    "fix",
+    "broken",
+    "not working",
+    "fails",
+    "crash",
+    "breakpoint",
+    "stack trace",
+    "exception",
+    "investigate",
+    "reproduce",
+    "isolate bug"
+  ],
+  "schemaVersion": "2.0.0",
   "activationBoost": [
     "debug",
     "error",
@@ -40,23 +58,6 @@
     "stack trace",
     "exception",
     "error",
-    "investigate",
-    "reproduce",
-    "isolate bug"
-  ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
-    "debug",
-    "error",
-    "bug",
-    "fix",
-    "broken",
-    "not working",
-    "fails",
-    "crash",
-    "breakpoint",
-    "stack trace",
-    "exception",
     "investigate",
     "reproduce",
     "isolate bug"

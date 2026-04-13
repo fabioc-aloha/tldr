@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "1.0",
-  "skillId": "persona-detection",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
+  "skillId": "persona-detection",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/instructions/alex-core.instructions.md",
@@ -29,7 +29,7 @@
       "yields": "north star coordination protocols"
     }
   ],
-  "activationBoost": [
+  "activationContexts": [
     "persona",
     "project type",
     "auto-detect",
@@ -38,7 +38,8 @@
     "P7 slot",
     "working memory"
   ],
-  "activationContexts": [
+  "schemaVersion": "1.0",
+  "activationBoost": [
     "persona",
     "project type",
     "auto-detect",

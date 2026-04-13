@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "muscle-memory-recognition",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/bootstrap-learning/SKILL.md",
@@ -43,7 +44,7 @@
       "yields": "deep thinking rules and guidelines"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "repetitive task",
     "automate this",
     "script this",
@@ -54,8 +55,8 @@
     "error prone",
     "every time"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "repetitive task",
     "automate this",
     "script this",

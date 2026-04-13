@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.1.0",
   "skillId": "enterprise-integration",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-10",
-  "temporary": false,
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/vscode-extension-patterns/SKILL.md",
@@ -36,5 +34,8 @@
     "enterprise integration",
     "enterprise",
     "integration"
-  ]
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-10",
+  "temporary": false
 }

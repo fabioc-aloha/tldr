@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "creative-writing",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "reason": "Publishing creative work and manuscript preparation",
@@ -42,7 +43,7 @@
       "yields": "graphic design complementary techniques"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "story",
     "narrative",
     "character",
@@ -57,8 +58,8 @@
     "manuscript",
     "chapter"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "story",
     "narrative",
     "character",

@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "game-design",
-  "version": "1.0.0",
-  "created": "2026-03-09",
-  "description": "Game mechanics, level design, player psychology, balancing, narrative design",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/ui-ux-design/SKILL.md",
@@ -47,7 +45,7 @@
       "yields": "debugging patterns patterns and guidance"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "game design",
     "game mechanic",
     "level design",
@@ -63,7 +61,9 @@
     "Godot",
     "monetization"
   ],
-  "activationContexts": [
+  "notes": "Game mechanics, level design, player psychology, balancing, narrative design",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "game design",
     "game mechanic",
     "level design",

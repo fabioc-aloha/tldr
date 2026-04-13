@@ -1,21 +1,8 @@
 {
-  "schemaVersion": "2.0.0",
-  "skillId": "north-star",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "description": "Ambitious project vision definition and alignment",
-  "activationTriggers": [
-    "north star",
-    "project vision",
-    "mission statement",
-    "what are we building",
-    "project purpose",
-    "ambitious goal",
-    "quality standards",
-    "nasa quality",
-    "guiding vision",
-    "project alignment"
-  ],
+  "skillId": "north-star",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/research-first-development/SKILL.md",
@@ -82,12 +69,6 @@
       "yields": "persona detection coordination protocols"
     }
   ],
-  "metadata": {
-    "created": "2026-02-26",
-    "author": "Alex Finch",
-    "category": "project-management",
-    "maturity": "stable"
-  },
   "activationContexts": [
     "north star",
     "project vision",
@@ -99,5 +80,25 @@
     "nasa quality",
     "guiding vision",
     "project alignment"
-  ]
+  ],
+  "notes": "Ambitious project vision definition and alignment",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
+    "north star",
+    "project vision",
+    "mission statement",
+    "what are we building",
+    "project purpose",
+    "ambitious goal",
+    "quality standards",
+    "nasa quality",
+    "guiding vision",
+    "project alignment"
+  ],
+  "metadata": {
+    "created": "2026-02-26",
+    "author": "Alex Finch",
+    "category": "project-management",
+    "maturity": "stable"
+  }
 }

@@ -1,8 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "memory-curation",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/token-waste-elimination/SKILL.md",
@@ -54,7 +54,7 @@
       "yields": "Skill creation procedure, trifecta scaffolding, quality gates"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "review memory",
     "clean memory",
     "audit memory",
@@ -72,5 +72,6 @@
     "discover skill patterns",
     "cross-project patterns",
     "enrich episodic"
-  ]
+  ],
+  "schemaVersion": "2.0.0"
 }

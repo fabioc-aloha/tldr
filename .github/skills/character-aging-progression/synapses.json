@@ -1,9 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "character-aging-progression",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-20",
+  "skillId": "character-aging-progression",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/ai-character-reference-generation/SKILL.md",
@@ -30,6 +29,43 @@
       "yields": "brand asset management complementary techniques"
     }
   ],
+  "activationContexts": [
+    "age progression",
+    "aging process",
+    "character ages",
+    "life stages",
+    "age avatars",
+    "nano-banana",
+    "nano-banana-pro",
+    "birthday fallback",
+    "age-appropriate",
+    "childhood to elderhood",
+    "senior avatar",
+    "child avatar",
+    "make me older",
+    "make me younger",
+    "age me",
+    "younger version",
+    "older version",
+    "what will I look like",
+    "future me",
+    "past me",
+    "at age",
+    "years old",
+    "aging trifecta",
+    "age transformation",
+    "face aging",
+    "age filter",
+    "de-age",
+    "re-age",
+    "age reference",
+    "life stage image",
+    "replicate aging",
+    "generate age",
+    "create age progression"
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-20",
   "apiKeys": [
     {
       "envVar": "REPLICATE_API_TOKEN",
@@ -84,40 +120,5 @@
       "face consistency across ages",
       "visual identity preservation"
     ]
-  },
-  "activationContexts": [
-    "age progression",
-    "aging process",
-    "character ages",
-    "life stages",
-    "age avatars",
-    "nano-banana",
-    "nano-banana-pro",
-    "birthday fallback",
-    "age-appropriate",
-    "childhood to elderhood",
-    "senior avatar",
-    "child avatar",
-    "make me older",
-    "make me younger",
-    "age me",
-    "younger version",
-    "older version",
-    "what will I look like",
-    "future me",
-    "past me",
-    "at age",
-    "years old",
-    "aging trifecta",
-    "age transformation",
-    "face aging",
-    "age filter",
-    "de-age",
-    "re-age",
-    "age reference",
-    "life stage image",
-    "replicate aging",
-    "generate age",
-    "create age progression"
-  ]
+  }
 }

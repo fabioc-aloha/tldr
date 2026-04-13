@@ -1,9 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "multi-agent-orchestration",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-11",
+  "skillId": "multi-agent-orchestration",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/appropriate-reliance/SKILL.md",
@@ -62,6 +61,24 @@
       "yields": "foundry agent platform implementation steps"
     }
   ],
+  "activationContexts": [
+    "agent",
+    "multi-agent",
+    "orchestration",
+    "subagent",
+    "runSubagent",
+    "decompose",
+    "delegate",
+    "parallel",
+    "workflow",
+    "coordinate",
+    "agent coordination",
+    "task decomposition",
+    "parallel execution",
+    "agent delegation"
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-11",
   "activationBoost": [
     "agent",
     "multi-agent",
@@ -86,21 +103,5 @@
   "inhibitors": [
     "simple edit",
     "single file change"
-  ],
-  "activationContexts": [
-    "agent",
-    "multi-agent",
-    "orchestration",
-    "subagent",
-    "runSubagent",
-    "decompose",
-    "delegate",
-    "parallel",
-    "workflow",
-    "coordinate",
-    "agent coordination",
-    "task decomposition",
-    "parallel execution",
-    "agent delegation"
   ]
 }

@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "testing-strategies",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/instructions/testing-strategies.instructions.md",
@@ -66,17 +67,7 @@
       "yields": "localization related patterns and guidance"
     }
   ],
-  "triggers": [
-    "test",
-    "spec",
-    "coverage",
-    "mock",
-    "TDD",
-    "unit test",
-    "integration test",
-    "E2E"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "test",
     "testing",
     "spec",
@@ -124,8 +115,18 @@
     "test first",
     "red green refactor"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
+    "test",
+    "spec",
+    "coverage",
+    "mock",
+    "TDD",
+    "unit test",
+    "integration test",
+    "E2E"
+  ],
+  "activationBoost": [
     "test",
     "testing",
     "spec",

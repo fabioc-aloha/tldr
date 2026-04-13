@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "graphic-design",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "reason": "Visual storytelling and narrative design",
@@ -74,7 +75,7 @@
       "yields": "localization complementary techniques"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "design",
     "visual",
     "layout",
@@ -95,8 +96,8 @@
     "book illustration",
     "visual variety"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "design",
     "visual",
     "layout",

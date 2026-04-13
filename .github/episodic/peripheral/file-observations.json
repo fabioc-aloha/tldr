@@ -3,17 +3,11 @@
     "src/Tldr/prompts.json"
   ],
   "stalledFiles": [
-    "github/episodic/peripheral/file-observations.json",
-    "CHANGELOG.md",
-    "README.md",
-    "docs/plans/plan.md",
-    "docs/user/getting-started.md",
-    "docs/user/user-guide.md",
-    "src/Tldr/Core/Config.cs",
-    "src/Tldr/Core/Enums.cs",
-    "src/Tldr/Core/FileExtractor.cs",
-    "src/Tldr/Core/Summarizer.cs"
+    "github/agents/alex-builder.agent.md",
+    "src/Tldr/Assets/output.html",
+    "src/Tldr/Platform/MainViewModel.cs",
+    "src/Tldr/Platform/MainWindow.xaml"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1775751652647
+  "lastUpdated": 1776051161454
 }

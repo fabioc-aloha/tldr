@@ -1,10 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "literature-review",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "created": "2026-02-10",
-  "connectionCount": 6,
+  "skillId": "literature-review",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "type": "relates",
@@ -19,6 +17,39 @@
       "notes": "Surface citation and research-method helpers when lit review triggers are detected"
     }
   ],
+  "activationContexts": [
+    {
+      "context": "Literature review process",
+      "keywords": [
+        "literature review",
+        "systematic review",
+        "meta-analysis",
+        "scoping review",
+        "search strategy"
+      ]
+    },
+    {
+      "context": "Source analysis",
+      "keywords": [
+        "critical analysis",
+        "thematic synthesis",
+        "gap identification",
+        "research landscape",
+        "seminal work"
+      ]
+    },
+    {
+      "context": "Review writing",
+      "keywords": [
+        "review structure",
+        "synthesis matrix",
+        "annotated bibliography",
+        "research question refinement"
+      ]
+    }
+  ],
+  "schemaVersion": "2.1.0",
+  "connectionCount": 6,
   "synapses": [
     {
       "id": "LIT-001",
@@ -85,37 +116,6 @@
       "trigger": "research gap|what's missing|gap identification",
       "module": "5",
       "confidence": 0.9
-    }
-  ],
-  "activationContexts": [
-    {
-      "context": "Literature review process",
-      "keywords": [
-        "literature review",
-        "systematic review",
-        "meta-analysis",
-        "scoping review",
-        "search strategy"
-      ]
-    },
-    {
-      "context": "Source analysis",
-      "keywords": [
-        "critical analysis",
-        "thematic synthesis",
-        "gap identification",
-        "research landscape",
-        "seminal work"
-      ]
-    },
-    {
-      "context": "Review writing",
-      "keywords": [
-        "review structure",
-        "synthesis matrix",
-        "annotated bibliography",
-        "research question refinement"
-      ]
     }
   ]
 }

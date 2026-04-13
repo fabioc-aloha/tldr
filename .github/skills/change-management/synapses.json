@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "change-management",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "reason": "Change management within project delivery",
@@ -43,7 +44,7 @@
       "yields": "cognitive load considerations"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "change",
     "adoption",
     "resistance",
@@ -53,8 +54,8 @@
     "transition",
     "rollout"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "change",
     "adoption",
     "resistance",

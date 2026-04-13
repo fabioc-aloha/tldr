@@ -1,7 +1,8 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "gamma-presentations",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/prompt-engineering/SKILL.md",
@@ -52,6 +53,28 @@
       "yields": "presentation tool selection orchestration guidance"
     }
   ],
+  "activationContexts": [
+    "presentation",
+    "slide",
+    "slides",
+    "deck",
+    "pitch deck",
+    "gamma",
+    "powerpoint",
+    "pptx",
+    "keynote",
+    "document",
+    "social media",
+    "carousel",
+    "instagram",
+    "linkedin",
+    "create slides",
+    "make presentation",
+    "generate presentation",
+    "pitch",
+    "investor deck"
+  ],
+  "schemaVersion": "2.0.0",
   "activationBoost": [
     "presentation",
     "slide",
@@ -81,27 +104,5 @@
     "envVariable": "GAMMA_API_KEY",
     "mcpAvailable": true,
     "mcpConnector": "Gamma"
-  },
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
-    "presentation",
-    "slide",
-    "slides",
-    "deck",
-    "pitch deck",
-    "gamma",
-    "powerpoint",
-    "pptx",
-    "keynote",
-    "document",
-    "social media",
-    "carousel",
-    "instagram",
-    "linkedin",
-    "create slides",
-    "make presentation",
-    "generate presentation",
-    "pitch",
-    "investor deck"
-  ]
+  }
 }

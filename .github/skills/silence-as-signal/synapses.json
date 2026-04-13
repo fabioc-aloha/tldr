@@ -1,9 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.1.0",
   "skillId": "silence-as-signal",
-  "version": "1.0.0",
-  "lastValidated": "2026-04-03",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/proactive-assistance/SKILL.md",
@@ -41,6 +40,7 @@
       "yields": "inhibitory control preventing unnecessary activation"
     }
   ],
-  "connectionCount": 5,
-  "inheritance": "all"
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-04-03",
+  "connectionCount": 5
 }

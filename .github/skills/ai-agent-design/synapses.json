@@ -1,7 +1,8 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "ai-agent-design",
-  "version": "1.1.0",
+  "version": "1.2.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/prompt-engineering/SKILL.md",
@@ -76,6 +77,22 @@
       "yields": "foundry agent platform implementation steps"
     }
   ],
+  "activationContexts": [
+    "agent",
+    "autonomous",
+    "multi-agent",
+    "tool use",
+    "function calling",
+    "ReAct",
+    "plan and execute",
+    "LangChain",
+    "LangGraph",
+    "AutoGen",
+    "CrewAI",
+    "orchestration",
+    "supervisor"
+  ],
+  "schemaVersion": "2.0.0",
   "activationTriggers": [
     "agent",
     "autonomous",
@@ -98,21 +115,5 @@
       "prompt-engineering",
       "api-design"
     ]
-  },
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
-    "agent",
-    "autonomous",
-    "multi-agent",
-    "tool use",
-    "function calling",
-    "ReAct",
-    "plan and execute",
-    "LangChain",
-    "LangGraph",
-    "AutoGen",
-    "CrewAI",
-    "orchestration",
-    "supervisor"
-  ]
+  }
 }

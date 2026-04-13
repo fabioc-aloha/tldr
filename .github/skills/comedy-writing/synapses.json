@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "comedy-writing",
-  "version": "1.0.0",
-  "created": "2026-03-09",
-  "description": "Joke structure, comedic timing, set construction, callback patterns, audience engagement",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/creative-writing/SKILL.md",
@@ -39,7 +37,7 @@
       "yields": "proactive assistance patterns and guidance"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "standup",
     "comedy",
     "joke",
@@ -54,7 +52,9 @@
     "comedic",
     "bit"
   ],
-  "activationContexts": [
+  "notes": "Joke structure, comedic timing, set construction, callback patterns, audience engagement",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "standup",
     "comedy",
     "joke",

@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "code-review",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/instructions/code-review-guidelines.instructions.md",
@@ -82,17 +83,7 @@
       "yields": "boundary verification techniques from cognitive architecture"
     }
   ],
-  "triggers": [
-    "review",
-    "PR",
-    "pull request",
-    "feedback",
-    "approve",
-    "merge",
-    "audit",
-    "code quality"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "review",
     "code review",
     "PR",
@@ -129,8 +120,18 @@
     "request changes",
     "LGTM"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
+    "review",
+    "PR",
+    "pull request",
+    "feedback",
+    "approve",
+    "merge",
+    "audit",
+    "code quality"
+  ],
+  "activationBoost": [
     "review",
     "code review",
     "PR",

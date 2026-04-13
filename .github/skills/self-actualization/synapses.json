@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "self-actualization",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/instructions/self-actualization.instructions.md",
@@ -51,13 +52,7 @@
       "yields": "knowledge synthesis output artifacts"
     }
   ],
-  "triggers": [
-    "self-actualize",
-    "deep meditation",
-    "comprehensive assessment",
-    "architecture review"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "self-actualize",
     "self actualize",
     "self-actualization",
@@ -93,8 +88,14 @@
     "learning progress",
     "capability growth"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
+    "self-actualize",
+    "deep meditation",
+    "comprehensive assessment",
+    "architecture review"
+  ],
+  "activationBoost": [
     "self-actualize",
     "self actualize",
     "self-actualization",

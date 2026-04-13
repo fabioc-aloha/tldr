@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "rag-architecture",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/prompt-engineering/SKILL.md",
@@ -57,7 +58,7 @@
       "yields": "RAG patterns, chunking strategies, retrieval optimization"
     }
   ],
-  "activationBoost": [
+  "activationContexts": [
     "RAG",
     "retrieval",
     "retrieval-augmented",
@@ -81,8 +82,8 @@
     "reranking",
     "hybrid search"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "activationBoost": [
     "RAG",
     "retrieval",
     "retrieval-augmented",

@@ -1,9 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "flux-brand-finetune",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-03-05",
+  "skillId": "flux-brand-finetune",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/image-handling/SKILL.md",
@@ -66,6 +65,25 @@
       "yields": "VS Code SecretStorage API, .env detection patterns"
     }
   ],
+  "activationContexts": [
+    "flux fine-tune",
+    "flux finetune",
+    "lora training",
+    "train lora",
+    "custom lora",
+    "brand fine-tune",
+    "brand finetune",
+    "train image model",
+    "fine-tune image",
+    "custom image model",
+    "trigger word",
+    "consistent brand imagery",
+    "train flux",
+    "flux brand",
+    "replicate training"
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-03-05",
   "activationBoost": [
     "flux fine-tune",
     "flux finetune",
@@ -90,22 +108,5 @@
       "required": true,
       "getUrl": "https://replicate.com/account/api-tokens"
     }
-  ],
-  "activationContexts": [
-    "flux fine-tune",
-    "flux finetune",
-    "lora training",
-    "train lora",
-    "custom lora",
-    "brand fine-tune",
-    "brand finetune",
-    "train image model",
-    "fine-tune image",
-    "custom image model",
-    "trigger word",
-    "consistent brand imagery",
-    "train flux",
-    "flux brand",
-    "replicate training"
   ]
 }

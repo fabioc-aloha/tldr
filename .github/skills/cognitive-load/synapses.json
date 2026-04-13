@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "cognitive-load",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/learning-psychology/SKILL.md",
@@ -27,7 +28,7 @@
       "yields": "bootstrap learning implementation steps"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "overwhelmed",
     "confused",
     "too much",
@@ -35,8 +36,8 @@
     "explain simply",
     "break it down"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "overwhelmed",
     "confused",
     "too much",

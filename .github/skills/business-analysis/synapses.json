@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "business-analysis",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "reason": "Requirements feed project scope and planning",
@@ -51,7 +52,7 @@
       "yields": "academic research patterns and guidance"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "requirements",
     "stakeholder",
     "user story",
@@ -61,8 +62,8 @@
     "gap analysis",
     "scope"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "requirements",
     "stakeholder",
     "user story",

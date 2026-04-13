@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "bootstrap-learning",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/learning-psychology/SKILL.md",
@@ -43,14 +44,7 @@
       "yields": "muscle memory recognition capabilities and setup"
     }
   ],
-  "triggers": [
-    "teach me",
-    "learn about",
-    "new domain",
-    "unfamiliar with",
-    "explain"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "teach me",
     "learn about",
     "new domain",
@@ -90,8 +84,15 @@
     "domain learning",
     "skill learning"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
+    "teach me",
+    "learn about",
+    "new domain",
+    "unfamiliar with",
+    "explain"
+  ],
+  "activationBoost": [
     "teach me",
     "learn about",
     "new domain",

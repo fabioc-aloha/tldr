@@ -1,10 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "executive-storytelling",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "created": "2026-02-10",
-  "connectionCount": 6,
+  "skillId": "executive-storytelling",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "type": "relates",
@@ -19,6 +17,40 @@
       "notes": "Surface slide tooling and coaching prompts for exec storytelling requests"
     }
   ],
+  "activationContexts": [
+    {
+      "context": "Executive communication",
+      "keywords": [
+        "executive summary",
+        "elevator pitch",
+        "stakeholder narrative",
+        "business case",
+        "ROI story"
+      ]
+    },
+    {
+      "context": "Presentation narrative",
+      "keywords": [
+        "storytelling",
+        "narrative arc",
+        "data storytelling",
+        "persuasion",
+        "audience engagement"
+      ]
+    },
+    {
+      "context": "Strategic messaging",
+      "keywords": [
+        "key message",
+        "talking points",
+        "value proposition",
+        "strategic narrative",
+        "boardroom"
+      ]
+    }
+  ],
+  "schemaVersion": "2.1.0",
+  "connectionCount": 6,
   "synapses": [
     {
       "id": "EXEC-001",
@@ -82,38 +114,6 @@
     {
       "trigger": "data storytelling|present findings|business case",
       "confidence": 0.85
-    }
-  ],
-  "activationContexts": [
-    {
-      "context": "Executive communication",
-      "keywords": [
-        "executive summary",
-        "elevator pitch",
-        "stakeholder narrative",
-        "business case",
-        "ROI story"
-      ]
-    },
-    {
-      "context": "Presentation narrative",
-      "keywords": [
-        "storytelling",
-        "narrative arc",
-        "data storytelling",
-        "persuasion",
-        "audience engagement"
-      ]
-    },
-    {
-      "context": "Strategic messaging",
-      "keywords": [
-        "key message",
-        "talking points",
-        "value proposition",
-        "strategic narrative",
-        "boardroom"
-      ]
     }
   ]
 }

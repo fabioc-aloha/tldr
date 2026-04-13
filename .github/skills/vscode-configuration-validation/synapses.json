@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "vscode-configuration-validation",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/vscode-extension-patterns/SKILL.md",
@@ -25,7 +25,7 @@
       "yields": "Configuration validation rules and patterns"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "configuration validation",
     "manifest validation",
     "package.json validation",
@@ -35,7 +35,8 @@
     "registerCommand",
     "version badge sync"
   ],
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "configuration validation",
     "manifest validation",
     "package.json validation",

@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "llm-model-selection",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/appropriate-reliance/SKILL.md",
@@ -34,6 +35,29 @@
       "yields": "meditation supporting context"
     }
   ],
+  "activationContexts": [
+    "model",
+    "llm",
+    "opus",
+    "sonnet",
+    "haiku",
+    "gpt",
+    "claude",
+    "cost",
+    "token",
+    "auto mode",
+    "model awareness",
+    "model selection",
+    "GPT",
+    "Claude",
+    "Gemini",
+    "context window",
+    "temperature",
+    "prompt engineering",
+    "wrong model",
+    "model warning"
+  ],
+  "schemaVersion": "2.0.0",
   "activationBoost": [
     "model",
     "llm",
@@ -53,29 +77,6 @@
     "Claude",
     "Gemini",
     "token",
-    "context window",
-    "temperature",
-    "prompt engineering",
-    "wrong model",
-    "model warning"
-  ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
-    "model",
-    "llm",
-    "opus",
-    "sonnet",
-    "haiku",
-    "gpt",
-    "claude",
-    "cost",
-    "token",
-    "auto mode",
-    "model awareness",
-    "model selection",
-    "GPT",
-    "Claude",
-    "Gemini",
     "context window",
     "temperature",
     "prompt engineering",

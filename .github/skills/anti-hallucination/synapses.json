@@ -1,8 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "anti-hallucination",
-  "version": "1.1.0",
+  "version": "1.2.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "id": "confidence-calibration",
@@ -48,7 +48,7 @@
       "yields": "Detection heuristics, prevention strategies"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "hallucination",
     "made up",
     "invented",
@@ -58,7 +58,8 @@
     "you're wrong",
     "that doesn't work"
   ],
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "hallucination",
     "made up",
     "invented",

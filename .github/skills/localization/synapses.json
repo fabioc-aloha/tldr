@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "localization",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/testing-strategies/SKILL.md",
@@ -82,7 +83,7 @@
       "yields": "cross cultural collaboration complementary techniques"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "localization",
     "internationalization",
     "i18n",
@@ -118,8 +119,8 @@
     "language genealogy",
     "dialect fallback"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "localization",
     "internationalization",
     "i18n",

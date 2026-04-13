@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "sse-streaming",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/azure-openai-patterns/SKILL.md",
@@ -68,5 +68,6 @@
         "streaming API"
       ]
     }
-  ]
+  ],
+  "schemaVersion": "2.0.0"
 }

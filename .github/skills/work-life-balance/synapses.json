@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "work-life-balance",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/cognitive-load/SKILL.md",
@@ -42,7 +43,7 @@
       "yields": "cross cultural collaboration application context"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "tired",
     "exhausted",
     "burned out",
@@ -58,8 +59,8 @@
     "streak",
     "goal"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "tired",
     "exhausted",
     "burned out",

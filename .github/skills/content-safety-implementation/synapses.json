@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "content-safety-implementation",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/security-review/SKILL.md",
@@ -76,5 +76,6 @@
         "fairness"
       ]
     }
-  ]
+  ],
+  "schemaVersion": "2.0.0"
 }

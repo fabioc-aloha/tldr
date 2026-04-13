@@ -1,8 +1,8 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "research-project-scaffold",
-  "version": "1.0.0",
-  "description": "Scaffolding new and refactoring existing academic research projects for Alex-assisted workflows",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/academic-research/SKILL.md",
@@ -45,7 +45,7 @@
       "yields": "git workflow patterns and guidance"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "new research project",
     "scaffold research",
     "refactor research",
@@ -56,8 +56,9 @@
     "organize research",
     "research folder structure"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "notes": "Scaffolding new and refactoring existing academic research projects for Alex-assisted workflows",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "new research project",
     "scaffold research",
     "refactor research",

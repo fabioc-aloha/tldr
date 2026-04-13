@@ -1,10 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "azure-architecture-patterns",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "created": "2026-02-10",
-  "connectionCount": 6,
+  "skillId": "azure-architecture-patterns",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "type": "relates",
@@ -19,6 +17,42 @@
       "notes": "Activate deployment and IaC helpers when Azure architecture patterns are referenced"
     }
   ],
+  "activationContexts": [
+    {
+      "context": "Azure infrastructure design",
+      "keywords": [
+        "well-architected",
+        "landing zone",
+        "hub-spoke",
+        "availability zone",
+        "disaster recovery",
+        "Azure architecture"
+      ]
+    },
+    {
+      "context": "Cloud patterns",
+      "keywords": [
+        "microservices",
+        "event-driven",
+        "CQRS",
+        "saga pattern",
+        "circuit breaker",
+        "retry policy"
+      ]
+    },
+    {
+      "context": "Azure governance",
+      "keywords": [
+        "management group",
+        "policy",
+        "blueprint",
+        "cost management",
+        "tagging strategy"
+      ]
+    }
+  ],
+  "schemaVersion": "2.1.0",
+  "connectionCount": 6,
   "synapses": [
     {
       "id": "AZURE-001",
@@ -86,40 +120,6 @@
       "trigger": "performance|scaling|caching|autoscale",
       "module": "5",
       "confidence": 0.9
-    }
-  ],
-  "activationContexts": [
-    {
-      "context": "Azure infrastructure design",
-      "keywords": [
-        "well-architected",
-        "landing zone",
-        "hub-spoke",
-        "availability zone",
-        "disaster recovery",
-        "Azure architecture"
-      ]
-    },
-    {
-      "context": "Cloud patterns",
-      "keywords": [
-        "microservices",
-        "event-driven",
-        "CQRS",
-        "saga pattern",
-        "circuit breaker",
-        "retry policy"
-      ]
-    },
-    {
-      "context": "Azure governance",
-      "keywords": [
-        "management group",
-        "policy",
-        "blueprint",
-        "cost management",
-        "tagging strategy"
-      ]
     }
   ]
 }

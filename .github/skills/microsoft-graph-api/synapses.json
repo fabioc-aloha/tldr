@@ -1,9 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.1.0",
   "skillId": "microsoft-graph-api",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-12",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/enterprise-integration/SKILL.md",
@@ -38,20 +37,7 @@
       "yields": "performance profiling patterns and guidance"
     }
   ],
-  "activationPatterns": [
-    "microsoft graph",
-    "graph api",
-    "ms graph",
-    "/me/",
-    "graph.microsoft.com",
-    "calendar events",
-    "presence api",
-    "mail api",
-    "odata query",
-    "$select",
-    "$filter"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "microsoft graph",
     "graph api",
     "ms graph",
@@ -92,7 +78,22 @@
     "429",
     "delta query"
   ],
-  "activationContexts": [
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-12",
+  "activationPatterns": [
+    "microsoft graph",
+    "graph api",
+    "ms graph",
+    "/me/",
+    "graph.microsoft.com",
+    "calendar events",
+    "presence api",
+    "mail api",
+    "odata query",
+    "$select",
+    "$filter"
+  ],
+  "activationBoost": [
     "microsoft graph",
     "graph api",
     "ms graph",

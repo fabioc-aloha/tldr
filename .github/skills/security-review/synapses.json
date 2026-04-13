@@ -1,11 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "1.0",
   "skillId": "security-review",
-  "version": "2.0.0",
-  "created": "2026-02-01",
+  "version": "2.1.0",
   "lastUpdated": "2026-02-20T07:45:33.347Z",
-  "description": "Security-focused code analysis, OWASP patterns, STRIDE threat modeling, Microsoft SFI",
   "connections": [
     {
       "target": ".github/skills/incident-response/SKILL.md",
@@ -79,7 +76,7 @@
       "yields": "PII privacy regulations complementary techniques"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "security review",
     "vulnerability",
     "OWASP",
@@ -108,7 +105,9 @@
     "CVE",
     "dependency security"
   ],
-  "activationContexts": [
+  "notes": "Security-focused code analysis, OWASP patterns, STRIDE threat modeling, Microsoft SFI",
+  "schemaVersion": "1.0",
+  "activationTriggers": [
     "security review",
     "vulnerability",
     "OWASP",

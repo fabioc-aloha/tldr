@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "architecture-refinement",
-  "description": "Meta-skill for maintaining and evolving Alex's cognitive architecture",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/instructions/bootstrap-learning.instructions.md",
@@ -43,14 +43,15 @@
       "yields": "localization related patterns and guidance"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "session produced architecture-worthy insight",
     "file migration or consolidation completed",
     "human feedback corrected AI judgment",
     "new workflow pattern emerged"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "notes": "Meta-skill for maintaining and evolving Alex's cognitive architecture",
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "session produced architecture-worthy insight",
     "file migration or consolidation completed",
     "human feedback corrected AI judgment",

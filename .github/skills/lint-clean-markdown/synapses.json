@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "lint-clean-markdown",
-  "description": "Write markdown that passes linting on first attempt",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/markdown-mermaid/SKILL.md",
@@ -36,6 +36,14 @@
       "yields": "md-to-word pre-conversion quality input"
     }
   ],
+  "activationContexts": [
+    "creating markdown file",
+    "editing documentation",
+    "writing lists or tables",
+    "adding code blocks"
+  ],
+  "notes": "Write markdown that passes linting on first attempt",
+  "schemaVersion": "2.0.0",
   "triggers": [
     "creating markdown file",
     "editing documentation",
@@ -49,12 +57,5 @@
     "MD004": "Use dash for unordered lists",
     "MD009": "No trailing whitespace",
     "MD047": "Single newline at file end"
-  },
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
-    "creating markdown file",
-    "editing documentation",
-    "writing lists or tables",
-    "adding code blocks"
-  ]
+  }
 }

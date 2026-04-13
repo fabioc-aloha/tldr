@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "meditation",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/knowledge-synthesis/SKILL.md",
@@ -38,14 +39,7 @@
       "yields": "Clean architecture baseline, synapse validation"
     }
   ],
-  "triggers": [
-    "meditate",
-    "reflect",
-    "consolidate",
-    "deep thought",
-    "what did we learn"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "meditate",
     "meditation",
     "reflect",
@@ -81,8 +75,15 @@
     "skill reflection",
     "growth review"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
+    "meditate",
+    "reflect",
+    "consolidate",
+    "deep thought",
+    "what did we learn"
+  ],
+  "activationBoost": [
     "meditate",
     "meditation",
     "reflect",

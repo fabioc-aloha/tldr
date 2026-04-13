@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "refactoring-patterns",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/testing-strategies/SKILL.md",
@@ -42,7 +43,7 @@
       "yields": "localization related patterns and guidance"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "refactor",
     "extract",
     "rename",
@@ -51,8 +52,8 @@
     "code smell",
     "clean up"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "refactor",
     "extract",
     "rename",

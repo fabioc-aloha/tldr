@@ -1,9 +1,8 @@
 {
-  "schemaVersion": "1.0",
-  "skillId": "brand-asset-management",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-28",
+  "skillId": "brand-asset-management",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/correax-brand/SKILL.md",
@@ -55,16 +54,7 @@
       "yields": "Persona-specific brand expression in the sidebar UI"
     }
   ],
-  "triggers": [
-    "branding",
-    "logo",
-    "banner",
-    "assets",
-    "brand",
-    "marketplace description",
-    "store listing"
-  ],
-  "activationBoost": [
+  "activationContexts": [
     "branding",
     "brand",
     "logo",
@@ -105,7 +95,18 @@
     "style consistency",
     "visual consistency"
   ],
-  "activationContexts": [
+  "schemaVersion": "1.0",
+  "lastValidated": "2026-02-28",
+  "triggers": [
+    "branding",
+    "logo",
+    "banner",
+    "assets",
+    "brand",
+    "marketplace description",
+    "store listing"
+  ],
+  "activationBoost": [
     "branding",
     "brand",
     "logo",

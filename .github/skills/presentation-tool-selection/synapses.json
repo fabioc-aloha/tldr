@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
-  "skillId": "presentation-tool-selection",
   "$schema": "../SYNAPSE-SCHEMA.json",
+  "skillId": "presentation-tool-selection",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/gamma-presentations/SKILL.md",
@@ -36,7 +36,7 @@
       "yields": "text to speech enhanced capabilities"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "which presentation tool",
     "what tool for slides",
     "marp vs gamma",
@@ -53,7 +53,8 @@
     "how to create slides",
     "slide deck options"
   ],
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "which presentation tool",
     "what tool for slides",
     "marp vs gamma",

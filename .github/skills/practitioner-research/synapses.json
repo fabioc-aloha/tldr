@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "practitioner-research",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/academic-research/SKILL.md",
@@ -59,7 +60,7 @@
       "yields": "global knowledge patterns and guidance"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "research",
     "methodology",
     "case study",
@@ -74,8 +75,8 @@
     "practitioner research",
     "ship document promote"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "research",
     "methodology",
     "case study",

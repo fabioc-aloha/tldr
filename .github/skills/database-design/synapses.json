@@ -1,9 +1,8 @@
 {
-  "schemaVersion": "2.1.0",
-  "skillId": "database-design",
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "version": "1.0.0",
-  "lastValidated": "2026-02-11",
+  "skillId": "database-design",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/api-design/SKILL.md",
@@ -54,6 +53,31 @@
       "yields": "azure architecture patterns supporting context"
     }
   ],
+  "activationContexts": [
+    "database",
+    "schema",
+    "SQL",
+    "PostgreSQL",
+    "MySQL",
+    "MongoDB",
+    "Prisma",
+    "Drizzle",
+    "ORM",
+    "migration",
+    "normalization",
+    "index",
+    "query optimization",
+    "Cosmos DB",
+    "DynamoDB",
+    "database design",
+    "schema design",
+    "data modeling",
+    "database migration",
+    "SQL query",
+    "index strategy"
+  ],
+  "schemaVersion": "2.1.0",
+  "lastValidated": "2026-02-11",
   "activationBoost": [
     "database",
     "schema",
@@ -84,28 +108,5 @@
   "inhibitors": [
     "in-memory only",
     "no persistence needed"
-  ],
-  "activationContexts": [
-    "database",
-    "schema",
-    "SQL",
-    "PostgreSQL",
-    "MySQL",
-    "MongoDB",
-    "Prisma",
-    "Drizzle",
-    "ORM",
-    "migration",
-    "normalization",
-    "index",
-    "query optimization",
-    "Cosmos DB",
-    "DynamoDB",
-    "database design",
-    "schema design",
-    "data modeling",
-    "database migration",
-    "SQL query",
-    "index strategy"
   ]
 }

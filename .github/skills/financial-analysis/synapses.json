@@ -1,10 +1,8 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
-  "schemaVersion": "2.0.0",
   "skillId": "financial-analysis",
-  "version": "1.0.0",
-  "created": "2026-03-09",
-  "description": "Financial modeling, analysis frameworks, regulatory awareness",
+  "version": "1.1.0",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/business-analysis/SKILL.md",
@@ -47,7 +45,7 @@
       "yields": "scope management patterns and guidance"
     }
   ],
-  "activationTriggers": [
+  "activationContexts": [
     "financial model",
     "DCF",
     "valuation",
@@ -66,7 +64,9 @@
     "SOX",
     "financial analysis"
   ],
-  "activationContexts": [
+  "notes": "Financial modeling, analysis frameworks, regulatory awareness",
+  "schemaVersion": "2.0.0",
+  "activationTriggers": [
     "financial model",
     "DCF",
     "valuation",

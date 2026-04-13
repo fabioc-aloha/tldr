@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "ascii-art-alignment",
-  "description": "Create perfectly aligned ASCII diagrams",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/markdown-mermaid/SKILL.md",
@@ -35,15 +35,16 @@
       "yields": "graphic design complementary techniques"
     }
   ],
-  "triggers": [
+  "activationContexts": [
     "ASCII diagram misaligned",
     "box drawing characters",
     "text-based UI mockup",
     "lines don't match up",
     "right border jagged"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "notes": "Create perfectly aligned ASCII diagrams",
+  "schemaVersion": "2.0.0",
+  "triggers": [
     "ASCII diagram misaligned",
     "box drawing characters",
     "text-based UI mockup",

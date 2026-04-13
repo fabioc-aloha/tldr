@@ -1,6 +1,7 @@
 {
-  "schemaVersion": "2.0.0",
+  "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "project-deployment",
+  "lastUpdated": "2026-04-13",
   "connections": [
     {
       "target": ".github/skills/git-workflow/SKILL.md",
@@ -31,7 +32,7 @@
       "yields": "testing strategies required patterns and guidance"
     }
   ],
-  "activationBoost": [
+  "activationContexts": [
     "deploy",
     "release",
     "publish",
@@ -43,8 +44,8 @@
     "cargo publish",
     "dotnet publish"
   ],
-  "$schema": "../SYNAPSE-SCHEMA.json",
-  "activationContexts": [
+  "schemaVersion": "2.0.0",
+  "activationBoost": [
     "deploy",
     "release",
     "publish",
