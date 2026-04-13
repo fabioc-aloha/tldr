@@ -27,6 +27,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
     private bool _isPaused;
     private bool _isModelLoading;
+    private bool _modelReady;
     private Summarizer? _summarizer;
     private PromptBuilder? _promptBuilder;
     private UserSettings _settings = new();
@@ -266,6 +267,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
             Application.Current.Dispatcher.Invoke(() =>
             {
+                _modelReady = true;
                 StatusText = State == AppState.Ready
                     ? "Paste or drop a file. I'll distill it."
                     : "Model ready.";
@@ -347,6 +349,12 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
             IsBusy = true;
             StatusText = "Waiting for model to finish loading...";
             await _modelLoadTask;
+        }
+
+        if (!_modelReady)
+        {
+            StatusText = "Model failed to load. Check that Foundry Local is installed (winget install Microsoft.FoundryLocal) and restart the app.";
+            return;
         }
 
         IsBusy = true;

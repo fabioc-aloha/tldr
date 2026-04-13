@@ -3,11 +3,13 @@
     "src/Tldr/prompts.json"
   ],
   "stalledFiles": [
-    "github/agents/alex-builder.agent.md",
     "src/Tldr/Assets/output.html",
     "src/Tldr/Platform/MainViewModel.cs",
-    "src/Tldr/Platform/MainWindow.xaml"
+    "src/Tldr/Platform/MainWindow.xaml.cs",
+    "src/Tldr/Tldr.csproj",
+    "src/Tldr/appsettings.default.json",
+    "src/Tldr/appsettings.json"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1776051161454
+  "lastUpdated": 1776052872182
 }

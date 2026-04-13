@@ -72,15 +72,18 @@
   <script>
     function setContent(html) {
       // Sanitize LLM output: defense-in-depth against XSS
+      // NOTE: Tag names are built via concatenation to prevent the HTML parser
+      // from interpreting literal </script> inside this <script> block.
+      var s = 'scr' + 'ipt', ifr = 'ifr' + 'ame', obj = 'obj' + 'ect';
       var sanitized = html
-        .replace(/<script[\s\S]*?<\/script>/gi, '')       // strip <script> blocks
-        .replace(/<script[^>]*>/gi, '')                    // strip unclosed <script>
-        .replace(/<\/(script)>/gi, '')                     // strip orphan </script>
-        .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')       // strip <iframe>
-        .replace(/<iframe[^>]*>/gi, '')
-        .replace(/<object[\s\S]*?<\/object>/gi, '')       // strip <object>
-        .replace(/<embed[^>]*>/gi, '')                     // strip <embed>
-        .replace(/<form[\s\S]*?<\/form>/gi, '')           // strip <form>
+        .replace(new RegExp('<' + s + '[\\s\\S]*?</' + s + '>', 'gi'), '')
+        .replace(new RegExp('<' + s + '[^>]*>', 'gi'), '')
+        .replace(new RegExp('</' + s + '>', 'gi'), '')
+        .replace(new RegExp('<' + ifr + '[\\s\\S]*?</' + ifr + '>', 'gi'), '')
+        .replace(new RegExp('<' + ifr + '[^>]*>', 'gi'), '')
+        .replace(new RegExp('<' + obj + '[\\s\\S]*?</' + obj + '>', 'gi'), '')
+        .replace(new RegExp('<em' + 'bed[^>]*>', 'gi'), '')
+        .replace(new RegExp('<fo' + 'rm[\\s\\S]*?</fo' + 'rm>', 'gi'), '')
         .replace(/\s+on\w+\s*=\s*(["']).*?\1/gi, '')     // strip on* handlers (quoted)
         .replace(/\s+on\w+\s*=\s*[^\s>]+/gi, '')         // strip on* handlers (unquoted)
         .replace(/href\s*=\s*(["'])\s*javascript:/gi, 'href=$1#')  // neutralize javascript: URIs

@@ -289,8 +289,7 @@ public partial class MainWindow : FluentWindow
         if (OutputWebView.Source is null || OutputWebView.Source.AbsoluteUri == "about:blank")
         {
             var templatePath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "output.html");
-            OutputWebView.Source = new Uri(templatePath);
-            // Wait for navigation to complete
+            // Register handler BEFORE setting Source to avoid race condition
             var tcs = new TaskCompletionSource();
             void onNav(object? s, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs a)
             {
@@ -298,6 +297,7 @@ public partial class MainWindow : FluentWindow
                 tcs.TrySetResult();
             }
             OutputWebView.NavigationCompleted += onNav;
+            OutputWebView.Source = new Uri(templatePath);
             await tcs.Task;
         }
 
