@@ -123,7 +123,18 @@ public partial class MainWindow : FluentWindow
             e.Data.GetData(DataFormats.FileDrop) is string[] files &&
             files.Length > 0)
         {
-            _vm.LoadFile(files[0]);
+            var filePath = files[0];
+
+            // Block UNC and remote paths to prevent NTLM credential leaks
+            if (filePath.StartsWith(@"\\", StringComparison.Ordinal) ||
+                !System.IO.Path.IsPathRooted(filePath) ||
+                (filePath.Length >= 2 && filePath[1] != ':'))
+            {
+                _vm.StatusText = "Only local files are supported. Remote/network paths are not allowed.";
+                return;
+            }
+
+            _vm.LoadFile(filePath);
         }
     }
 
@@ -275,10 +286,11 @@ public partial class MainWindow : FluentWindow
         if (!_webViewInitialized)
         {
             _webViewInitialized = true;
+            var allowedTemplatePath = new Uri(System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "output.html")).AbsoluteUri;
             OutputWebView.CoreWebView2.NavigationStarting += (s, args) =>
             {
                 if (args.Uri is not null &&
-                    !args.Uri.StartsWith("file://", StringComparison.OrdinalIgnoreCase) &&
+                    !args.Uri.Equals(allowedTemplatePath, StringComparison.OrdinalIgnoreCase) &&
                     !args.Uri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
                 {
                     args.Cancel = true;

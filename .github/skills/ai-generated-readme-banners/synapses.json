@@ -2,7 +2,7 @@
   "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "ai-generated-readme-banners",
   "version": "1.1.0",
-  "lastUpdated": "2026-04-13",
+  "lastUpdated": "2026-04-14",
   "connections": [
     {
       "target": ".github/skills/ai-character-reference-generation/SKILL.md",

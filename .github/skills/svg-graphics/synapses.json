@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "svg-graphics",
-  "lastUpdated": "2026-04-13",
+  "lastUpdated": "2026-04-14",
   "connections": [
     {
       "target": ".github/skills/project-scaffolding/SKILL.md",

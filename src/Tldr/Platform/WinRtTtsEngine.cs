@@ -18,6 +18,7 @@ public sealed class WinRtTtsEngine : ITtsEngine, IDisposable
 
     public async Task SpeakAsync(string text, string voice, float rate, CancellationToken ct)
     {
+        _cts?.Dispose();
         _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
 
         // Prefer a natural/neural voice if available, otherwise use requested or default
@@ -45,8 +46,8 @@ public sealed class WinRtTtsEngine : ITtsEngine, IDisposable
 
         using var stream = await _synth.SynthesizeSsmlToStreamAsync(ssml).AsTask(_cts.Token);
         using var msStream = new MemoryStream();
-        var inputStream = stream.GetInputStreamAt(0);
-        var dataReader = new Windows.Storage.Streams.DataReader(inputStream);
+        using var inputStream = stream.GetInputStreamAt(0);
+        using var dataReader = new Windows.Storage.Streams.DataReader(inputStream);
         uint size = (uint)stream.Size;
         await dataReader.LoadAsync(size).AsTask(_cts.Token);
         var buffer = new byte[size];

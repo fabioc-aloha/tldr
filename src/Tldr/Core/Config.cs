@@ -1,3 +1,4 @@
+using System.IO;
 using Microsoft.Extensions.Configuration;
 
 namespace Tldr.Core;
@@ -12,7 +13,9 @@ public sealed class TldrConfig
 
     public static TldrConfig Load(string path)
     {
+        var dir = Path.GetDirectoryName(path) ?? ".";
         var config = new ConfigurationBuilder()
+            .AddJsonFile(Path.Combine(dir, "appsettings.default.json"), optional: true)
             .AddJsonFile(path, optional: false)
             .Build();
 

@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "airs-appropriate-reliance",
-  "lastUpdated": "2026-04-13",
+  "lastUpdated": "2026-04-14",
   "connections": [
     {
       "target": ".github/skills/appropriate-reliance/SKILL.md",

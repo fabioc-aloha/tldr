@@ -70,25 +70,51 @@
   <div id="content" role="article"></div>
   <div id="ai-disclosure" class="ai-disclosure" style="display:none;">AI-generated summary. May not fully represent the source material. Verify important details against the original document.</div>
   <script>
+    // Allowlist-based HTML sanitizer: only permitted tags and safe attributes survive.
+    // This is defense-in-depth — CSP blocks inline scripts, and this strips anything unexpected.
+    var ALLOWED_TAGS = new Set(['p','br','strong','b','em','i','u','s','del','h1','h2','h3','h4','h5','h6',
+      'ul','ol','li','table','thead','tbody','tr','th','td','blockquote','pre','code','hr','a','span','div','sup','sub','dd','dt','dl']);
+    var ALLOWED_ATTRS = new Set(['class','id','href','colspan','rowspan','data-sentence']);
+
+    function sanitizeHtml(html) {
+      var doc = new DOMParser().parseFromString(html, 'text/html');
+      function walk(node) {
+        var child = node.firstChild;
+        while (child) {
+          var next = child.nextSibling;
+          if (child.nodeType === 1) { // Element
+            var tag = child.tagName.toLowerCase();
+            if (!ALLOWED_TAGS.has(tag)) {
+              // Replace disallowed element with its text content
+              var text = document.createTextNode(child.textContent || '');
+              node.replaceChild(text, child);
+            } else {
+              // Strip disallowed attributes
+              var attrs = Array.from(child.attributes);
+              for (var i = 0; i < attrs.length; i++) {
+                var name = attrs[i].name.toLowerCase();
+                if (!ALLOWED_ATTRS.has(name)) {
+                  child.removeAttribute(attrs[i].name);
+                } else if (name === 'href') {
+                  // Only allow http(s) and anchor links
+                  var val = child.getAttribute('href') || '';
+                  if (!/^(https?:\/\/|#)/i.test(val.trim())) {
+                    child.setAttribute('href', '#');
+                  }
+                }
+              }
+              walk(child);
+            }
+          }
+          child = next;
+        }
+      }
+      walk(doc.body);
+      return doc.body.innerHTML;
+    }
+
     function setContent(html) {
-      // Sanitize LLM output: defense-in-depth against XSS
-      // NOTE: Tag names are built via concatenation to prevent the HTML parser
-      // from interpreting literal </script> inside this <script> block.
-      var s = 'scr' + 'ipt', ifr = 'ifr' + 'ame', obj = 'obj' + 'ect';
-      var sanitized = html
-        .replace(new RegExp('<' + s + '[\\s\\S]*?</' + s + '>', 'gi'), '')
-        .replace(new RegExp('<' + s + '[^>]*>', 'gi'), '')
-        .replace(new RegExp('</' + s + '>', 'gi'), '')
-        .replace(new RegExp('<' + ifr + '[\\s\\S]*?</' + ifr + '>', 'gi'), '')
-        .replace(new RegExp('<' + ifr + '[^>]*>', 'gi'), '')
-        .replace(new RegExp('<' + obj + '[\\s\\S]*?</' + obj + '>', 'gi'), '')
-        .replace(new RegExp('<em' + 'bed[^>]*>', 'gi'), '')
-        .replace(new RegExp('<fo' + 'rm[\\s\\S]*?</fo' + 'rm>', 'gi'), '')
-        .replace(/\s+on\w+\s*=\s*(["']).*?\1/gi, '')     // strip on* handlers (quoted)
-        .replace(/\s+on\w+\s*=\s*[^\s>]+/gi, '')         // strip on* handlers (unquoted)
-        .replace(/href\s*=\s*(["'])\s*javascript:/gi, 'href=$1#')  // neutralize javascript: URIs
-        .replace(/src\s*=\s*(["'])\s*javascript:/gi, 'src=$1#');   // neutralize javascript: src
-      document.getElementById('content').innerHTML = sanitized;
+      document.getElementById('content').innerHTML = sanitizeHtml(html);
       document.getElementById('ai-disclosure').style.display = 'block';
     }
     function setTheme(mode) {

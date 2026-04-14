@@ -3,13 +3,17 @@
     "src/Tldr/prompts.json"
   ],
   "stalledFiles": [
+    "github/config/alex-manifest.json",
     "src/Tldr/Assets/output.html",
-    "src/Tldr/Platform/MainViewModel.cs",
-    "src/Tldr/Platform/MainWindow.xaml.cs",
-    "src/Tldr/Tldr.csproj",
-    "src/Tldr/appsettings.default.json",
-    "src/Tldr/appsettings.json"
+    "src/Tldr/Core/Config.cs",
+    "src/Tldr/Core/IClipboardService.cs",
+    "src/Tldr/Core/IHotkeyService.cs",
+    "src/Tldr/Core/Summarizer.cs",
+    "src/Tldr/Platform/App.xaml.cs",
+    "src/Tldr/Platform/DetailLevelToDoubleConverter.cs",
+    "src/Tldr/Platform/EdgeTtsEngine.cs",
+    "src/Tldr/Platform/MainViewModel.cs"
   ],
   "todoHotspots": [],
-  "lastUpdated": 1776052872182
+  "lastUpdated": 1776142907458
 }

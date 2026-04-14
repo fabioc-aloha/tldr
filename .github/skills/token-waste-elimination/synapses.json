@@ -2,7 +2,7 @@
   "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "token-waste-elimination",
   "version": "2.1.0",
-  "lastUpdated": "2026-04-13",
+  "lastUpdated": "2026-04-14",
   "connections": [
     {
       "target": ".github/instructions/token-waste-elimination.instructions.md",

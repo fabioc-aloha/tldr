@@ -28,6 +28,8 @@ public sealed class EdgeTtsEngine : ITtsEngine, IDisposable
 
     public async Task SpeakAsync(string text, string voice, float rate, CancellationToken ct)
     {
+        _cts?.Cancel();
+        _cts?.Dispose();
         _cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
 
         // Pick voice: prefer explicit, otherwise Aria

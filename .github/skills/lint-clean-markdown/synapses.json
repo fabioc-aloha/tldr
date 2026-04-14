@@ -1,7 +1,7 @@
 {
   "$schema": "../SYNAPSE-SCHEMA.json",
   "skillId": "lint-clean-markdown",
-  "lastUpdated": "2026-04-13",
+  "lastUpdated": "2026-04-14",
   "connections": [
     {
       "target": ".github/skills/markdown-mermaid/SKILL.md",

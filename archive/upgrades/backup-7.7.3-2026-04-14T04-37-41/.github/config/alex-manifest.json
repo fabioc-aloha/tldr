@@ -1,0 +1,2111 @@
+{
+  "version": "7.7.3",
+  "installedAt": "2026-04-13T03:15:03.027Z",
+  "files": {
+    ".github/agents/alex-azure.agent.md": {
+      "type": "system",
+      "originalChecksum": "a46c5b225e2480bd2e50778ddb54172d"
+    },
+    ".github/agents/alex-builder.agent.md": {
+      "type": "system",
+      "originalChecksum": "765f893dde39f9c35baa7fdc9fdb47ba"
+    },
+    ".github/agents/alex-documentarian.agent.md": {
+      "type": "system",
+      "originalChecksum": "0672c018bb63aa6b65d290d352c2597d"
+    },
+    ".github/agents/alex-m365.agent.md": {
+      "type": "system",
+      "originalChecksum": "182ef678c0f0ef9ebd39e1655354602a"
+    },
+    ".github/agents/alex-researcher.agent.md": {
+      "type": "system",
+      "originalChecksum": "26430bb89d1d90be81e38824f04ba626"
+    },
+    ".github/agents/alex-validator.agent.md": {
+      "type": "system",
+      "originalChecksum": "4b15fa125e22ff01e426d87974ae0115"
+    },
+    ".github/agents/alex.agent.md": {
+      "type": "system",
+      "originalChecksum": "c8aa821c0e7b93e8640c4e32ee39b764"
+    },
+    ".github/config/assignment-log.json": {
+      "type": "system",
+      "originalChecksum": "b822c6c710d51640a98a54495961b62c"
+    },
+    ".github/config/cognitive-config-template.json": {
+      "type": "system",
+      "originalChecksum": "2ea452df744c83be4b02262702160760"
+    },
+    ".github/config/converter-config.example.json": {
+      "type": "system",
+      "originalChecksum": "f3bb5b378df84f8e0cd0be4dbcad0fda"
+    },
+    ".github/config/correlation-vector.json": {
+      "type": "system",
+      "originalChecksum": "8149baba106281ac2db9aacd4be14ad5"
+    },
+    ".github/config/knowledge-artifacts.json": {
+      "type": "system",
+      "originalChecksum": "4cc5b526a3b7679c67b8e851aea7c4ea"
+    },
+    ".github/config/rai-reliance-metrics.json": {
+      "type": "system",
+      "originalChecksum": "f6eee972a0ee45e9eb86fc8fc0585337"
+    },
+    ".github/config/session-metrics.json": {
+      "type": "system",
+      "originalChecksum": "cbae315841b2b3530ba033b319647422"
+    },
+    ".github/config/session-tool-log.json": {
+      "type": "system",
+      "originalChecksum": "96961bb8c1563ea8f2d80a8a03c74d3e"
+    },
+    ".github/config/unknowns.json": {
+      "type": "system",
+      "originalChecksum": "afef191238ed2a87aac432b987927efd"
+    },
+    ".github/config/user-profile.template.json": {
+      "type": "system",
+      "originalChecksum": "257eb296285c047d1404bac781b59338"
+    },
+    ".github/config/visual-memory.json": {
+      "type": "system",
+      "originalChecksum": "8128b9f0d85d0c24b71e343523aacca1"
+    },
+    ".github/copilot-instructions.md": {
+      "type": "system",
+      "originalChecksum": "340ec4e412344f5036be25a4ba53717e"
+    },
+    ".github/episodic/peripheral/file-observations.json": {
+      "type": "system",
+      "originalChecksum": "5210b82216bdb82b7e670ff023b40547"
+    },
+    ".github/hooks.json": {
+      "type": "system",
+      "originalChecksum": "0ebe732306f6884c63ee68448085d6ba"
+    },
+    ".github/instructions/adversarial-oversight.instructions.md": {
+      "type": "system",
+      "originalChecksum": "7b85b829357b274e9b53977eb71c6cde"
+    },
+    ".github/instructions/ai-character-reference-generation.instructions.md": {
+      "type": "system",
+      "originalChecksum": "8aee2c48ce06c4344de0bdda3e9ec68f"
+    },
+    ".github/instructions/ai-generated-readme-banners.instructions.md": {
+      "type": "system",
+      "originalChecksum": "3f60685c5ebb4dca8061c3d5f05335c3"
+    },
+    ".github/instructions/ai-writing-avoidance.instructions.md": {
+      "type": "system",
+      "originalChecksum": "5f410889e273fedadb03a1e581413991"
+    },
+    ".github/instructions/alex-core.instructions.md": {
+      "type": "system",
+      "originalChecksum": "e07c5db096948211c3f8261501de017d"
+    },
+    ".github/instructions/alex-identity-integration.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6de489e45ba8d17dd57b8b66f6b8f302"
+    },
+    ".github/instructions/architecture-decision-records.instructions.md": {
+      "type": "system",
+      "originalChecksum": "b041aa1dfdcdb32e7f2da24ba8cb55b4"
+    },
+    ".github/instructions/automated-quality-gates.instructions.md": {
+      "type": "system",
+      "originalChecksum": "dd67044dfd6b5a8e31210b1dedde59e2"
+    },
+    ".github/instructions/azure-enterprise-deployment.instructions.md": {
+      "type": "system",
+      "originalChecksum": "05c9ff26aa035e2d9c977efb75bd2400"
+    },
+    ".github/instructions/bootstrap-learning.instructions.md": {
+      "type": "system",
+      "originalChecksum": "d1f3c3804495df9c516738e0fa4107a4"
+    },
+    ".github/instructions/brand-asset-management.instructions.md": {
+      "type": "system",
+      "originalChecksum": "1109d74af522ae020134eba5ec8870f6"
+    },
+    ".github/instructions/character-aging-progression.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6142ccd55bdbeaeca47612eecf6c4bab"
+    },
+    ".github/instructions/chart-interpretation.instructions.md": {
+      "type": "system",
+      "originalChecksum": "c225ce33e6f5e7f083d27a354e59220a"
+    },
+    ".github/instructions/chat-participant-patterns.instructions.md": {
+      "type": "system",
+      "originalChecksum": "d1e5145f02998cdf6afaf7ca0eea679c"
+    },
+    ".github/instructions/code-review-guidelines.instructions.md": {
+      "type": "system",
+      "originalChecksum": "9e88b97f1ff94fa3e4ffb0385216ab46"
+    },
+    ".github/instructions/cognitive-benchmarking.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6ce1284ce07d4aef7bfa931af8b5848e"
+    },
+    ".github/instructions/content-safety-implementation.instructions.md": {
+      "type": "system",
+      "originalChecksum": "620ef7490cc5b52938afc7028d7f88ba"
+    },
+    ".github/instructions/copilot-chat-buttons.instructions.md": {
+      "type": "system",
+      "originalChecksum": "976448944b44cc7709d18234487aaa17"
+    },
+    ".github/instructions/coupling-metrics.instructions.md": {
+      "type": "system",
+      "originalChecksum": "406691b832937276440ef4b93d3f7e49"
+    },
+    ".github/instructions/dashboard-design.instructions.md": {
+      "type": "system",
+      "originalChecksum": "37d3184845e6435c785757d6e5992490"
+    },
+    ".github/instructions/data-analysis.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6fde991a337f43d26f997c49dd6369b1"
+    },
+    ".github/instructions/data-storytelling.instructions.md": {
+      "type": "system",
+      "originalChecksum": "0af31d1af680080e3a573a7352dd4709"
+    },
+    ".github/instructions/data-visualization.instructions.md": {
+      "type": "system",
+      "originalChecksum": "bf0e82c385926dfdefc977c9458b7ca5"
+    },
+    ".github/instructions/debugging-patterns.instructions.md": {
+      "type": "system",
+      "originalChecksum": "17ca8997c63005225c415b59b7ae7748"
+    },
+    ".github/instructions/deep-thinking.instructions.md": {
+      "type": "system",
+      "originalChecksum": "1e7d80c2bc2acc35546674eaff392271"
+    },
+    ".github/instructions/dependency-management.instructions.md": {
+      "type": "system",
+      "originalChecksum": "8567cc77d8bde365fbe98a424dec2967"
+    },
+    ".github/instructions/dream-state-automation.instructions.md": {
+      "type": "system",
+      "originalChecksum": "d054b687d69fc8239c7b267f1886757d"
+    },
+    ".github/instructions/embedded-synapse.instructions.md": {
+      "type": "system",
+      "originalChecksum": "fcaa5a51fa203b5847d1b1cead0e404c"
+    },
+    ".github/instructions/emotional-intelligence.instructions.md": {
+      "type": "system",
+      "originalChecksum": "8c53e20ebf618f74499b5d2e60ab1605"
+    },
+    ".github/instructions/empirical-validation.instructions.md": {
+      "type": "system",
+      "originalChecksum": "a0710bdf118235840c83fbacee447b21"
+    },
+    ".github/instructions/flux-brand-finetune.instructions.md": {
+      "type": "system",
+      "originalChecksum": "bc2ea0f15ccefc04f730476d5d9404fa"
+    },
+    ".github/instructions/gamma-presentation.instructions.md": {
+      "type": "system",
+      "originalChecksum": "8df3c6025f866f84cb0c7f69ddbcd23e"
+    },
+    ".github/instructions/heir-project-improvement.instructions.md": {
+      "type": "system",
+      "originalChecksum": "52794d9ba3f0299471cc05081e6640c8"
+    },
+    ".github/instructions/image-generation-guidelines.instructions.md": {
+      "type": "system",
+      "originalChecksum": "306266e4d9f7e374e8fff7186cbe89e4"
+    },
+    ".github/instructions/image-handling.instructions.md": {
+      "type": "system",
+      "originalChecksum": "28ea835d582b07b6964f58e67feabb0f"
+    },
+    ".github/instructions/knowledge-synthesis.instructions.md": {
+      "type": "system",
+      "originalChecksum": "cd62426fafc47081ecab2f7a6d65eba3"
+    },
+    ".github/instructions/language-detection-patterns.instructions.md": {
+      "type": "system",
+      "originalChecksum": "07279d876a8a27b73db061ff7b1aaf68"
+    },
+    ".github/instructions/log-pattern-analyzer.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6902911e2329275a58124b8efc6e794c"
+    },
+    ".github/instructions/lucid-dream-integration.instructions.md": {
+      "type": "system",
+      "originalChecksum": "3ad45ca48efa28d9603a0b7938c9ae35"
+    },
+    ".github/instructions/markdown-mermaid.instructions.md": {
+      "type": "system",
+      "originalChecksum": "8f57eec76c2cecb190e313086b652493"
+    },
+    ".github/instructions/mcp-development.instructions.md": {
+      "type": "system",
+      "originalChecksum": "138c102f56e6a9299c26522e19ab7da2"
+    },
+    ".github/instructions/md-to-word.instructions.md": {
+      "type": "system",
+      "originalChecksum": "d166b64c43ff59a19d0da9f04492ed13"
+    },
+    ".github/instructions/meditation.instructions.md": {
+      "type": "system",
+      "originalChecksum": "89bfbb5ef504cfd74ca927828ed2369b"
+    },
+    ".github/instructions/memory-export.instructions.md": {
+      "type": "system",
+      "originalChecksum": "924c970604ddaef394e43e43a11d7721"
+    },
+    ".github/instructions/microsoft-graph-api.instructions.md": {
+      "type": "system",
+      "originalChecksum": "53bca7766ff543b58aabaef613f618e8"
+    },
+    ".github/instructions/nasa-code-standards.instructions.md": {
+      "type": "system",
+      "originalChecksum": "1e1457a79dc5c76d8a1a521b14203c58"
+    },
+    ".github/instructions/north-star.instructions.md": {
+      "type": "system",
+      "originalChecksum": "302b869697eb9d179b4ee5ba1b1321cb"
+    },
+    ".github/instructions/planning-first-development.instructions.md": {
+      "type": "system",
+      "originalChecksum": "3e08b1ae3abca44460edc4c5377fa517"
+    },
+    ".github/instructions/protocol-triggers.instructions.md": {
+      "type": "system",
+      "originalChecksum": "4eb430405735354c3f2585cadb3fe867"
+    },
+    ".github/instructions/refactoring-patterns.instructions.md": {
+      "type": "system",
+      "originalChecksum": "66fdeaba751b748c3f5139354bdb4f01"
+    },
+    ".github/instructions/repository-readiness-eval.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6d9436e42b18ba9189c444102c843522"
+    },
+    ".github/instructions/research-first-workflow.instructions.md": {
+      "type": "system",
+      "originalChecksum": "2ec84dcaf8cbd617bff937243375c50e"
+    },
+    ".github/instructions/root-cause-analysis.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6c1cfa86935d0feb61881e9b0a345611"
+    },
+    ".github/instructions/secrets-management.instructions.md": {
+      "type": "system",
+      "originalChecksum": "d6d4a02f3db864bab15a51baab403d94"
+    },
+    ".github/instructions/security-review.instructions.md": {
+      "type": "system",
+      "originalChecksum": "0ea4e0fce8b63d0961ab33543814f607"
+    },
+    ".github/instructions/self-actualization.instructions.md": {
+      "type": "system",
+      "originalChecksum": "e5652622282360929f75e044807ad674"
+    },
+    ".github/instructions/semantic-audit.instructions.md": {
+      "type": "system",
+      "originalChecksum": "ffd67833e9f67f84e24b99a2336fa375"
+    },
+    ".github/instructions/service-worker-offline-first.instructions.md": {
+      "type": "system",
+      "originalChecksum": "37291764b601945a48ef69cbca2dfe8c"
+    },
+    ".github/instructions/skill-building.instructions.md": {
+      "type": "system",
+      "originalChecksum": "304b488e59d37c0ff1cfb3def17fadab"
+    },
+    ".github/instructions/skill-selection-optimization.instructions.md": {
+      "type": "system",
+      "originalChecksum": "141a32756c8429dd39a87742a87932ab"
+    },
+    ".github/instructions/skill-telemetry.instructions.md": {
+      "type": "system",
+      "originalChecksum": "c8389ba365a1a61797cfb5e3cc4d7da7"
+    },
+    ".github/instructions/synapse-notebook-patterns.instructions.md": {
+      "type": "system",
+      "originalChecksum": "5235a2954ab78a04570e172ba9401303"
+    },
+    ".github/instructions/SYNAPSE-SCHEMA.md": {
+      "type": "system",
+      "originalChecksum": "893e8c5ddd934a7d408d51a859b06fbf"
+    },
+    ".github/instructions/technical-debt-tracking.instructions.md": {
+      "type": "system",
+      "originalChecksum": "818d977ec988280673e67470c0138de1"
+    },
+    ".github/instructions/terminal-command-safety.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6bedda7982f54fd23e1ab20c5306ef79"
+    },
+    ".github/instructions/testing-strategies.instructions.md": {
+      "type": "system",
+      "originalChecksum": "6ab981832d741ab3dfad48adbbbb9d54"
+    },
+    ".github/instructions/token-waste-elimination.instructions.md": {
+      "type": "system",
+      "originalChecksum": "64a19bd0412b9706098e510ea2e58f2e"
+    },
+    ".github/instructions/ui-ux-design.instructions.md": {
+      "type": "system",
+      "originalChecksum": "da8ea2a0ee54d5fb6224f6736248592e"
+    },
+    ".github/instructions/visual-memory.instructions.md": {
+      "type": "system",
+      "originalChecksum": "b3e855d75eaf0724137efed3fa599b97"
+    },
+    ".github/instructions/vscode-configuration-validation.instructions.md": {
+      "type": "system",
+      "originalChecksum": "264ed2334d2d077548c5b70d1cdb8d25"
+    },
+    ".github/instructions/vscode-extension-patterns.instructions.md": {
+      "type": "system",
+      "originalChecksum": "f652841646267afbdd6b923a17911e9a"
+    },
+    ".github/instructions/worldview-constitutional-ai.instructions.md": {
+      "type": "system",
+      "originalChecksum": "82282b4372557fd37f45453a53e7b7a9"
+    },
+    ".github/instructions/worldview-integration.instructions.md": {
+      "type": "system",
+      "originalChecksum": "fb9e3bf6e0cc7e9683367b4f3b416bf0"
+    },
+    ".github/instructions/worldview-moral-psychology.instructions.md": {
+      "type": "system",
+      "originalChecksum": "d01b9a82545daed709fbda3b7c269e7c"
+    },
+    ".github/ISSUE_TEMPLATE/bug_report.md": {
+      "type": "system",
+      "originalChecksum": "afacedb9def09f111bdcd5192216f388"
+    },
+    ".github/ISSUE_TEMPLATE/feature_request.md": {
+      "type": "system",
+      "originalChecksum": "faff2aac11f2b505a7512a5a56c74d60"
+    },
+    ".github/muscles/analyze-assignments.cjs": {
+      "type": "system",
+      "originalChecksum": "4b34d3bd9948bf028c0402245ce12f0c"
+    },
+    ".github/muscles/audit-master-alex.cjs": {
+      "type": "system",
+      "originalChecksum": "86812275c4f16edb1ffea4691c10e8c1"
+    },
+    ".github/muscles/audit-token-waste.cjs": {
+      "type": "system",
+      "originalChecksum": "05cbb95b6e22ec0b6d90a6e55e834abc"
+    },
+    ".github/muscles/brain-qa.cjs": {
+      "type": "system",
+      "originalChecksum": "b20e6243ce8966e25bb86529cbfcfc78"
+    },
+    ".github/muscles/chart-recommend.cjs": {
+      "type": "system",
+      "originalChecksum": "459d860eb40eef6f675d6fe051cc77fe"
+    },
+    ".github/muscles/CONVERTER-CHANGELOG.md": {
+      "type": "system",
+      "originalChecksum": "57648634b958e527366f06a94c174993"
+    },
+    ".github/muscles/dashboard-scaffold.cjs": {
+      "type": "system",
+      "originalChecksum": "c707d98786254d8a9474e7b23c3dae2f"
+    },
+    ".github/muscles/data-ingest.cjs": {
+      "type": "system",
+      "originalChecksum": "086b41fa77f24cc22d7dba494123582d"
+    },
+    ".github/muscles/data-profile.cjs": {
+      "type": "system",
+      "originalChecksum": "40162e7843f9d598c167f811b6739b33"
+    },
+    ".github/muscles/docx-to-md.cjs": {
+      "type": "system",
+      "originalChecksum": "1b93ecf861efdd845d62d7649fc9f2ae"
+    },
+    ".github/muscles/gamma-generator.cjs": {
+      "type": "system",
+      "originalChecksum": "c450d5aaefca06596aac66cf539a52c0"
+    },
+    ".github/muscles/hooks/auto-commit-suggest.cjs": {
+      "type": "system",
+      "originalChecksum": "8e023962f765465cefb551e70c101706"
+    },
+    ".github/muscles/hooks/breaking-change-detector.cjs": {
+      "type": "system",
+      "originalChecksum": "db67c602522d43f273ce1d904388abe0"
+    },
+    ".github/muscles/hooks/builder-post-tool-use.cjs": {
+      "type": "system",
+      "originalChecksum": "685ec49b58e3c0c35e9f3f948af81cd0"
+    },
+    ".github/muscles/hooks/decision-journal.cjs": {
+      "type": "system",
+      "originalChecksum": "5df7d301f86d17ccd3c47235d8c6b523"
+    },
+    ".github/muscles/hooks/documentarian-post-tool-use.cjs": {
+      "type": "system",
+      "originalChecksum": "53fd96c0681e10d0f01de34ea484acb7"
+    },
+    ".github/muscles/hooks/output-secret-scan.cjs": {
+      "type": "system",
+      "originalChecksum": "2e67a5dc95fe91e1da0381b239eaa28f"
+    },
+    ".github/muscles/hooks/post-tool-use.cjs": {
+      "type": "system",
+      "originalChecksum": "54e87e4e2f398f15942c65926412a728"
+    },
+    ".github/muscles/hooks/pre-compact.cjs": {
+      "type": "system",
+      "originalChecksum": "34369bd74c55dda8bf76882b168e976f"
+    },
+    ".github/muscles/hooks/pre-tool-use.cjs": {
+      "type": "system",
+      "originalChecksum": "e1389d295385d392e2122991719f70c4"
+    },
+    ".github/muscles/hooks/prompt-safety-gate.cjs": {
+      "type": "system",
+      "originalChecksum": "d7ea73547d5d5eea8213add293c26303"
+    },
+    ".github/muscles/hooks/rai-response-audit.cjs": {
+      "type": "system",
+      "originalChecksum": "8e5d1dacef86907dcdb885bfb4a780e0"
+    },
+    ".github/muscles/hooks/rai-session-safety.cjs": {
+      "type": "system",
+      "originalChecksum": "217108973fc76d5a10f856d30bca03b2"
+    },
+    ".github/muscles/hooks/researcher-session-start.cjs": {
+      "type": "system",
+      "originalChecksum": "0b124583fc6179bd6677d8edb8696a95"
+    },
+    ".github/muscles/hooks/researcher-stop.cjs": {
+      "type": "system",
+      "originalChecksum": "e608244a02f04c4dfe3d5c6e8ec6fdec"
+    },
+    ".github/muscles/hooks/session-start.cjs": {
+      "type": "system",
+      "originalChecksum": "4804781b305b91f39336363670e1575c"
+    },
+    ".github/muscles/hooks/stop.cjs": {
+      "type": "system",
+      "originalChecksum": "850a080e6e8e702c22483b6b287482b1"
+    },
+    ".github/muscles/hooks/subagent-context.cjs": {
+      "type": "system",
+      "originalChecksum": "cf887e8f7eadbc7a5105d01e08b6f2e7"
+    },
+    ".github/muscles/hooks/subagent-stop.cjs": {
+      "type": "system",
+      "originalChecksum": "a1abc0d2362bef0221aab0780fc15943"
+    },
+    ".github/muscles/hooks/synapse-weight-update.cjs": {
+      "type": "system",
+      "originalChecksum": "57d1aaf0d31638e313d830e1ca564c28"
+    },
+    ".github/muscles/hooks/targeted-test-runner.cjs": {
+      "type": "system",
+      "originalChecksum": "574a47c6694c2fced3d7713e37f4660e"
+    },
+    ".github/muscles/hooks/validator-pre-tool-use.cjs": {
+      "type": "system",
+      "originalChecksum": "a8414c673ef6f3aa5be6f82058726fcd"
+    },
+    ".github/muscles/hooks/validator-session-start.cjs": {
+      "type": "system",
+      "originalChecksum": "356b362616124c9404c31eef5e922478"
+    },
+    ".github/muscles/install-hooks.cjs": {
+      "type": "system",
+      "originalChecksum": "8e4ffa4d2de713cce1eb547ac1b435a3"
+    },
+    ".github/muscles/markdown-lint.cjs": {
+      "type": "system",
+      "originalChecksum": "592cc9b245cc6c4b4983419adaff4afa"
+    },
+    ".github/muscles/md-scaffold.cjs": {
+      "type": "system",
+      "originalChecksum": "26ea1605044a2941e1e9806b73f298e0"
+    },
+    ".github/muscles/md-to-eml.cjs": {
+      "type": "system",
+      "originalChecksum": "b6d86e811148c8d46eb4aba047e91ff1"
+    },
+    ".github/muscles/md-to-html.cjs": {
+      "type": "system",
+      "originalChecksum": "ec5f2f70c111a9389e5c57c6d30b5b24"
+    },
+    ".github/muscles/md-to-word.cjs": {
+      "type": "system",
+      "originalChecksum": "d73eca4efc14302114fdbb8d963c17a0"
+    },
+    ".github/muscles/nav-inject.cjs": {
+      "type": "system",
+      "originalChecksum": "961433cf4d403f7f6a22d69564e7c11b"
+    },
+    ".github/muscles/new-skill.cjs": {
+      "type": "system",
+      "originalChecksum": "301f91ce3500d27722130625ab2acc0a"
+    },
+    ".github/muscles/README.md": {
+      "type": "system",
+      "originalChecksum": "abb4b29adde1047fbd5835c1c3bfb412"
+    },
+    ".github/muscles/shared/converter-config.cjs": {
+      "type": "system",
+      "originalChecksum": "e441d1c4f853c08fecea8a20911bb104"
+    },
+    ".github/muscles/shared/data-uri.cjs": {
+      "type": "system",
+      "originalChecksum": "26a4785d83b4c934fc335507cea2ffbe"
+    },
+    ".github/muscles/shared/markdown-preprocessor.cjs": {
+      "type": "system",
+      "originalChecksum": "fc08c0920dd99b64b6c43c1c34edb92a"
+    },
+    ".github/muscles/shared/mermaid-pipeline.cjs": {
+      "type": "system",
+      "originalChecksum": "3327eb940e333f129a9a9b81d2789a03"
+    },
+    ".github/muscles/shared/prompt-preprocessor.cjs": {
+      "type": "system",
+      "originalChecksum": "966fd82126a5613e538e6eea1c22b1cd"
+    },
+    ".github/muscles/shared/replicate-core.cjs": {
+      "type": "system",
+      "originalChecksum": "3d18f119dc06fef28610a95e191c699c"
+    },
+    ".github/muscles/shared/svg-pipeline.cjs": {
+      "type": "system",
+      "originalChecksum": "f82e835bd065fc509bbd2f8a2ce3f3c8"
+    },
+    ".github/muscles/validate-skills.cjs": {
+      "type": "system",
+      "originalChecksum": "3de5b80a8859e22a7afe93043e2e4be2"
+    },
+    ".github/muscles/validate-synapses.cjs": {
+      "type": "system",
+      "originalChecksum": "8f9ed043863e9a935b13e043bfdb6cf6"
+    },
+    ".github/prompts/ai-character-reference-generation.prompt.md": {
+      "type": "system",
+      "originalChecksum": "ef7e92e7da65f4c1912c290486d7cd2e"
+    },
+    ".github/prompts/ai-generated-readme-banners.prompt.md": {
+      "type": "system",
+      "originalChecksum": "8c19fd24778b9037e8f74ccff6e5ec46"
+    },
+    ".github/prompts/alex-initialization.prompt.md": {
+      "type": "system",
+      "originalChecksum": "433359af8ac539919fce7e273d4e3ef3"
+    },
+    ".github/prompts/alex.prompt.md": {
+      "type": "system",
+      "originalChecksum": "18217ea74ecff4a7abf64bd93f87d92c"
+    },
+    ".github/prompts/analyze.prompt.md": {
+      "type": "system",
+      "originalChecksum": "e13e70ecc0b9b21b5e5384acee8a974e"
+    },
+    ".github/prompts/audit-writing.prompt.md": {
+      "type": "system",
+      "originalChecksum": "d89ec7ab34332d31ef6a955c5d38b5c3"
+    },
+    ".github/prompts/azure.prompt.md": {
+      "type": "system",
+      "originalChecksum": "e57014e06f58c34ff16732d74b9e25d3"
+    },
+    ".github/prompts/brainqa.prompt.md": {
+      "type": "system",
+      "originalChecksum": "8ceaa6bb51e0b957dd0f9dcf5a4447c0"
+    },
+    ".github/prompts/brand.prompt.md": {
+      "type": "system",
+      "originalChecksum": "30ad1638e0d90e0f46f44f9f5abd9679"
+    },
+    ".github/prompts/builder.prompt.md": {
+      "type": "system",
+      "originalChecksum": "c66b857876a469936d67a81c40a3c03c"
+    },
+    ".github/prompts/character-aging-progression.prompt.md": {
+      "type": "system",
+      "originalChecksum": "c91e27c4176b6801e041b8d890b4c2f9"
+    },
+    ".github/prompts/chat-participant.prompt.md": {
+      "type": "system",
+      "originalChecksum": "c3aba2bdf5842293d0007b5e60dc51ad"
+    },
+    ".github/prompts/cross-domain-transfer.prompt.md": {
+      "type": "system",
+      "originalChecksum": "7e1cb6209e87b1411181f68096889ae7"
+    },
+    ".github/prompts/dashboard.prompt.md": {
+      "type": "system",
+      "originalChecksum": "7175b92590b241964985c43dc8dabc34"
+    },
+    ".github/prompts/datastory.prompt.md": {
+      "type": "system",
+      "originalChecksum": "a02855b9f6548121105aa27c1a76f391"
+    },
+    ".github/prompts/debug.prompt.md": {
+      "type": "system",
+      "originalChecksum": "32766394e41cc7e8eec3d494134f619e"
+    },
+    ".github/prompts/diagramming.prompt.md": {
+      "type": "system",
+      "originalChecksum": "c0f191c455c2eaf294d0d9bfc42a628a"
+    },
+    ".github/prompts/documentarian.prompt.md": {
+      "type": "system",
+      "originalChecksum": "615a445a76da2bba4f720e4f1ce5bd81"
+    },
+    ".github/prompts/domain-learning.prompt.md": {
+      "type": "system",
+      "originalChecksum": "b944e5854f81de0ea1afae89ddf88fe4"
+    },
+    ".github/prompts/dream.prompt.md": {
+      "type": "system",
+      "originalChecksum": "8633c9581928f1cf5271e6e9227de5c7"
+    },
+    ".github/prompts/export-memory.prompt.md": {
+      "type": "system",
+      "originalChecksum": "375e91c0c9aec5404eff2e0270752b03"
+    },
+    ".github/prompts/flux-brand-finetune.prompt.md": {
+      "type": "system",
+      "originalChecksum": "22bdef9b51568bc48f510634f2104f89"
+    },
+    ".github/prompts/gamma.prompt.md": {
+      "type": "system",
+      "originalChecksum": "96d3ee4d91a4d57e98fa075d17280461"
+    },
+    ".github/prompts/gapanalysis.prompt.md": {
+      "type": "system",
+      "originalChecksum": "4327d2fabd90e5822700694311a9887f"
+    },
+    ".github/prompts/graph-api.prompt.md": {
+      "type": "system",
+      "originalChecksum": "0be95ce895b3271fcb3a768e9ae9d8a7"
+    },
+    ".github/prompts/image-handling.prompt.md": {
+      "type": "system",
+      "originalChecksum": "565ecc13dfbb18aaaa38983c3c813c9e"
+    },
+    ".github/prompts/improve.prompt.md": {
+      "type": "system",
+      "originalChecksum": "ae18e5fa9590b9b26c1860a3a58bcf79"
+    },
+    ".github/prompts/interpret.prompt.md": {
+      "type": "system",
+      "originalChecksum": "4a12aa7635f176852cab4ada8e91b9fc"
+    },
+    ".github/prompts/journey.prompt.md": {
+      "type": "system",
+      "originalChecksum": "fe5e50ee3bfd5e84e7f3687f7da0b9c9"
+    },
+    ".github/prompts/knowledge.prompt.md": {
+      "type": "system",
+      "originalChecksum": "1096887091555a70680e53155247dc87"
+    },
+    ".github/prompts/learn.prompt.md": {
+      "type": "system",
+      "originalChecksum": "f26f4c9496ffe69ed02559c44e4a63c2"
+    },
+    ".github/prompts/m365.prompt.md": {
+      "type": "system",
+      "originalChecksum": "3e03035623864f5faa73587867dd88ab"
+    },
+    ".github/prompts/marp.prompt.md": {
+      "type": "system",
+      "originalChecksum": "65d53217eb42645b63cbeda12b54b9fc"
+    },
+    ".github/prompts/mcp-server.prompt.md": {
+      "type": "system",
+      "originalChecksum": "35b445ffac4e03eb030ffb35d84c406e"
+    },
+    ".github/prompts/meditate.prompt.md": {
+      "type": "system",
+      "originalChecksum": "223f8f7ebeaa7e69ee82f07142937bec"
+    },
+    ".github/prompts/memory-audit.prompt.md": {
+      "type": "system",
+      "originalChecksum": "e24f92bf16ac8618ad0e28d96f67733c"
+    },
+    ".github/prompts/northstar.prompt.md": {
+      "type": "system",
+      "originalChecksum": "e3e05951fb869ef2fba610ed75dcdd25"
+    },
+    ".github/prompts/performance-assessment.prompt.md": {
+      "type": "system",
+      "originalChecksum": "d8e3f0aeece49b481a3fe580ed0c49c8"
+    },
+    ".github/prompts/plan.prompt.md": {
+      "type": "system",
+      "originalChecksum": "5c6aaf91b4fd68c349abb04d8b668be2"
+    },
+    ".github/prompts/presentation.prompt.md": {
+      "type": "system",
+      "originalChecksum": "d5bf2eaa2f17586b7471c7faca53be52"
+    },
+    ".github/prompts/refactor.prompt.md": {
+      "type": "system",
+      "originalChecksum": "f3cb33239d98b8922c9d3b15c487bf58"
+    },
+    ".github/prompts/release.prompt.md": {
+      "type": "system",
+      "originalChecksum": "e8a955d15d4d57a4248e322ee474db48"
+    },
+    ".github/prompts/researcher.prompt.md": {
+      "type": "system",
+      "originalChecksum": "8baf831d14e6b7d1b4f24a3edaeca98c"
+    },
+    ".github/prompts/review.prompt.md": {
+      "type": "system",
+      "originalChecksum": "4e1c049c9bc40cb4812f93c4d523fb7a"
+    },
+    ".github/prompts/root-cause-analysis.prompt.md": {
+      "type": "system",
+      "originalChecksum": "ef8fd6f6998e59379f14ac36dd93b360"
+    },
+    ".github/prompts/secrets.prompt.md": {
+      "type": "system",
+      "originalChecksum": "be0a2c5c42a2359397e67077177fb7bd"
+    },
+    ".github/prompts/security-review.prompt.md": {
+      "type": "system",
+      "originalChecksum": "d048fa0d7d411a74b0aea8620b831911"
+    },
+    ".github/prompts/selfactualize.prompt.md": {
+      "type": "system",
+      "originalChecksum": "4e95e480e56b333cf842d07ce1e4970e"
+    },
+    ".github/prompts/skill-building.prompt.md": {
+      "type": "system",
+      "originalChecksum": "64a15f3b338e27a4e6ebb7dcb87c881d"
+    },
+    ".github/prompts/tdd.prompt.md": {
+      "type": "system",
+      "originalChecksum": "5c81685c7acc197160823f00a98b9d12"
+    },
+    ".github/prompts/teams-app.prompt.md": {
+      "type": "system",
+      "originalChecksum": "338853b8981742dc4feddd0a1f6bfda3"
+    },
+    ".github/prompts/token-audit.prompt.md": {
+      "type": "system",
+      "originalChecksum": "f0b9f8a28a17576699b5ab25881d82a4"
+    },
+    ".github/prompts/ui-ux-audit.prompt.md": {
+      "type": "system",
+      "originalChecksum": "d4c8eccdca317043bb3eee30690e158f"
+    },
+    ".github/prompts/validate-config.prompt.md": {
+      "type": "system",
+      "originalChecksum": "4bd689122edc0d811bf1e6ad232535db"
+    },
+    ".github/prompts/validator.prompt.md": {
+      "type": "system",
+      "originalChecksum": "8044f2ae42d24d6ed58a98071bc15c47"
+    },
+    ".github/prompts/visual-memory.prompt.md": {
+      "type": "system",
+      "originalChecksum": "77fa23e59132f3598ba17e2e2b225d07"
+    },
+    ".github/prompts/visualize.prompt.md": {
+      "type": "system",
+      "originalChecksum": "bee6a77da8d272e096fb151bb3921b13"
+    },
+    ".github/prompts/vscode-extension-audit.prompt.md": {
+      "type": "system",
+      "originalChecksum": "01d718be4f214b9ea802f568dad78b85"
+    },
+    ".github/prompts/word.prompt.md": {
+      "type": "system",
+      "originalChecksum": "7601fed07a454fa591eb6f1ca96a716d"
+    },
+    ".github/PULL_REQUEST_TEMPLATE.md": {
+      "type": "system",
+      "originalChecksum": "eaa206b7b462263f5cc35f1258474f05"
+    },
+    ".github/skills/.markdownlint.json": {
+      "type": "system",
+      "originalChecksum": "89e67d181c7a59b43514bd84c18dba0a"
+    },
+    ".github/skills/academic-research/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "696df68b84c210d0494e1dab56abd067"
+    },
+    ".github/skills/academic-research/synapses.json": {
+      "type": "system",
+      "originalChecksum": "409b57c0057ef8e9eb7200891607e324"
+    },
+    ".github/skills/agent-debug-panel/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "94d37267364efac1cdbe473b581a4161"
+    },
+    ".github/skills/agent-debug-panel/synapses.json": {
+      "type": "system",
+      "originalChecksum": "9bc5a16841e1821e3980633b433aee36"
+    },
+    ".github/skills/ai-agent-design/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "10288dd90203bd86bea6b6fc67dafb14"
+    },
+    ".github/skills/ai-agent-design/synapses.json": {
+      "type": "system",
+      "originalChecksum": "19028831903ef4a5463634aa0ecda662"
+    },
+    ".github/skills/ai-character-reference-generation/resources/REPLICATE-API-STARTER-KIT.md": {
+      "type": "system",
+      "originalChecksum": "fb56c80be45af0c8ace9ef37efde4486"
+    },
+    ".github/skills/ai-character-reference-generation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "9ea47524c8d21c3abddeeda6fafe65a4"
+    },
+    ".github/skills/ai-character-reference-generation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "60a44a45ff3590bf053120f9d56d2770"
+    },
+    ".github/skills/ai-generated-readme-banners/resources/REPLICATE-API-STARTER-KIT.md": {
+      "type": "system",
+      "originalChecksum": "fb56c80be45af0c8ace9ef37efde4486"
+    },
+    ".github/skills/ai-generated-readme-banners/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "4cf0d50dc1eaa851cbdb3f5edf1b61b5"
+    },
+    ".github/skills/ai-generated-readme-banners/synapses.json": {
+      "type": "system",
+      "originalChecksum": "eaf3bb274279454259c75eba131dd5df"
+    },
+    ".github/skills/ai-writing-avoidance/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "b340cb2ebfb975a26d780c1fdf794acb"
+    },
+    ".github/skills/ai-writing-avoidance/synapses.json": {
+      "type": "system",
+      "originalChecksum": "0ce557a7dc0534873f44c07d60386c3c"
+    },
+    ".github/skills/airs-appropriate-reliance/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "840c7eaeef48d2f3ac3c314f6945a325"
+    },
+    ".github/skills/airs-appropriate-reliance/synapses.json": {
+      "type": "system",
+      "originalChecksum": "fc4a6ac5a4d474b6c95c0d6f46cae8f9"
+    },
+    ".github/skills/alex-effort-estimation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "7c21ed344dca0cb78eaed6f60aef68ab"
+    },
+    ".github/skills/alex-effort-estimation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "6af6f6391343014a7841fc4c16c6769d"
+    },
+    ".github/skills/anti-hallucination/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2f8ed7214c08f9aad33ec71be42c520d"
+    },
+    ".github/skills/anti-hallucination/synapses.json": {
+      "type": "system",
+      "originalChecksum": "4824f8707b94452176646d16d5c59835"
+    },
+    ".github/skills/api-design/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "c092034a6ca8de339805bb441fde4ba3"
+    },
+    ".github/skills/api-design/synapses.json": {
+      "type": "system",
+      "originalChecksum": "f59628ff22c370cada565bc10419bc8f"
+    },
+    ".github/skills/api-documentation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "d020e797a6132ba75d7ecf03f6880e72"
+    },
+    ".github/skills/api-documentation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "7df1ceffceacad8173f55c1f9202e1e5"
+    },
+    ".github/skills/appropriate-reliance/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "7017a10068e2b250307516b06da6aa93"
+    },
+    ".github/skills/appropriate-reliance/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d58a19fb30056b32bba55c522a70dce2"
+    },
+    ".github/skills/architecture-audit/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "686adee26a463041b9e84686b1d482fd"
+    },
+    ".github/skills/architecture-audit/synapses.json": {
+      "type": "system",
+      "originalChecksum": "91bc1f8b4aea0c0f0aee8b6623eadfb1"
+    },
+    ".github/skills/architecture-health/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "38e9f1b787b7c42c0ca2cc97e55b3a4a"
+    },
+    ".github/skills/architecture-health/synapses.json": {
+      "type": "system",
+      "originalChecksum": "24e6367bb0ecb942f10b0118baebcfa7"
+    },
+    ".github/skills/architecture-refinement/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "aceacdad594d551cec272126669f11e0"
+    },
+    ".github/skills/architecture-refinement/synapses.json": {
+      "type": "system",
+      "originalChecksum": "eac2c81a2b1330f47943a56aed6ff8c6"
+    },
+    ".github/skills/ascii-art-alignment/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "984f5ea19bb9238197b2b46e939aba33"
+    },
+    ".github/skills/ascii-art-alignment/synapses.json": {
+      "type": "system",
+      "originalChecksum": "4be0a7d97e5b98ca7a2be8d86a4084a8"
+    },
+    ".github/skills/awareness/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "662ff0f7e17c28e0657a9c8b59443534"
+    },
+    ".github/skills/awareness/synapses.json": {
+      "type": "system",
+      "originalChecksum": "471591c8813fd8301e558948529e7fd4"
+    },
+    ".github/skills/azure-architecture-patterns/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "7f6ec6f6570596b6dec222234e039434"
+    },
+    ".github/skills/azure-architecture-patterns/synapses.json": {
+      "type": "system",
+      "originalChecksum": "24f69893da2f6ddf473390e3b6e2dd08"
+    },
+    ".github/skills/azure-deployment-operations/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "8f5e7d549db729317b2322f26ff52462"
+    },
+    ".github/skills/azure-deployment-operations/synapses.json": {
+      "type": "system",
+      "originalChecksum": "41bb73b96b0cc0c9363e0c3166ea3a8a"
+    },
+    ".github/skills/azure-devops-automation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "f05fbd80e2ee4a5377e03a7881c6b9bd"
+    },
+    ".github/skills/azure-devops-automation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d695234283d6e422dcfbd7d4acf5e8f5"
+    },
+    ".github/skills/azure-openai-patterns/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2893a10862ef1c2dede4b7354ac88698"
+    },
+    ".github/skills/azure-openai-patterns/synapses.json": {
+      "type": "system",
+      "originalChecksum": "c648b591dd13aab5809a4dc3cd0ae49e"
+    },
+    ".github/skills/bicep-avm-mastery/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "552c7cdcb944aabe91358759be419b42"
+    },
+    ".github/skills/bicep-avm-mastery/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d0a9b8b40208221761c4582c9e4c70f7"
+    },
+    ".github/skills/book-publishing/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2d422b5f99c972643a0a04e01df46971"
+    },
+    ".github/skills/book-publishing/synapses.json": {
+      "type": "system",
+      "originalChecksum": "a873a580623582b6315b24363c538385"
+    },
+    ".github/skills/bootstrap-learning/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "ffb89c9ba94ce986fc67c0d3145f727e"
+    },
+    ".github/skills/bootstrap-learning/synapses.json": {
+      "type": "system",
+      "originalChecksum": "e72f4073b044113d5f67e44f7a7f330a"
+    },
+    ".github/skills/brain-qa/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "9d32ac9b391cbbe9ded63944b44c8f77"
+    },
+    ".github/skills/brain-qa/synapses.json": {
+      "type": "system",
+      "originalChecksum": "f5baf13d747972618a80edad0bf8238f"
+    },
+    ".github/skills/brand-asset-management/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "f50c1a65056d14c97c555206156e0d61"
+    },
+    ".github/skills/brand-asset-management/synapses.json": {
+      "type": "system",
+      "originalChecksum": "4f2fc26d16e000daad735e0365eb1866"
+    },
+    ".github/skills/business-analysis/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "230f16631e141b9c6ffb4a35ced5839f"
+    },
+    ".github/skills/business-analysis/synapses.json": {
+      "type": "system",
+      "originalChecksum": "69aa7ceb9ef4896fa787e8a14e982fac"
+    },
+    ".github/skills/career-development/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2ef4d6c65feafb92d91cffc945515c6d"
+    },
+    ".github/skills/career-development/synapses.json": {
+      "type": "system",
+      "originalChecksum": "f491583fc7bff02e1a05bf0b78fbcfaa"
+    },
+    ".github/skills/change-management/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "0bc291e5684ce89cf6057b1fa803bef1"
+    },
+    ".github/skills/change-management/synapses.json": {
+      "type": "system",
+      "originalChecksum": "f3a0a42423c7f010c9c99e4bb23bbfa9"
+    },
+    ".github/skills/character-aging-progression/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "e2be6e24603e2cf2783f6da2edf6cdf8"
+    },
+    ".github/skills/character-aging-progression/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d5a3d4f04200384f410722d138f1033c"
+    },
+    ".github/skills/chart-interpretation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "464eaefce09ac9ac303ea92872459bdb"
+    },
+    ".github/skills/chart-interpretation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "66a161b8823c53d0fb0d71b5590d09db"
+    },
+    ".github/skills/chat-participant-patterns/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "f07dfed38f617dc50109a50b1d976c5c"
+    },
+    ".github/skills/chat-participant-patterns/synapses.json": {
+      "type": "system",
+      "originalChecksum": "ccd0ffd0b4438c99b622d9e17f188bf4"
+    },
+    ".github/skills/citation-management/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "e94805b8c6ab0c57f954d8439bee485d"
+    },
+    ".github/skills/citation-management/synapses.json": {
+      "type": "system",
+      "originalChecksum": "839a3b8fb986197b105ff4ae5b311bac"
+    },
+    ".github/skills/coaching-techniques/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "f3fe27626affb4cd51111d2f15babcf9"
+    },
+    ".github/skills/coaching-techniques/synapses.json": {
+      "type": "system",
+      "originalChecksum": "91747665df51ae1f62910f8cfc0e167b"
+    },
+    ".github/skills/code-review/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "315b6c5c8d0e07413d83ad9b8d0fb899"
+    },
+    ".github/skills/code-review/synapses.json": {
+      "type": "system",
+      "originalChecksum": "baabe61ee6b07f7be23a01fec415df64"
+    },
+    ".github/skills/cognitive-load/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "15b6d9ee7ed00db300e9cd9d68c33fc3"
+    },
+    ".github/skills/cognitive-load/synapses.json": {
+      "type": "system",
+      "originalChecksum": "96860dbadf99926c8abcd30e5523b861"
+    },
+    ".github/skills/cognitive-symbiosis/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "aeb584117ad31e57ad799de0db97d107"
+    },
+    ".github/skills/cognitive-symbiosis/synapses.json": {
+      "type": "system",
+      "originalChecksum": "a83ddbb4bb96ff3cf1bdd412cc12908c"
+    },
+    ".github/skills/comedy-writing/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "a3fb7714862253ac7e5d291b313df47c"
+    },
+    ".github/skills/comedy-writing/synapses.json": {
+      "type": "system",
+      "originalChecksum": "fefe076689e9c7c07e7b35392854aba6"
+    },
+    ".github/skills/content-safety-implementation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "edf5bc6a5039c725690c7674dd4ed4ec"
+    },
+    ".github/skills/content-safety-implementation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "6cf159379174e2f3a15cbc0cb1585349"
+    },
+    ".github/skills/converter-qa/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "324c4672a09ff6ebd7e808fff1819595"
+    },
+    ".github/skills/converter-qa/synapses.json": {
+      "type": "system",
+      "originalChecksum": "2ebdead2d5aa960d4d79e467cb119ade"
+    },
+    ".github/skills/correax-brand/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "a041c83cdf208db54f2f2572bd41a465"
+    },
+    ".github/skills/correax-brand/synapses.json": {
+      "type": "system",
+      "originalChecksum": "294ae0a029665d352eb5dc7f4f263cad"
+    },
+    ".github/skills/counseling-psychology/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "df3a4b52f38ac1e31ba2eef22c4d79c1"
+    },
+    ".github/skills/counseling-psychology/synapses.json": {
+      "type": "system",
+      "originalChecksum": "e1c599fe29b52bc5c087566f161ffe4b"
+    },
+    ".github/skills/creative-writing/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "87b321d2ebe0f1cf53d099d91e0cf556"
+    },
+    ".github/skills/creative-writing/synapses.json": {
+      "type": "system",
+      "originalChecksum": "fb4ff209a79d4c6daab0dfa9a2f8d66a"
+    },
+    ".github/skills/cross-cultural-collaboration/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "f9fddf83b61f9aa255c22c3a5b781030"
+    },
+    ".github/skills/cross-cultural-collaboration/synapses.json": {
+      "type": "system",
+      "originalChecksum": "840465c7a104163472a08746b061838b"
+    },
+    ".github/skills/dashboard-design/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "4ee62e1652b09cd64a4a71d4d09d6bb7"
+    },
+    ".github/skills/dashboard-design/synapses.json": {
+      "type": "system",
+      "originalChecksum": "e5c73e45a8f92db6bdf96e705a3d27c7"
+    },
+    ".github/skills/data-analysis/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "fb9df77e76d903bd167a4c4f618cc7a3"
+    },
+    ".github/skills/data-analysis/synapses.json": {
+      "type": "system",
+      "originalChecksum": "aeffb485490cdf1607f9bec87b277bb8"
+    },
+    ".github/skills/data-quality-monitoring/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2a4e8c4e08a634d413db04c2ee04a8b3"
+    },
+    ".github/skills/data-quality-monitoring/synapses.json": {
+      "type": "system",
+      "originalChecksum": "48769b5f28863a493882d3e023653d61"
+    },
+    ".github/skills/data-storytelling/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "486a954107f3fd3fe25a308317b3a8a4"
+    },
+    ".github/skills/data-storytelling/synapses.json": {
+      "type": "system",
+      "originalChecksum": "eae81f917eb6836514fd131482f5679e"
+    },
+    ".github/skills/data-visualization/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "c2f9917e5b3aa379b5704d8ec5c76083"
+    },
+    ".github/skills/data-visualization/synapses.json": {
+      "type": "system",
+      "originalChecksum": "45f0c54f29d4bcb163e3ed965e502161"
+    },
+    ".github/skills/database-design/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "b48da3d1ceeb43618524245cefd80b05"
+    },
+    ".github/skills/database-design/synapses.json": {
+      "type": "system",
+      "originalChecksum": "242f8284f270099c8d62a5aae64efa1f"
+    },
+    ".github/skills/debugging-patterns/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "074d47d2165b262cbd36ef3c55926198"
+    },
+    ".github/skills/debugging-patterns/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d011a9292ff6f08371f148ffc1f4472e"
+    },
+    ".github/skills/deep-work-optimization/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "5a99bb7f98b036a9609d5e630bd4c2ea"
+    },
+    ".github/skills/deep-work-optimization/synapses.json": {
+      "type": "system",
+      "originalChecksum": "7e5a0c5adc442ef2c2a6c8b7ab4d74f3"
+    },
+    ".github/skills/dialog-engineering/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "44136816e23f15604687fa2b15d38af1"
+    },
+    ".github/skills/dialog-engineering/synapses.json": {
+      "type": "system",
+      "originalChecksum": "8e0e9189c01c4ff386646b841a2b136d"
+    },
+    ".github/skills/dissertation-defense/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "d30f210a130d867ee86197c6c17f6ac3"
+    },
+    ".github/skills/dissertation-defense/synapses.json": {
+      "type": "system",
+      "originalChecksum": "eb15a038ee93a5573dcff97a4e9a07c2"
+    },
+    ".github/skills/distribution-security/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "827aa630e992918c62948dc2dff63425"
+    },
+    ".github/skills/distribution-security/synapses.json": {
+      "type": "system",
+      "originalChecksum": "ac1f3fddf79b1daf53a1fbb733d534d0"
+    },
+    ".github/skills/doc-hygiene/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "c8f0f9ac5c6a3f0ae9d0bde29028bc31"
+    },
+    ".github/skills/doc-hygiene/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d127e6267aa445fd254cff09b63fb326"
+    },
+    ".github/skills/documentation-quality-assurance/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "34f81495a36aaabbe360d2d1c6a20c79"
+    },
+    ".github/skills/documentation-quality-assurance/synapses.json": {
+      "type": "system",
+      "originalChecksum": "8fadec06c26c4af33cb2663b97a56169"
+    },
+    ".github/skills/docx-to-md/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "a5342ec8697455ff3cf0273bf1be96a0"
+    },
+    ".github/skills/docx-to-md/synapses.json": {
+      "type": "system",
+      "originalChecksum": "13daed171882d627f2690caca2aad43d"
+    },
+    ".github/skills/dream-state/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "19f84d294ee299028ae144f57f21ab1c"
+    },
+    ".github/skills/dream-state/synapses.json": {
+      "type": "system",
+      "originalChecksum": "8baebede779bbcb8ebafa71f4b1b1cc1"
+    },
+    ".github/skills/enterprise-integration/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2b0c4c079f3ce3f04b452d1395078edc"
+    },
+    ".github/skills/enterprise-integration/synapses.json": {
+      "type": "system",
+      "originalChecksum": "23f57ab355a6fc18d90c4badefe2ebec"
+    },
+    ".github/skills/error-recovery-patterns/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "e5666a5b026764bb20a63d2dff3067ad"
+    },
+    ".github/skills/error-recovery-patterns/synapses.json": {
+      "type": "system",
+      "originalChecksum": "f29d79db09d866546f0a6c3612f3d7a7"
+    },
+    ".github/skills/executive-storytelling/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "7d0aeae939fc9d06a2d890fbb4e0432c"
+    },
+    ".github/skills/executive-storytelling/synapses.json": {
+      "type": "system",
+      "originalChecksum": "9ac4ef6254e3c2f3b4e879181adc8654"
+    },
+    ".github/skills/fabric-notebook-publish/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "3f7a267cfef2759d4d01f0234ce32403"
+    },
+    ".github/skills/fabric-notebook-publish/synapses.json": {
+      "type": "system",
+      "originalChecksum": "203127c139472241be66c7960db821cd"
+    },
+    ".github/skills/financial-analysis/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "87c811407e724588d275fa6479461a93"
+    },
+    ".github/skills/financial-analysis/synapses.json": {
+      "type": "system",
+      "originalChecksum": "038d57480a9030ec3f02de527bf6b778"
+    },
+    ".github/skills/flux-brand-finetune/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "313be8336183e93c144e243979d402da"
+    },
+    ".github/skills/flux-brand-finetune/synapses.json": {
+      "type": "system",
+      "originalChecksum": "ec7a0bf808328bed8da49085d45ea64a"
+    },
+    ".github/skills/foundry-agent-platform/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "21772cb74b8608a1a7d4e9716f387f2f"
+    },
+    ".github/skills/foundry-agent-platform/synapses.json": {
+      "type": "system",
+      "originalChecksum": "f003d46d58735c1be2d50c6c414fb6ca"
+    },
+    ".github/skills/frustration-recognition/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "a438a52d3d06e6d217287559413e2439"
+    },
+    ".github/skills/frustration-recognition/synapses.json": {
+      "type": "system",
+      "originalChecksum": "96d6c42a352e89d7db1cc33aeb02929d"
+    },
+    ".github/skills/game-design/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "6c910490bea87dcd07f57a7e47e71508"
+    },
+    ".github/skills/game-design/synapses.json": {
+      "type": "system",
+      "originalChecksum": "b4fa9a44e04907e7e0d3db3df00b56c9"
+    },
+    ".github/skills/gamma-presentations/resources/GAMMA-API-STARTER-KIT.md": {
+      "type": "system",
+      "originalChecksum": "129cfbe0a634867cca55a6e7a904970a"
+    },
+    ".github/skills/gamma-presentations/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "057527e354c0ac733ecc4faf693c1ae5"
+    },
+    ".github/skills/gamma-presentations/synapses.json": {
+      "type": "system",
+      "originalChecksum": "4f2257a7d828825e46732ef0453eba37"
+    },
+    ".github/skills/git-workflow/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "9cb5843736b8bf08caf7ccd03fe72e92"
+    },
+    ".github/skills/git-workflow/synapses.json": {
+      "type": "system",
+      "originalChecksum": "29cabac7b209137f8262d595ffa5e3a8"
+    },
+    ".github/skills/global-knowledge/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "e72c9c7edadb86ec5699f91c562affba"
+    },
+    ".github/skills/global-knowledge/synapses.json": {
+      "type": "system",
+      "originalChecksum": "86413a5ace09a3176f0ace58d6aa97e6"
+    },
+    ".github/skills/global-knowledge-sync/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "ba85e7c028fd8c163123f278e12eecb3"
+    },
+    ".github/skills/global-knowledge-sync/synapses.json": {
+      "type": "system",
+      "originalChecksum": "76a3b3c5991e0db1175cb6e0efd79c71"
+    },
+    ".github/skills/grant-writing/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "4504184f671e51e1d850368a7dce080a"
+    },
+    ".github/skills/grant-writing/synapses.json": {
+      "type": "system",
+      "originalChecksum": "b7933eb78a7a383342f17b32f3381bd0"
+    },
+    ".github/skills/graphic-design/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "ceab74e543c42ea429113701bcf89a25"
+    },
+    ".github/skills/graphic-design/synapses.json": {
+      "type": "system",
+      "originalChecksum": "9aed66cc523d65af1053068cb6570930"
+    },
+    ".github/skills/healthcare-informatics/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "dcaf8eb1a2d05aa6b4513da1784be3a5"
+    },
+    ".github/skills/healthcare-informatics/synapses.json": {
+      "type": "system",
+      "originalChecksum": "45609664956150b04827d3a01f9afecf"
+    },
+    ".github/skills/heir-bootstrap/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "c3d776d6b47866629e862ab49cb3b2ec"
+    },
+    ".github/skills/heir-bootstrap/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d20adaa38a6abb108a3ff82f2c8d6928"
+    },
+    ".github/skills/heir-feedback/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "87bdf1d91d3eed0f1feeeb08dc232f7d"
+    },
+    ".github/skills/heir-feedback/synapses.json": {
+      "type": "system",
+      "originalChecksum": "333e3e37abad036731ebeca81575a5c7"
+    },
+    ".github/skills/hr-people-operations/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "22a72dcc3edc68cbb948f0ac3b00e823"
+    },
+    ".github/skills/hr-people-operations/synapses.json": {
+      "type": "system",
+      "originalChecksum": "7c482fd0f85efa206c90451029030091"
+    },
+    ".github/skills/image-handling/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "8a97a9d583bb321730f9c41cd82c5579"
+    },
+    ".github/skills/image-handling/synapses.json": {
+      "type": "system",
+      "originalChecksum": "825526ae5960a45288ced065d6c5f3c3"
+    },
+    ".github/skills/incident-response/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "294d8f3c53b6560a5a3cd0589d9cbae8"
+    },
+    ".github/skills/incident-response/synapses.json": {
+      "type": "system",
+      "originalChecksum": "62dfc2404eb89fa0cdbc407ae9d8f36d"
+    },
+    ".github/skills/infrastructure-as-code/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "094ecd979342f56a69a546fea8cacfeb"
+    },
+    ".github/skills/infrastructure-as-code/synapses.json": {
+      "type": "system",
+      "originalChecksum": "4612061ef5741210aa29660d05fe6d7a"
+    },
+    ".github/skills/journalism/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "c8db22563f1ab0298f60bff16667a511"
+    },
+    ".github/skills/journalism/synapses.json": {
+      "type": "system",
+      "originalChecksum": "2aa3e0601816d6edca8cb68ac2bd0253"
+    },
+    ".github/skills/knowledge-synthesis/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "ffcccf6f75c51577b849301d1a63daec"
+    },
+    ".github/skills/knowledge-synthesis/synapses.json": {
+      "type": "system",
+      "originalChecksum": "6f556274f270ddeb4a6cc60f5cd29498"
+    },
+    ".github/skills/learning-psychology/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "317d1248dd56e1b8ca35ec62cc00f73f"
+    },
+    ".github/skills/learning-psychology/synapses.json": {
+      "type": "system",
+      "originalChecksum": "40791ffb2c04826d69ce6a2ae68f2f52"
+    },
+    ".github/skills/legal-compliance/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "9788e45d48783235f0f11930fc1228c6"
+    },
+    ".github/skills/legal-compliance/synapses.json": {
+      "type": "system",
+      "originalChecksum": "218775c16482776aec568b98a51217a1"
+    },
+    ".github/skills/lint-clean-markdown/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "537b7ba70bb74d509dbe9284c8abdd06"
+    },
+    ".github/skills/lint-clean-markdown/synapses.json": {
+      "type": "system",
+      "originalChecksum": "da9195bc5c0a1c43cad31cc7f0a51777"
+    },
+    ".github/skills/literature-review/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2b6d40a2f18e94165f98faee35180bdf"
+    },
+    ".github/skills/literature-review/synapses.json": {
+      "type": "system",
+      "originalChecksum": "a7a67b1a0e4e2309c4821a1d84cde085"
+    },
+    ".github/skills/llm-model-selection/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "02b3ebebec032c7c154d8bfa5dd38b01"
+    },
+    ".github/skills/llm-model-selection/synapses.json": {
+      "type": "system",
+      "originalChecksum": "19f91cf08c6b4749644d9ceb939983b2"
+    },
+    ".github/skills/localization/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "b6b5bf57ef1ba33a38cba9f19d7f3da8"
+    },
+    ".github/skills/localization/synapses.json": {
+      "type": "system",
+      "originalChecksum": "9ad9ce96280697557ee2e6f9709c95d6"
+    },
+    ".github/skills/markdown-mermaid/polish-mermaid-setup.prompt.md": {
+      "type": "system",
+      "originalChecksum": "dc64b19294150932b7e81a7a41e76f1d"
+    },
+    ".github/skills/markdown-mermaid/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "47cb3dd208febbef6898f4440ef19c65"
+    },
+    ".github/skills/markdown-mermaid/synapses.json": {
+      "type": "system",
+      "originalChecksum": "72c9271ffcf38a30eafacfde7974b024"
+    },
+    ".github/skills/mcp-development/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2cb7b82f28d9a17cdc77c39cfa3ab7a1"
+    },
+    ".github/skills/mcp-development/synapses.json": {
+      "type": "system",
+      "originalChecksum": "c1100570a2349c46e5fd9cc9b2b30178"
+    },
+    ".github/skills/md-scaffold/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "d86001eeb9c826bc94c89a4301956d52"
+    },
+    ".github/skills/md-scaffold/synapses.json": {
+      "type": "system",
+      "originalChecksum": "0ff2c7e4c4bdfa0e28e5787cc47177f6"
+    },
+    ".github/skills/md-to-eml/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "2ae8bc6245e8753da84d15029c66d819"
+    },
+    ".github/skills/md-to-eml/synapses.json": {
+      "type": "system",
+      "originalChecksum": "67c90c7d49b2e86091f2425d4a84d538"
+    },
+    ".github/skills/md-to-html/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "4e62f737f0f9f515c1661cc1929c6d84"
+    },
+    ".github/skills/md-to-html/synapses.json": {
+      "type": "system",
+      "originalChecksum": "bf7fb847c3c8baef85d62b51276e30a3"
+    },
+    ".github/skills/md-to-word/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "6041832b79e0e47e68f053742fae84c2"
+    },
+    ".github/skills/md-to-word/synapses.json": {
+      "type": "system",
+      "originalChecksum": "eae24f4294ecf8f2bdc797f01580f168"
+    },
+    ".github/skills/meditation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "6660240527089e12257266811c0986ab"
+    },
+    ".github/skills/meditation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "965464420a14fa57818828d92d75ef77"
+    },
+    ".github/skills/meeting-efficiency/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "46cdd1de01b932b08cacd907e2ad8e7e"
+    },
+    ".github/skills/meeting-efficiency/synapses.json": {
+      "type": "system",
+      "originalChecksum": "96999bc0575d274bf034033d8d452585"
+    },
+    ".github/skills/memory-activation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "a15dd4ac44bb50cfe9cccfc849c07507"
+    },
+    ".github/skills/memory-activation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "dcbdd7bc43d4e1d335e6bf50217256e6"
+    },
+    ".github/skills/memory-curation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "6170d871eb72ffb8e0055746a6030380"
+    },
+    ".github/skills/memory-curation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "ea65e055e3bff07d6e10095377c62089"
+    },
+    ".github/skills/memory-export/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "aa26bad049d53c556204dcdbc836670f"
+    },
+    ".github/skills/memory-export/synapses.json": {
+      "type": "system",
+      "originalChecksum": "e7bd22068af25c54c97e54778c86beec"
+    },
+    ".github/skills/microsoft-fabric/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "a8a62191c4c050b73a9480d2cdb3e85e"
+    },
+    ".github/skills/microsoft-fabric/synapses.json": {
+      "type": "system",
+      "originalChecksum": "742846bd46b1dc5ef92c1b9cb93dc6cc"
+    },
+    ".github/skills/microsoft-graph-api/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "cfa6946a14419a184cda2f0dc044423a"
+    },
+    ".github/skills/microsoft-graph-api/synapses.json": {
+      "type": "system",
+      "originalChecksum": "07bb01f991f23293ca16acadb8f5a238"
+    },
+    ".github/skills/msal-authentication/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "dd4c16a4e8490bd47312360c5146fd57"
+    },
+    ".github/skills/msal-authentication/synapses.json": {
+      "type": "system",
+      "originalChecksum": "b6eebfedb2c0381f25b3282f64e717da"
+    },
+    ".github/skills/multi-agent-orchestration/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "01c0aaa94610eac8f05a31962ec30efb"
+    },
+    ".github/skills/multi-agent-orchestration/synapses.json": {
+      "type": "system",
+      "originalChecksum": "0d6b619b9bb1accf592572b2c28c0c77"
+    },
+    ".github/skills/muscle-memory-recognition/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "c22603a605894166bfc715e68ef862c3"
+    },
+    ".github/skills/muscle-memory-recognition/synapses.json": {
+      "type": "system",
+      "originalChecksum": "b454685d1977636f1844cebdfc5dbee7"
+    },
+    ".github/skills/nav-inject/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "66d12cd88dd2f8c7e8af11624e22815d"
+    },
+    ".github/skills/nav-inject/synapses.json": {
+      "type": "system",
+      "originalChecksum": "bd91533718ac81ea6bd86b34ad201087"
+    },
+    ".github/skills/north-star/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "ea9df07dd83d2cd623709904d0c4be57"
+    },
+    ".github/skills/north-star/synapses.json": {
+      "type": "system",
+      "originalChecksum": "0f23cecf845f3db474bca4e73e0e8c7f"
+    },
+    ".github/skills/observability-monitoring/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "bbb8e46c67efd1e55c5fd277a05c5c17"
+    },
+    ".github/skills/observability-monitoring/synapses.json": {
+      "type": "system",
+      "originalChecksum": "190017989f2787bc27202afbcb802247"
+    },
+    ".github/skills/performance-profiling/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "fdafd6f05729a7b63c6d7297620fd21c"
+    },
+    ".github/skills/performance-profiling/synapses.json": {
+      "type": "system",
+      "originalChecksum": "832d853974427771e4bf670436cb2747"
+    },
+    ".github/skills/persona-detection/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "8672c0e4d11e7894bc6149b25d0f8265"
+    },
+    ".github/skills/persona-detection/synapses.json": {
+      "type": "system",
+      "originalChecksum": "6f1dbf90ab3f1f3dd69c14aaaf1b833b"
+    },
+    ".github/skills/pii-privacy-regulations/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "9a50f72189e4240255a3d259c59644ac"
+    },
+    ".github/skills/pii-privacy-regulations/synapses.json": {
+      "type": "system",
+      "originalChecksum": "5e7e3127d895c48891e4ec1ea5a53ac8"
+    },
+    ".github/skills/post-mortem/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "b437752e3f0b2febc23f8bbf52fbd8e6"
+    },
+    ".github/skills/post-mortem/synapses.json": {
+      "type": "system",
+      "originalChecksum": "ea95eaab57f0aa33b602dab203bebe8a"
+    },
+    ".github/skills/pptx-generation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "3a347dc8c523ab184a2c3c653182f4fd"
+    },
+    ".github/skills/pptx-generation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "8aa7854da6525b8c3497f310c993bc8a"
+    },
+    ".github/skills/practitioner-research/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "644a4ebaf117de47dd3f46396524d66c"
+    },
+    ".github/skills/practitioner-research/synapses.json": {
+      "type": "system",
+      "originalChecksum": "dcc040a21d1d0b309a3b9f572098efdb"
+    },
+    ".github/skills/presentation-tool-selection/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "67ed251d7a0abf9fff9ed0679056403a"
+    },
+    ".github/skills/presentation-tool-selection/synapses.json": {
+      "type": "system",
+      "originalChecksum": "1056a6dcfc3225f7974d417c143870f2"
+    },
+    ".github/skills/privacy-responsible-ai/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "5ced3481c01d77cf7d49330f356c957a"
+    },
+    ".github/skills/privacy-responsible-ai/synapses.json": {
+      "type": "system",
+      "originalChecksum": "7b384cbabb4954f8af32029e9c974879"
+    },
+    ".github/skills/proactive-assistance/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "87cc4d2a0c707ef10556af2f545084d4"
+    },
+    ".github/skills/proactive-assistance/synapses.json": {
+      "type": "system",
+      "originalChecksum": "87df5cdbc8c7e3105bbacbbd8f2ce89e"
+    },
+    ".github/skills/project-deployment/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "428f2f3a50da895241e1e1d734fcb026"
+    },
+    ".github/skills/project-deployment/synapses.json": {
+      "type": "system",
+      "originalChecksum": "a732ece8c17ea00c0aab081f5b9f313b"
+    },
+    ".github/skills/project-management/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "fa1bedd94c26cebd9ddd86b198401efa"
+    },
+    ".github/skills/project-management/synapses.json": {
+      "type": "system",
+      "originalChecksum": "6697336b5b4b8b7c312ad74db7f39ae1"
+    },
+    ".github/skills/project-scaffolding/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "e86b2a63b6cf3fc548c42c1b82b58748"
+    },
+    ".github/skills/project-scaffolding/synapses.json": {
+      "type": "system",
+      "originalChecksum": "9d50eb53d453ffc59921717dc37abb4d"
+    },
+    ".github/skills/prompt-engineering/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "d94f2a359eda8e2ea70b7d21a329219f"
+    },
+    ".github/skills/prompt-engineering/synapses.json": {
+      "type": "system",
+      "originalChecksum": "6dc8473b647fa5393e82458aad1bcaed"
+    },
+    ".github/skills/prompt-evolution-system/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "5fdc5f0e808214ca51d2fb259bb534d0"
+    },
+    ".github/skills/prompt-evolution-system/synapses.json": {
+      "type": "system",
+      "originalChecksum": "f626fbf2511046397ffc32207cc4247a"
+    },
+    ".github/skills/rag-architecture/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "27b2f93892cf256dfe2c4885df0de180"
+    },
+    ".github/skills/rag-architecture/synapses.json": {
+      "type": "system",
+      "originalChecksum": "da7bc87bc5b1430b581052f7b773b5b6"
+    },
+    ".github/skills/react-vite-performance/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "92fb40036258518b3df38f12b6c0b052"
+    },
+    ".github/skills/react-vite-performance/synapses.json": {
+      "type": "system",
+      "originalChecksum": "1266b158cdd1987510af01bed23c5046"
+    },
+    ".github/skills/refactoring-patterns/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "e6b347fb3c02c6d31b3e9a2a3e1fc194"
+    },
+    ".github/skills/refactoring-patterns/synapses.json": {
+      "type": "system",
+      "originalChecksum": "876192d6e6ba3aa63261689fefb85fd1"
+    },
+    ".github/skills/research-first-development/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "720f5a952681cce029d4b9bbf054a5a0"
+    },
+    ".github/skills/research-first-development/synapses.json": {
+      "type": "system",
+      "originalChecksum": "3c335a74bd2b35303f9b9d198608b749"
+    },
+    ".github/skills/research-project-scaffold/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "332db693e8617cf3045a8e3684140a9c"
+    },
+    ".github/skills/research-project-scaffold/synapses.json": {
+      "type": "system",
+      "originalChecksum": "4c35d574886933f13298c7984c5f6184"
+    },
+    ".github/skills/root-cause-analysis/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "4f848cd82226d532f3c46464d34bbb18"
+    },
+    ".github/skills/root-cause-analysis/synapses.json": {
+      "type": "system",
+      "originalChecksum": "c3403c10830dcb0fcce9881beb0bedfe"
+    },
+    ".github/skills/rubber-duck-debugging/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "0900269b2004e9f423e60379d14fd117"
+    },
+    ".github/skills/rubber-duck-debugging/synapses.json": {
+      "type": "system",
+      "originalChecksum": "fe967512829db139e3038a8d614cf4f6"
+    },
+    ".github/skills/sales-enablement/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "4b7db0f48aa36cc78fcbbc0d4c4cd0f4"
+    },
+    ".github/skills/sales-enablement/synapses.json": {
+      "type": "system",
+      "originalChecksum": "509b83daccdad6d006c4d0b423916a58"
+    },
+    ".github/skills/scope-management/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "5ea021647c950427293c045b7172ff06"
+    },
+    ".github/skills/scope-management/synapses.json": {
+      "type": "system",
+      "originalChecksum": "2f82e4b5ab689a4fa136586f7ec7ccc9"
+    },
+    ".github/skills/secrets-management/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "eba94d8eed7ae30872ff43b90480f404"
+    },
+    ".github/skills/secrets-management/synapses.json": {
+      "type": "system",
+      "originalChecksum": "73aad211cf42c4e724cb206432468c22"
+    },
+    ".github/skills/security-review/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "c5248c74ad7cd6fdc0e9acbbbdf94268"
+    },
+    ".github/skills/security-review/synapses.json": {
+      "type": "system",
+      "originalChecksum": "31c44ef61ef2aaea814aba7a8f90940b"
+    },
+    ".github/skills/self-actualization/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "0f3c74374987c633814dcf0cd0521f4c"
+    },
+    ".github/skills/self-actualization/synapses.json": {
+      "type": "system",
+      "originalChecksum": "cd70d5cba9db217327ac1f2acc0dbc7e"
+    },
+    ".github/skills/service-worker-offline-first/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "56dee671df010897dd749f0b1c7e678c"
+    },
+    ".github/skills/service-worker-offline-first/synapses.json": {
+      "type": "system",
+      "originalChecksum": "410411d12ddba8e75d06fbeadf7911ec"
+    },
+    ".github/skills/silence-as-signal/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "0774c271e4acf8433af79d03357e73ea"
+    },
+    ".github/skills/silence-as-signal/synapses.json": {
+      "type": "system",
+      "originalChecksum": "7ceff5f945e9e6f0423fa62112308d9b"
+    },
+    ".github/skills/skill-building/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "c65ca9369db54de740989e7236898750"
+    },
+    ".github/skills/skill-building/synapses.json": {
+      "type": "system",
+      "originalChecksum": "50d520e93d34e6e40db10bc782c9f18a"
+    },
+    ".github/skills/skill-development/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "584ae6cb65799fb4fb477d63bae06bb3"
+    },
+    ".github/skills/skill-development/synapses.json": {
+      "type": "system",
+      "originalChecksum": "e09905fffa888d3d8ed915eeedeb1b1f"
+    },
+    ".github/skills/slide-design/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "f0038c21b900bb1efe4196d9e4d755b8"
+    },
+    ".github/skills/slide-design/synapses.json": {
+      "type": "system",
+      "originalChecksum": "641155438d9585a8d70f820bbf0508f4"
+    },
+    ".github/skills/socratic-questioning/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "983b5c838e74302f2d3cd40db700bb97"
+    },
+    ".github/skills/socratic-questioning/synapses.json": {
+      "type": "system",
+      "originalChecksum": "3e5d4154b32a338a5b54ee4d6a796a0a"
+    },
+    ".github/skills/sse-streaming/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "54d86e8fedd172fe519b47310803fb5c"
+    },
+    ".github/skills/sse-streaming/synapses.json": {
+      "type": "system",
+      "originalChecksum": "eb3124e4de7b8ba102ce7f4518013b6f"
+    },
+    ".github/skills/stakeholder-management/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "16b0321b713a5c006ef48bc2e0c3ab66"
+    },
+    ".github/skills/stakeholder-management/synapses.json": {
+      "type": "system",
+      "originalChecksum": "bb053b82fc07fa5daf870fcf358d2a2e"
+    },
+    ".github/skills/status-reporting/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "9e6fe14b9a4c5140e9afa4cb5e12cd89"
+    },
+    ".github/skills/status-reporting/synapses.json": {
+      "type": "system",
+      "originalChecksum": "047aaeba9f8f7f58d9f902c05034b787"
+    },
+    ".github/skills/svg-graphics/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "181b76b5925d965b2055667561546ddf"
+    },
+    ".github/skills/svg-graphics/synapses.json": {
+      "type": "system",
+      "originalChecksum": "662f998fceac56261f82de5f35a64987"
+    },
+    ".github/skills/SYNAPSE-SCHEMA.json": {
+      "type": "system",
+      "originalChecksum": "723d6cd15c77d7fc5e00f8ab56f55149"
+    },
+    ".github/skills/terminal-image-rendering/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "047c273da7859801a735bf49bae565d0"
+    },
+    ".github/skills/terminal-image-rendering/synapses.json": {
+      "type": "system",
+      "originalChecksum": "2385b79d6b36f159d062ad7fe13eae20"
+    },
+    ".github/skills/testing-strategies/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "be267458a17afaf3f5830c00388146ee"
+    },
+    ".github/skills/testing-strategies/synapses.json": {
+      "type": "system",
+      "originalChecksum": "559e74987e02f615a24b8a26edbb3725"
+    },
+    ".github/skills/text-to-speech/README.md": {
+      "type": "system",
+      "originalChecksum": "5bd7e5ef6bb09151a9cdbe6a786f459d"
+    },
+    ".github/skills/text-to-speech/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "088ffb9bd7d24fe25ebb3e6d0d6cd984"
+    },
+    ".github/skills/text-to-speech/synapses.json": {
+      "type": "system",
+      "originalChecksum": "ab625e72f7a6e32a286c365ccf4dc271"
+    },
+    ".github/skills/token-waste-elimination/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "1835aabde615e2eb579bafdbb5ef386f"
+    },
+    ".github/skills/token-waste-elimination/synapses.json": {
+      "type": "system",
+      "originalChecksum": "c49ed73858ff639c682b59d11333e228"
+    },
+    ".github/skills/ui-ux-design/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "a6298c360d6ba9efebad8ae00985b84f"
+    },
+    ".github/skills/ui-ux-design/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d7d7188b9ae8cce70a0a2be154e3ca9d"
+    },
+    ".github/skills/visual-memory/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "05eea67c1d24a476bde2b0e6de89af8f"
+    },
+    ".github/skills/visual-memory/synapses.json": {
+      "type": "system",
+      "originalChecksum": "0e7aac7d2fd4f5f5b784e50d79fa8634"
+    },
+    ".github/skills/visual-memory/visual-memory/index.json": {
+      "type": "system",
+      "originalChecksum": "b77edf11873c8154def7501ba0f3bbb8"
+    },
+    ".github/skills/visual-memory/visual-memory/visual-memory.json": {
+      "type": "system",
+      "originalChecksum": "5cfdb5976a31149dff818f05717a680a"
+    },
+    ".github/skills/vscode-configuration-validation/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "1465d8433ba471fdf20a2d729d69c3a2"
+    },
+    ".github/skills/vscode-configuration-validation/synapses.json": {
+      "type": "system",
+      "originalChecksum": "ea4c29a2918d94c67b7092d25ab65777"
+    },
+    ".github/skills/vscode-environment/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "612b15029be73349fadfd14a1dae1cc8"
+    },
+    ".github/skills/vscode-environment/synapses.json": {
+      "type": "system",
+      "originalChecksum": "08d08a311012879c8d0f9f86be14b92c"
+    },
+    ".github/skills/vscode-extension-patterns/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "853e2750144cf97a9b44b8aca7d36064"
+    },
+    ".github/skills/vscode-extension-patterns/synapses.json": {
+      "type": "system",
+      "originalChecksum": "d8cdc25053a09651cf1845dbe54a893c"
+    },
+    ".github/skills/work-life-balance/SKILL.md": {
+      "type": "system",
+      "originalChecksum": "98a711a6fe43d84a3afba7ef5937155f"
+    },
+    ".github/skills/work-life-balance/synapses.json": {
+      "type": "system",
+      "originalChecksum": "4f4fe968b00841699be53db827125c08"
+    }
+  },
+  "upgradePolicy": {
+    "mode": "prompt",
+    "pinnedVersion": "7.7.3",
+    "reason": "Default heir policy: confirm before upgrading"
+  }
+}

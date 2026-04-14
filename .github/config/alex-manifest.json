@@ -1,6 +1,6 @@
 {
-  "version": "7.7.3",
-  "installedAt": "2026-04-13T03:15:03.027Z",
+  "version": "7.7.4",
+  "installedAt": "2026-04-14T04:39:53.211Z",
   "files": {
     ".github/agents/alex-azure.agent.md": {
       "type": "system",
@@ -80,7 +80,7 @@
     },
     ".github/episodic/peripheral/file-observations.json": {
       "type": "system",
-      "originalChecksum": "5210b82216bdb82b7e670ff023b40547"
+      "originalChecksum": "7e299c60eb36c9519be7d64badc67939"
     },
     ".github/hooks.json": {
       "type": "system",
@@ -404,7 +404,7 @@
     },
     ".github/muscles/brain-qa.cjs": {
       "type": "system",
-      "originalChecksum": "b20e6243ce8966e25bb86529cbfcfc78"
+      "originalChecksum": "d4641cc4241c3d080b10044d8a1b45d0"
     },
     ".github/muscles/chart-recommend.cjs": {
       "type": "system",
@@ -1632,7 +1632,7 @@
     },
     ".github/skills/memory-activation/SKILL.md": {
       "type": "system",
-      "originalChecksum": "a15dd4ac44bb50cfe9cccfc849c07507"
+      "originalChecksum": "dcab419f9ef74fa0d2de87ab7f5b8424"
     },
     ".github/skills/memory-activation/synapses.json": {
       "type": "system",
@@ -2105,7 +2105,7 @@
   },
   "upgradePolicy": {
     "mode": "prompt",
-    "pinnedVersion": "7.7.3",
+    "pinnedVersion": "7.7.4",
     "reason": "Default heir policy: confirm before upgrading"
   }
 }

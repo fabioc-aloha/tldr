@@ -9,8 +9,8 @@ public sealed class Summarizer : IAsyncDisposable
 {
     private readonly string _modelAlias;
     private readonly int _maxOutputTokens;
-    private dynamic? _chatClient;
-    private dynamic? _model;
+    private OpenAIChatClient? _chatClient;
+    private IModel? _model;
 
     /// <summary>Context window size in tokens. Defaults to 128k (Phi-4 Mini). Updated at load time if metadata is available.</summary>
     public int ContextWindowTokens { get; private set; } = 128_000;

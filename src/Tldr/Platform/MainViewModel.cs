@@ -40,6 +40,11 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     private string _ttsEngineName = "Edge (Neural)";
     private string _ttsEnginePreference = "edge";
     private string _machineInfo = string.Empty;
+    private readonly object _saveLock = new();
+
+    private const string TtsEdge = "edge";
+    private const string TtsSapi = "sapi";
+    private const string TtsWinrt = "winrt";
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event Action<int>? SentenceHighlightRequested;
@@ -66,7 +71,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     public string InputText
     {
         get => _inputText;
-        set { _inputText = value; WordCount = value.Split((char[]?)null, StringSplitOptions.RemoveEmptyEntries).Length; OnPropertyChanged(); OnPropertyChanged(nameof(InputPreview)); }
+        set { _inputText = value; WordCount = CountWords(value); OnPropertyChanged(); OnPropertyChanged(nameof(InputPreview)); }
     }
 
     public string InputPreview => StripMarkdown(_inputText);
@@ -207,7 +212,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
         _promptBuilder = new PromptBuilder(Path.Combine(AppContext.BaseDirectory, "prompts.json"));
         _summarizer = new Summarizer(config.Llm.Model, config.Llm.MaxOutputTokens);
-        _ttsEnginePreference = config.Tts.Engine?.ToLowerInvariant() ?? "edge";
+        _ttsEnginePreference = config.Tts.Engine?.ToLowerInvariant() ?? TtsEdge;
 
         // Start model loading in background — user can paste/drop immediately
         IsModelLoading = true;
@@ -361,6 +366,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         StatusText = "Distilling...";
 
         _distillCts?.Cancel();
+        _distillCts?.Dispose();
         _distillCts = new CancellationTokenSource();
         var ct = _distillCts.Token;
 
@@ -371,10 +377,8 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
             SummaryMarkdown = summary;
 
-            // R3: Grounding guard - flag if output is suspiciously longer than input
-            var inputLen = InputText.Length;
-            var outputLen = summary.Length;
-            if (outputLen > inputLen)
+            // Grounding guard — Table/Same styles legitimately expand (markdown formatting)
+            if (Style != SummaryStyle.Table && Style != SummaryStyle.Same && summary.Length > InputText.Length)
             {
                 SummaryMarkdown = $"> **Note:** This summary is longer than the original text. The model may have added content not in the source document. Review carefully.\n\n{summary}";
             }
@@ -440,6 +444,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
         // Cancel any in-progress TTS before starting new one (race condition guard)
         _ttsCts?.Cancel();
+        _ttsCts?.Dispose();
         (_tts as IDisposable)?.Dispose();
 
         _ttsCts = new CancellationTokenSource();
@@ -524,7 +529,10 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     private void ScheduleSave()
     {
         _saveTimer?.Dispose();
-        _saveTimer = new System.Threading.Timer(_ => _settings.Save(), null, 500, Timeout.Infinite);
+        _saveTimer = new System.Threading.Timer(_ =>
+        {
+            lock (_saveLock) { _settings.Save(); }
+        }, null, 500, Timeout.Infinite);
     }
 
     private void PopulateMachineInfo(string modelAlias)
@@ -546,13 +554,13 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     private ITtsEngine CreateTtsEngine()
     {
         // Respect config preference: "edge", "winrt", or "sapi"
-        if (_ttsEnginePreference == "sapi")
+        if (_ttsEnginePreference == TtsSapi)
         {
             TtsEngineName = "SAPI5 (Offline)";
             return new SapiTtsEngine();
         }
 
-        if (_ttsEnginePreference == "winrt")
+        if (_ttsEnginePreference == TtsWinrt)
         {
             try
             {
@@ -599,12 +607,15 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         _ttsCts?.Dispose();
         _distillCts?.Dispose();
 
-        // Summarizer holds the loaded LLM model; fire-and-forget async dispose
+        // Wait for model loading to finish before disposing the summarizer
         if (_summarizer is not null)
         {
-            _ = _summarizer.DisposeAsync().AsTask().ContinueWith(
-                t => System.Diagnostics.Debug.WriteLine($"[Dispose] Summarizer: {t.Exception?.InnerException?.Message}"),
-                TaskContinuationOptions.OnlyOnFaulted);
+            var loadTask = _modelLoadTask ?? Task.CompletedTask;
+            _ = loadTask.ContinueWith(_ => _summarizer.DisposeAsync().AsTask(), TaskScheduler.Default)
+                .Unwrap()
+                .ContinueWith(
+                    t => System.Diagnostics.Debug.WriteLine($"[Dispose] Summarizer: {t.Exception?.InnerException?.Message}"),
+                    TaskContinuationOptions.OnlyOnFaulted);
         }
     }
 
@@ -670,15 +681,18 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         }
     }
 
+    private static readonly Regex LinkPattern = new(
+        @"!?\[([^\]]*)\]\([^)]*\)", RegexOptions.Compiled);
+
     private static readonly Regex MarkdownPattern = new(
-        @"\*\*|__|\*|_|~~|`{1,3}|^#{1,6}\s|^>\s?|^[-*+]\s|^\d+\.\s|!?\[([^\]]*)\]\([^)]*\)",
+        @"\*\*|__|\*|_|~~|`{1,3}|^#{1,6}\s|^>\s?|^[-*+]\s|^\d+\.\s",
         RegexOptions.Multiline | RegexOptions.Compiled);
 
     private static string StripMarkdown(string text)
     {
         if (string.IsNullOrEmpty(text)) return text;
         // Replace links with just their display text
-        var result = Regex.Replace(text, @"!?\[([^\]]*)\]\([^)]*\)", "$1");
+        var result = LinkPattern.Replace(text, "$1");
         // Remove remaining markdown syntax
         result = MarkdownPattern.Replace(result, "");
         return result.Trim();
@@ -700,6 +714,23 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         var endHtml = endFrag + enc.GetByteCount(htmlEnd);
 
         return string.Format(header, startHtml, endHtml, startFrag, endFrag) + htmlStart + htmlFragment + htmlEnd;
+    }
+
+    private static int CountWords(string text)
+    {
+        int count = 0;
+        bool inWord = false;
+        foreach (var c in text)
+        {
+            if (char.IsWhiteSpace(c))
+                inWord = false;
+            else if (!inWord)
+            {
+                inWord = true;
+                count++;
+            }
+        }
+        return count;
     }
 
     private void OnPropertyChanged([CallerMemberName] string? name = null)

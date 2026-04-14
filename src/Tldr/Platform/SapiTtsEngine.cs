@@ -7,7 +7,7 @@ public sealed class SapiTtsEngine : ITtsEngine, IDisposable
 {
     private readonly SpeechSynthesizer _synth = new();
     private CancellationTokenSource? _cts;
-    private bool _isPaused;
+    private readonly ManualResetEventSlim _pauseGate = new(true);
 
     public event Action<int>? SentenceReached;
     public event Action? PlaybackFinished;
@@ -63,15 +63,11 @@ public sealed class SapiTtsEngine : ITtsEngine, IDisposable
                 _synth.SpeakCompleted -= handler;
             }
 
-            // NASA Rule 2: Bounded pause loop — 30 min max prevents infinite spin
-            const int maxPauseIterations = 18_000; // 100ms * 18,000 = 30 min
-            int pauseIter = 0;
-            while (_isPaused && !_cts.Token.IsCancellationRequested && pauseIter++ < maxPauseIterations)
-                await Task.Delay(100, CancellationToken.None);
-            if (pauseIter >= maxPauseIterations)
+            // Wait for pause gate to be signaled (or cancellation)
+            while (!_pauseGate.IsSet && !_cts.Token.IsCancellationRequested)
             {
-                System.Diagnostics.Debug.WriteLine("[SAPI] Pause exceeded 30 min, auto-resuming");
-                _isPaused = false;
+                // Use bounded wait to remain responsive to cancellation
+                _pauseGate.Wait(TimeSpan.FromMilliseconds(500));
             }
         }
 
@@ -81,19 +77,19 @@ public sealed class SapiTtsEngine : ITtsEngine, IDisposable
 
     public void Pause()
     {
-        _isPaused = true;
+        _pauseGate.Reset();
         _synth.Pause();
     }
 
     public void Resume()
     {
-        _isPaused = false;
         _synth.Resume();
+        _pauseGate.Set();
     }
 
     public void Stop()
     {
-        _isPaused = false;
+        _pauseGate.Set(); // Release any paused wait
         _synth.SpeakAsyncCancelAll();
         _cts?.Cancel();
     }
@@ -101,6 +97,7 @@ public sealed class SapiTtsEngine : ITtsEngine, IDisposable
     public void Dispose()
     {
         Stop();
+        _pauseGate.Dispose();
         _synth.Dispose();
         _cts?.Dispose();
     }

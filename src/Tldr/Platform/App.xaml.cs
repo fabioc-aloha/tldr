@@ -61,8 +61,17 @@ public partial class App : System.Windows.Application
             var logDir = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TLDR");
             Directory.CreateDirectory(logDir);
+            var logFile = Path.Combine(logDir, "errors.log");
+
+            // Rotate log to prevent unbounded disk growth (matches MainViewModel.LogError)
+            if (File.Exists(logFile) && new FileInfo(logFile).Length > 512 * 1024)
+            {
+                File.Copy(logFile, logFile + ".old", overwrite: true);
+                File.WriteAllText(logFile, string.Empty);
+            }
+
             var entry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [FATAL:{source}] {ex}\n";
-            File.AppendAllText(Path.Combine(logDir, "errors.log"), entry);
+            File.AppendAllText(logFile, entry);
         }
         catch { /* logging must not throw */ }
     }

@@ -1,7 +1,7 @@
 {
   "$schema": "../schemas/synapses.schema.json",
   "skillId": "ai-writing-avoidance",
-  "lastUpdated": "2026-04-13",
+  "lastUpdated": "2026-04-14",
   "connections": [
     {
       "target": ".github/skills/documentation-quality-assurance/SKILL.md",

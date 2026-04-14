@@ -1,0 +1,41 @@
+{
+  "$schema": "../SYNAPSE-SCHEMA.json",
+  "skillId": "git-workflow",
+  "lastUpdated": "2026-04-13",
+  "connections": [],
+  "activationContexts": [
+    "commit",
+    "git",
+    "branch",
+    "merge",
+    "recovery",
+    "undo",
+    "reset",
+    "rebase",
+    "pull request",
+    "PR",
+    "cherry-pick",
+    "conflict"
+  ],
+  "schemaVersion": "2.0.0",
+  "activationBoost": [
+    "commit",
+    "git",
+    "branch",
+    "merge",
+    "recovery",
+    "undo",
+    "reset"
+  ],
+  "triggers": [
+    "git",
+    "branch",
+    "merge",
+    "rebase",
+    "commit",
+    "pull request",
+    "PR",
+    "cherry-pick",
+    "conflict"
+  ]
+}
