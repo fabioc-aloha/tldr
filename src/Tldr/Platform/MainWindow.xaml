@@ -7,12 +7,19 @@
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         xmlns:local="clr-namespace:Tldr.Platform"
         mc:Ignorable="d"
-        Title="TL;DR" Height="640" Width="540" MinHeight="400" MinWidth="420"
+        Title="TL;DR" Height="700" Width="600" MinHeight="480" MinWidth="460"
         WindowBackdropType="Mica"
         ExtendsContentIntoTitleBar="True">
 
     <ui:FluentWindow.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
+
+        <Style x:Key="SectionLabel" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+            <Setter Property="Foreground" Value="{ui:ThemeResource TextFillColorTertiaryBrush}" />
+            <Setter Property="FontSize" Value="11" />
+        </Style>
 
         <!-- Modern chip/pill toggle style for segmented controls -->
         <Style x:Key="ChipToggle" TargetType="ToggleButton">
@@ -64,214 +71,394 @@
         <ui:TitleBar Grid.Row="0" Title="TL;DR" ShowMaximize="False" />
 
         <!-- Content Area -->
-        <Grid Grid.Row="1" Margin="16,0,16,0">
+        <Border Grid.Row="1"
+            Margin="18,2,18,0"
+            Padding="18"
+            Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+            BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+            BorderThickness="1"
+            CornerRadius="18">
+        <Grid>
 
             <!-- Drag-drop overlay -->
             <Border x:Name="DragOverlay"
                     BorderBrush="{ui:ThemeResource SystemAccentColorPrimaryBrush}"
-                    BorderThickness="2" CornerRadius="8"
-                    Background="Transparent"
+                    BorderThickness="2"
+                    CornerRadius="18"
+                    Background="#2A0A84FF"
                     IsHitTestVisible="False"
+                    Opacity="0"
                     Visibility="Collapsed"
-                    Panel.ZIndex="10" />
+                    Panel.ZIndex="10">
+                <Border x:Name="DragOverlayPanel"
+                        Width="280"
+                        Padding="22"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+                        BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20"
+                        RenderTransformOrigin="0.5,0.5">
+                    <Border.RenderTransform>
+                        <ScaleTransform ScaleX="0.96" ScaleY="0.96" />
+                    </Border.RenderTransform>
+                    <StackPanel>
+                        <Border Width="64"
+                                Height="64"
+                                CornerRadius="32"
+                                HorizontalAlignment="Center"
+                                Background="{ui:ThemeResource SubtleFillColorSecondaryBrush}">
+                            <ui:SymbolIcon Symbol="ArrowUpload24"
+                                          FontSize="28"
+                                          Foreground="{ui:ThemeResource SystemAccentColorPrimaryBrush}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                        </Border>
+                        <TextBlock Text="Drop to distill"
+                                   FontSize="22"
+                                   FontWeight="SemiBold"
+                                   TextAlignment="Center"
+                                   Margin="0,16,0,8" />
+                        <TextBlock Text="PDF, DOCX, TXT, and Markdown are supported. The document stays on this machine."
+                                   Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center" />
+                    </StackPanel>
+                </Border>
+            </Border>
 
             <!-- READY STATE -->
             <Grid x:Name="ReadyPanel"
                   Visibility="{Binding IsReady, Converter={StaticResource BoolToVis}}">
-                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="280">
-                    <ui:SymbolIcon Symbol="ClipboardPaste24" FontSize="56"
-                                  Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
-                                  HorizontalAlignment="Center" Margin="0,0,0,20" />
-                    <ui:TextBlock Text="{Binding StatusText}"
-                                  FontTypography="BodyStrong"
-                                  HorizontalAlignment="Center"
-                                  TextWrapping="Wrap"
-                                  TextAlignment="Center" />
-                    <ui:TextBlock Text="Ctrl+V to paste, or drag a file here"
-                                  Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
-                                  FontTypography="Caption"
-                                  HorizontalAlignment="Center"
-                                  Margin="0,6,0,0" />
-                    <ui:ProgressRing IsIndeterminate="True"
-                                     Visibility="{Binding IsModelLoading, Converter={StaticResource BoolToVis}}"
-                                     Width="28" Height="28"
-                                     Margin="0,20,0,0"
-                                     AutomationProperties.Name="Loading model" />
-                </StackPanel>
+                <Border VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        MaxWidth="420"
+                        Padding="28"
+                        Background="{ui:ThemeResource SubtleFillColorSecondaryBrush}"
+                        BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="20">
+                    <StackPanel>
+                        <Border Width="72"
+                                Height="72"
+                                CornerRadius="36"
+                                Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+                                BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                                BorderThickness="1"
+                                HorizontalAlignment="Center">
+                            <ui:SymbolIcon Symbol="ClipboardPaste24"
+                                          FontSize="34"
+                                          Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                        </Border>
+
+                        <TextBlock Text="Drop something worth reading"
+                                   FontSize="24"
+                                   FontWeight="SemiBold"
+                                   TextAlignment="Center"
+                                   Margin="0,18,0,8" />
+
+                        <ui:TextBlock Text="{Binding StatusText}"
+                                      Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                      HorizontalAlignment="Center"
+                                      TextWrapping="Wrap"
+                                      TextAlignment="Center" />
+
+                        <ui:TextBlock Text="Everything stays local on this device. No cloud upload, no API keys."
+                                      Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
+                                      FontTypography="Caption"
+                                      HorizontalAlignment="Center"
+                                      TextWrapping="Wrap"
+                                      TextAlignment="Center"
+                                      Margin="0,8,0,0" />
+
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,18,0,0">
+                            <Border Margin="0,0,8,8"
+                                    Padding="12,7"
+                                    Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+                                    BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="14">
+                                <TextBlock Text="Ctrl+V to paste"
+                                           FontSize="12"
+                                           Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" />
+                            </Border>
+                            <Border Margin="0,0,0,8"
+                                    Padding="12,7"
+                                    Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+                                    BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="14">
+                                <TextBlock Text="Drop PDF, DOCX, TXT, or MD"
+                                           FontSize="12"
+                                           Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}" />
+                            </Border>
+                        </WrapPanel>
+
+                        <StackPanel Visibility="{Binding IsModelLoading, Converter={StaticResource BoolToVis}}"
+                                    HorizontalAlignment="Center"
+                                    Margin="0,14,0,0">
+                            <ui:ProgressRing IsIndeterminate="True"
+                                             Visibility="{Binding IsDownloading, Converter={local:InvertBoolToVisConverter}}"
+                                             Width="28" Height="28"
+                                             HorizontalAlignment="Center"
+                                             AutomationProperties.Name="Loading model" />
+                            <ProgressBar Value="{Binding DownloadProgress}"
+                                         Minimum="0" Maximum="100"
+                                         Visibility="{Binding IsDownloading, Converter={StaticResource BoolToVis}}"
+                                         Height="4"
+                                         Width="200"
+                                         HorizontalAlignment="Center"
+                                         Foreground="{ui:ThemeResource SystemAccentColorPrimaryBrush}"
+                                         AutomationProperties.Name="Model download progress" />
+                            <ui:TextBlock Text="{Binding StatusText}"
+                                          FontTypography="Caption"
+                                          Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
+                                          HorizontalAlignment="Center"
+                                          Margin="0,8,0,0" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
             </Grid>
 
             <!-- LOADED STATE -->
             <Grid x:Name="LoadedPanel"
                   Visibility="{Binding IsLoaded, Converter={StaticResource BoolToVis}}">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock Text="S O U R C E" Style="{StaticResource SectionLabel}" />
 
-                <!-- Input preview -->
-                <Border Grid.Row="0" Margin="0,8,0,0"
-                        Background="{ui:ThemeResource SubtleFillColorSecondaryBrush}"
-                        CornerRadius="8" Padding="12">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="{Binding InputPreview}"
-                                       MaxHeight="54" TextTrimming="CharacterEllipsis"
-                                       TextWrapping="Wrap" FontSize="13" />
-                            <ui:Button Grid.Column="1"
-                                       Icon="{ui:SymbolIcon Dismiss20}"
-                                       Appearance="Transparent"
-                                       Click="Clear_Click"
-                                       VerticalAlignment="Top"
-                                       Margin="8,-4,-4,-4"
-                                       Padding="2"
-                                       AutomationProperties.Name="Clear input" />
-                        </Grid>
-                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,6,0,0">
-                            <TextBlock Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
-                                       FontSize="11">
-                                <Run Text="{Binding WordCount, Mode=OneWay}" />
-                                <Run Text="words" />
-                            </TextBlock>
-                            <TextBlock Text="{Binding InputFileName}"
-                                       Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
-                                       FontSize="11"
-                                       Margin="12,0,0,0"
-                                       VerticalAlignment="Center" />
+                        <Border Background="{ui:ThemeResource SubtleFillColorSecondaryBrush}"
+                                BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="14"
+                                Padding="16">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Loaded text"
+                                                   FontSize="18"
+                                                   FontWeight="SemiBold" />
+                                        <TextBlock Text="{Binding InputPreview}"
+                                                   MaxHeight="72"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   TextWrapping="Wrap"
+                                                   FontSize="13"
+                                                   Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                                   Margin="0,6,0,0" />
+                                    </StackPanel>
+                                    <ui:Button Grid.Column="1"
+                                               Icon="{ui:SymbolIcon Dismiss20}"
+                                               Content="Clear"
+                                               Appearance="Transparent"
+                                               Click="Clear_Click"
+                                               VerticalAlignment="Top"
+                                               Margin="12,0,0,0"
+                                               Padding="10,6"
+                                               AutomationProperties.Name="Clear input" />
+                                </Grid>
+                                <WrapPanel Grid.Row="1" Margin="0,12,0,0">
+                                    <Border Margin="0,0,8,0"
+                                            Padding="10,5"
+                                            Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+                                            BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="12"
+                                            Visibility="{Binding HasWordCount, Converter={StaticResource BoolToVis}}">
+                                        <TextBlock Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
+                                                   FontSize="11">
+                                            <Run Text="{Binding WordCount, Mode=OneWay}" />
+                                            <Run Text=" words" />
+                                        </TextBlock>
+                                    </Border>
+                                    <Border Padding="10,5"
+                                            Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+                                            BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                                            BorderThickness="1"
+                                            CornerRadius="12"
+                                            Visibility="{Binding HasInputFileName, Converter={StaticResource BoolToVis}}">
+                                        <TextBlock Text="{Binding InputFileName}"
+                                                   Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
+                                                   FontSize="11" />
+                                    </Border>
+                                </WrapPanel>
+                            </Grid>
+                        </Border>
+
+                        <TextBlock Text="S T Y L E" Style="{StaticResource SectionLabel}" Margin="0,18,0,6" />
+                        <WrapPanel HorizontalAlignment="Left"
+                                   AutomationProperties.Name="Summary style">
+                            <ToggleButton Content="Bullets" Tag="Bullets" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsStyleBullets, Mode=OneWay}"
+                                          Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
+                                          AutomationProperties.Name="Bullet list style" />
+                            <ToggleButton Content="List" Tag="List" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsStyleList, Mode=OneWay}"
+                                          Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
+                                          AutomationProperties.Name="Numbered list style" />
+                            <ToggleButton Content="Table" Tag="Table" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsStyleTable, Mode=OneWay}"
+                                          Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
+                                          AutomationProperties.Name="Table style" />
+                            <ToggleButton Content="Prose" Tag="Prose" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsStyleProse, Mode=OneWay}"
+                                          Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
+                                          AutomationProperties.Name="Prose style" />
+                            <ToggleButton Content="Simple" Tag="Simple" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsStyleSimple, Mode=OneWay}"
+                                          Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
+                                          AutomationProperties.Name="Simple plain language" />
+                            <ToggleButton Content="Same" Tag="Same" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsStyleSame, Mode=OneWay}"
+                                          Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
+                                          AutomationProperties.Name="Same as original" />
+                        </WrapPanel>
+
+                        <TextBlock Text="D E T A I L" Style="{StaticResource SectionLabel}" Margin="0,18,0,6" />
+                        <WrapPanel HorizontalAlignment="Left"
+                                   AutomationProperties.Name="Detail level">
+                            <ToggleButton Content="Brief" Tag="0" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsDetailBrief, Mode=OneWay}"
+                                          Checked="DetailChip_Checked" Unchecked="DetailChip_Unchecked"
+                                          AutomationProperties.Name="Brief detail" />
+                            <ToggleButton Content="Standard" Tag="1" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsDetailStandard, Mode=OneWay}"
+                                          Checked="DetailChip_Checked" Unchecked="DetailChip_Unchecked"
+                                          AutomationProperties.Name="Standard detail" />
+                            <ToggleButton Content="Detailed" Tag="2" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsDetailDetailed, Mode=OneWay}"
+                                          Checked="DetailChip_Checked" Unchecked="DetailChip_Unchecked"
+                                          AutomationProperties.Name="Detailed" />
+                        </WrapPanel>
+
+                        <TextBlock Text="T O N E" Style="{StaticResource SectionLabel}" Margin="0,18,0,6" />
+                        <WrapPanel HorizontalAlignment="Left"
+                                   AutomationProperties.Name="Summary tone">
+                            <ToggleButton Content="Neutral" Tag="Neutral" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsToneNeutral, Mode=OneWay}"
+                                          Checked="ToneChip_Checked" Unchecked="ToneChip_Unchecked"
+                                          AutomationProperties.Name="Neutral tone" />
+                            <ToggleButton Content="Formal" Tag="Formal" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsToneFormal, Mode=OneWay}"
+                                          Checked="ToneChip_Checked" Unchecked="ToneChip_Unchecked"
+                                          AutomationProperties.Name="Formal tone" />
+                            <ToggleButton Content="Casual" Tag="Casual" Style="{StaticResource ChipToggle}"
+                                          IsChecked="{Binding IsToneCasual, Mode=OneWay}"
+                                          Checked="ToneChip_Checked" Unchecked="ToneChip_Unchecked"
+                                          AutomationProperties.Name="Casual tone" />
+                        </WrapPanel>
+
+                        <Border Margin="0,20,0,0"
+                            Padding="16"
+                                Background="{ui:ThemeResource SubtleFillColorSecondaryBrush}"
+                                BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="14">
+                            <StackPanel>
+                                <TextBlock Text="Ready to distill"
+                                           FontSize="18"
+                                           FontWeight="SemiBold" />
+                                <TextBlock Text="Your summary will use the controls above and stay local to this machine."
+                                           Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                           TextWrapping="Wrap"
+                                           Margin="0,6,0,0" />
+                            </StackPanel>
+                        </Border>
+
+                        <ui:Button Content="Distill locally"
+                                   Appearance="Primary"
+                                   HorizontalAlignment="Stretch"
+                                   Margin="0,18,0,0"
+                                   Height="42"
+                                   Click="Distill_Click"
+                                   IsEnabled="{Binding IsBusy, Converter={local:InvertBoolConverter}}"
+                                   AutomationProperties.Name="Distill summary" />
+
+                        <StackPanel HorizontalAlignment="Center"
+                                    Margin="0,16,0,8"
+                                    Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
+                            <ui:ProgressRing IsIndeterminate="True"
+                                             Width="32" Height="32"
+                                             AutomationProperties.Name="Distilling" />
+                            <ui:TextBlock Text="{Binding StatusText}"
+                                          FontTypography="Caption"
+                                          Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                          HorizontalAlignment="Center"
+                                          Margin="0,8,0,0" />
                         </StackPanel>
-                    </Grid>
-                </Border>
-
-                <!-- Style chips -->
-                <StackPanel Grid.Row="1" Margin="0,12,0,0">
-                    <TextBlock Text="S T Y L E" FontWeight="SemiBold" Margin="0,0,0,6"
-                               Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
-                               FontSize="11" />
-                    <WrapPanel HorizontalAlignment="Left"
-                               AutomationProperties.Name="Summary style">
-                        <ToggleButton Content="Bullets" Tag="Bullets" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsStyleBullets, Mode=OneWay}"
-                                      Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
-                                      AutomationProperties.Name="Bullet list style" />
-                        <ToggleButton Content="List" Tag="List" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsStyleList, Mode=OneWay}"
-                                      Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
-                                      AutomationProperties.Name="Numbered list style" />
-                        <ToggleButton Content="Table" Tag="Table" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsStyleTable, Mode=OneWay}"
-                                      Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
-                                      AutomationProperties.Name="Table style" />
-                        <ToggleButton Content="Prose" Tag="Prose" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsStyleProse, Mode=OneWay}"
-                                      Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
-                                      AutomationProperties.Name="Prose style" />
-                        <ToggleButton Content="Simple" Tag="Simple" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsStyleSimple, Mode=OneWay}"
-                                      Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
-                                      AutomationProperties.Name="Simple plain language" />
-                        <ToggleButton Content="Same" Tag="Same" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsStyleSame, Mode=OneWay}"
-                                      Checked="StyleChip_Checked" Unchecked="StyleChip_Unchecked"
-                                      AutomationProperties.Name="Same as original" />
-                    </WrapPanel>
-                </StackPanel>
-
-                <!-- Detail chips -->
-                <StackPanel Grid.Row="2" Margin="0,12,0,0">
-                    <TextBlock Text="D E T A I L" FontWeight="SemiBold" Margin="0,0,0,6"
-                               Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
-                               FontSize="11" />
-                    <WrapPanel HorizontalAlignment="Left"
-                               AutomationProperties.Name="Detail level">
-                        <ToggleButton Content="Brief" Tag="0" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsDetailBrief, Mode=OneWay}"
-                                      Checked="DetailChip_Checked" Unchecked="DetailChip_Unchecked"
-                                      AutomationProperties.Name="Brief detail" />
-                        <ToggleButton Content="Standard" Tag="1" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsDetailStandard, Mode=OneWay}"
-                                      Checked="DetailChip_Checked" Unchecked="DetailChip_Unchecked"
-                                      AutomationProperties.Name="Standard detail" />
-                        <ToggleButton Content="Detailed" Tag="2" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsDetailDetailed, Mode=OneWay}"
-                                      Checked="DetailChip_Checked" Unchecked="DetailChip_Unchecked"
-                                      AutomationProperties.Name="Detailed" />
-                    </WrapPanel>
-                </StackPanel>
-
-                <!-- Tone chips -->
-                <StackPanel Grid.Row="3" Margin="0,12,0,0">
-                    <TextBlock Text="T O N E" FontWeight="SemiBold" Margin="0,0,0,6"
-                               Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
-                               FontSize="11" />
-                    <WrapPanel HorizontalAlignment="Left"
-                               AutomationProperties.Name="Summary tone">
-                        <ToggleButton Content="Neutral" Tag="Neutral" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsToneNeutral, Mode=OneWay}"
-                                      Checked="ToneChip_Checked" Unchecked="ToneChip_Unchecked"
-                                      AutomationProperties.Name="Neutral tone" />
-                        <ToggleButton Content="Formal" Tag="Formal" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsToneFormal, Mode=OneWay}"
-                                      Checked="ToneChip_Checked" Unchecked="ToneChip_Unchecked"
-                                      AutomationProperties.Name="Formal tone" />
-                        <ToggleButton Content="Casual" Tag="Casual" Style="{StaticResource ChipToggle}"
-                                      IsChecked="{Binding IsToneCasual, Mode=OneWay}"
-                                      Checked="ToneChip_Checked" Unchecked="ToneChip_Unchecked"
-                                      AutomationProperties.Name="Casual tone" />
-                    </WrapPanel>
-                </StackPanel>
-
-                <!-- Distill button -->
-                <ui:Button Grid.Row="4" Content="Distill"
-                           Appearance="Primary"
-                           HorizontalAlignment="Stretch"
-                           Margin="0,16,0,0"
-                           Height="36"
-                           Click="Distill_Click"
-                           IsEnabled="{Binding IsBusy, Converter={local:InvertBoolConverter}}"
-                           AutomationProperties.Name="Distill summary" />
-
-                <!-- Busy indicator -->
-                <StackPanel Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center"
-                            Visibility="{Binding IsBusy, Converter={StaticResource BoolToVis}}">
-                    <ui:ProgressRing IsIndeterminate="True"
-                                     Width="32" Height="32"
-                                     AutomationProperties.Name="Distilling" />
-                    <ui:TextBlock Text="{Binding StatusText}"
-                                  FontTypography="Caption"
-                                  Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                                  HorizontalAlignment="Center"
-                                  Margin="0,8,0,0" />
-                </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
             </Grid>
 
             <!-- RESULT + READING STATE (shared WebView2) -->
             <Grid Visibility="{Binding IsWebViewVisible, Converter={StaticResource BoolToVis}}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
+                <Grid Grid.Row="0" Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel>
+                        <TextBlock Text="Summary"
+                                   FontSize="22"
+                                   FontWeight="SemiBold" />
+                        <TextBlock Text="Distilled locally and ready to copy, refine, or read aloud."
+                                   Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                   Margin="0,4,0,0" />
+                    </StackPanel>
+
+                    <Border Grid.Column="1"
+                            Padding="12,7"
+                            Background="{ui:ThemeResource SubtleFillColorSecondaryBrush}"
+                            BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                            BorderThickness="1"
+                            CornerRadius="14"
+                            VerticalAlignment="Center">
+                        <TextBlock Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
+                                   FontSize="11">
+                            <Run Text="{Binding SentenceCount, Mode=OneWay}" />
+                            <Run Text=" sentences" />
+                        </TextBlock>
+                    </Border>
+                </Grid>
+
                 <!-- WebView2 output (visible during both Result and Reading) -->
-                <wv2:WebView2 Grid.Row="0" x:Name="OutputWebView"
-                              Margin="0,8,0,0"
-                              DefaultBackgroundColor="Transparent"
-                              AutomationProperties.Name="Summary output" />
+                <Border Grid.Row="1"
+                        Margin="0,12,0,0"
+                        Background="{ui:ThemeResource ApplicationBackgroundBrush}"
+                        BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="16"
+                    Padding="1"
+                    SnapsToDevicePixels="True">
+                    <wv2:WebView2 x:Name="OutputWebView"
+                                  DefaultBackgroundColor="Transparent"
+                                  AutomationProperties.Name="Summary output" />
+                </Border>
 
                 <!-- Result action bar -->
-                <Border Grid.Row="1"
+                <Border Grid.Row="2"
                         Background="{ui:ThemeResource SubtleFillColorSecondaryBrush}"
-                        CornerRadius="8" Padding="4"
+                        BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="14" Padding="8,6"
                         Margin="0,8,0,8"
                         Visibility="{Binding IsResult, Converter={StaticResource BoolToVis}}">
                     <Grid>
@@ -279,38 +466,40 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
                             <ui:Button Icon="{ui:SymbolIcon Copy24}"
+                                       Content="Copy"
                                        ToolTip="Copy to clipboard"
-                                       Click="Copy_Click" Margin="0,0,2,0"
-                                       Appearance="Transparent" Padding="8"
+                                       Click="Copy_Click" Margin="0,0,4,0"
+                                       Appearance="Secondary" Padding="12,8"
                                        AutomationProperties.Name="Copy summary to clipboard" />
                             <ui:Button Icon="{ui:SymbolIcon ArrowRepeatAll24}"
+                                       Content="Refine"
                                        ToolTip="Re-distill"
-                                       Click="Redistill_Click" Margin="2,0,2,0"
-                                       Appearance="Transparent" Padding="8"
+                                       Click="Redistill_Click" Margin="0,0,4,0"
+                                       Appearance="Secondary" Padding="12,8"
                                        AutomationProperties.Name="Re-distill with different options" />
                             <ui:Button Icon="{ui:SymbolIcon Speaker224}"
+                                       Content="Read aloud"
                                        ToolTip="Read aloud"
-                                       Click="ReadAloud_Click" Margin="2,0,0,0"
-                                       Appearance="Transparent" Padding="8"
+                                       Click="ReadAloud_Click"
+                                       Appearance="Secondary" Padding="12,8"
                                        AutomationProperties.Name="Read summary aloud" />
                         </StackPanel>
                         <TextBlock Grid.Column="1" VerticalAlignment="Center"
                                    Foreground="{ui:ThemeResource TextFillColorTertiaryBrush}"
-                                   FontSize="11" Margin="0,0,8,0">
-                            <Run Text="{Binding SentenceCount, Mode=OneWay}" />
-                            <Run Text="sentences" />
-                        </TextBlock>
+                                   FontSize="11" Margin="0,0,6,0"
+                                   Text="AI-generated" />
                     </Grid>
                 </Border>
 
                 <!-- Reading playback controls -->
-                <StackPanel Grid.Row="1" Orientation="Horizontal"
+                <StackPanel Grid.Row="2" Orientation="Horizontal"
                             HorizontalAlignment="Center"
                             Margin="0,8,0,8"
                             Visibility="{Binding IsReading, Converter={StaticResource BoolToVis}}">
                     <ui:Button Click="Pause_Click"
+                           Appearance="Secondary"
                                AutomationProperties.Name="Pause or resume reading">
                         <ui:Button.Style>
                             <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -326,30 +515,40 @@
                         </ui:Button.Style>
                     </ui:Button>
                     <ui:Button Content="Stop" Icon="{ui:SymbolIcon Stop24}"
+                               Appearance="Secondary"
                                Click="Stop_Click" Margin="8,0,0,0"
                                AutomationProperties.Name="Stop reading" />
                 </StackPanel>
             </Grid>
         </Grid>
+        </Border>
 
         <!-- Status bar -->
-        <Grid Grid.Row="2" Margin="16,4,16,8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <ui:TextBlock Grid.Column="0" Text="{Binding StatusText}"
-                          Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
-                          FontTypography="Caption"
-                          TextTrimming="CharacterEllipsis"
-                          VerticalAlignment="Center" />
-            <ui:Button Grid.Column="1"
-                       x:Name="SettingsButton"
-                       Icon="{ui:SymbolIcon Settings24}"
-                       Appearance="Transparent"
-                       Padding="4"
-                       Click="Settings_Click"
-                       AutomationProperties.Name="Settings" />
+        <Grid Grid.Row="2" Margin="18,6,18,10">
+            <Border Padding="12,9"
+                    Background="{ui:ThemeResource SubtleFillColorSecondaryBrush}"
+                    BorderBrush="{ui:ThemeResource ControlElevationBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="12">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBlock Grid.Column="0" Text="{Binding StatusText}"
+                                  Foreground="{ui:ThemeResource TextFillColorSecondaryBrush}"
+                                  FontTypography="Caption"
+                                  TextTrimming="CharacterEllipsis"
+                                  VerticalAlignment="Center" />
+                    <ui:Button Grid.Column="1"
+                               x:Name="SettingsButton"
+                               Icon="{ui:SymbolIcon Settings24}"
+                               Appearance="Transparent"
+                               Padding="6"
+                               Click="Settings_Click"
+                               AutomationProperties.Name="Settings" />
+                </Grid>
+            </Border>
             <Popup x:Name="SettingsPopup"
                    PlacementTarget="{Binding ElementName=SettingsButton}"
                    Placement="Top"
@@ -426,6 +625,6 @@
                     </StackPanel>
                 </Border>
             </Popup>
-        </Grid>
+    </Grid>
     </Grid>
 </ui:FluentWindow>

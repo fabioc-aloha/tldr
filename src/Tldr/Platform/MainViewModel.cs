@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using Tldr.Core;
 
@@ -40,11 +41,16 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     private string _ttsEngineName = "Edge (Neural)";
     private string _ttsEnginePreference = "edge";
     private string _machineInfo = string.Empty;
+    private string _modelAlias = "phi-4-mini";
+    private int _ttsSessionId;
     private readonly object _saveLock = new();
 
     private const string TtsEdge = "edge";
     private const string TtsSapi = "sapi";
     private const string TtsWinrt = "winrt";
+    private const int DefaultContextWindowTokens = 128_000;
+    private const int DefaultMaxOutputTokens = 1_024;
+    private const int MaxInputChars = (DefaultContextWindowTokens - DefaultMaxOutputTokens) * 4;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event Action<int>? SentenceHighlightRequested;
@@ -127,20 +133,26 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     public double DownloadProgress
     {
         get => _downloadProgress;
-        set { _downloadProgress = value; OnPropertyChanged(); }
+        set { _downloadProgress = value; OnPropertyChanged(); OnPropertyChanged(nameof(IsDownloading)); }
     }
+
+    public bool IsDownloading => _downloadProgress > 0 && _downloadProgress < 100;
 
     public string InputFileName
     {
         get => _inputFileName;
-        set { _inputFileName = value; OnPropertyChanged(); }
+        set { _inputFileName = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasInputFileName)); }
     }
+
+    public bool HasInputFileName => !string.IsNullOrEmpty(_inputFileName);
 
     public int WordCount
     {
         get => _wordCount;
-        set { _wordCount = value; OnPropertyChanged(); }
+        set { _wordCount = value; OnPropertyChanged(); OnPropertyChanged(nameof(HasWordCount)); }
     }
+
+    public bool HasWordCount => _wordCount > 0;
 
     public int SentenceCount
     {
@@ -163,6 +175,12 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     public bool IsToneNeutral => Tone == Tone.Neutral;
     public bool IsToneFormal => Tone == Tone.Formal;
     public bool IsToneCasual => Tone == Tone.Casual;
+
+    public string Theme
+    {
+        get => _settings.Theme;
+        set { _settings.Theme = value; OnPropertyChanged(); ScheduleSave(); }
+    }
 
     public string SelectedVoice
     {
@@ -209,6 +227,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         // Load app config
         var configPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
         var config = TldrConfig.Load(configPath);
+        _modelAlias = config.Llm.Model;
 
         _promptBuilder = new PromptBuilder(Path.Combine(AppContext.BaseDirectory, "prompts.json"));
         _summarizer = new Summarizer(config.Llm.Model, config.Llm.MaxOutputTokens);
@@ -227,7 +246,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         }
 
         // Populate machine info
-        PopulateMachineInfo(config.Llm.Model);
+        PopulateMachineInfo(_modelAlias);
 
         // Populate available voices (background, non-blocking)
         _ = Task.Run(() =>
@@ -273,6 +292,7 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
             Application.Current.Dispatcher.Invoke(() =>
             {
                 _modelReady = true;
+                PopulateMachineInfo(_modelAlias);
                 StatusText = State == AppState.Ready
                     ? "Paste or drop a file. I'll distill it."
                     : "Model ready.";
@@ -289,13 +309,12 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         }
     }
 
-    private const int MaxInputChars = 2_000_000; // ~500K tokens, well within 10MB extracted text
-
     public void LoadText(string text, string fileName = "")
     {
-        if (text.Length > MaxInputChars)
+        var maxInputChars = GetCurrentInputCharLimit();
+        if (text.Length > maxInputChars)
         {
-            StatusText = $"Input too large ({text.Length:N0} chars). Maximum is {MaxInputChars:N0}.";
+            StatusText = $"Input too large ({text.Length:N0} chars). Current settings support about {maxInputChars:N0} chars.";
             return;
         }
 
@@ -304,8 +323,11 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
             StopTts();
         _distillCts?.Cancel();
 
+        ResetSummaryState();
+
         InputText = text;
         InputFileName = fileName;
+        StatusText = _modelReady ? "Ready to distill." : "Model is loading in the background...";
         State = AppState.Loaded;
     }
 
@@ -424,15 +446,13 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
     public void BackToReady()
     {
-        // Release potentially large text buffers
-        _inputText = string.Empty;
-        _inputFileName = string.Empty;
-        _summaryMarkdown = string.Empty;
-        _summaryHtml = string.Empty;
-        OnPropertyChanged(nameof(InputText));
-        OnPropertyChanged(nameof(InputFileName));
-        OnPropertyChanged(nameof(SummaryMarkdown));
-        OnPropertyChanged(nameof(SummaryHtml));
+        if (State == AppState.Reading)
+            StopTts();
+
+        _distillCts?.Cancel();
+        InputText = string.Empty;
+        InputFileName = string.Empty;
+        ResetSummaryState();
         State = AppState.Ready;
         StatusText = "Paste or drop a file. I'll distill it.";
     }
@@ -441,6 +461,8 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
     {
         if (string.IsNullOrEmpty(SummaryMarkdown))
             return;
+
+        var sessionId = Interlocked.Increment(ref _ttsSessionId);
 
         // Cancel any in-progress TTS before starting new one (race condition guard)
         _ttsCts?.Cancel();
@@ -451,11 +473,19 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         var ct = _ttsCts.Token;
 
         _tts = CreateTtsEngine();
+        PopulateMachineInfo(_modelAlias);
         _tts.SentenceReached += n =>
-            Application.Current.Dispatcher.Invoke(() => SentenceHighlightRequested?.Invoke(n));
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (sessionId == _ttsSessionId)
+                    SentenceHighlightRequested?.Invoke(n);
+            });
         _tts.PlaybackFinished += () =>
             Application.Current.Dispatcher.Invoke(() =>
             {
+                if (sessionId != _ttsSessionId)
+                    return;
+
                 SentenceHighlightCleared?.Invoke();
                 State = AppState.Result;
                 StatusText = "Done.";
@@ -486,8 +516,20 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
         {
             await _tts.SpeakAsync(sb.ToString(), _selectedVoice, 1f, ct);
         }
+        catch (OperationCanceledException)
+        {
+            if (sessionId != _ttsSessionId)
+                return;
+
+            SentenceHighlightCleared?.Invoke();
+            State = AppState.Result;
+            StatusText = "Done.";
+        }
         catch (Exception ex)
         {
+            if (sessionId != _ttsSessionId)
+                return;
+
             LogError("ReadAloud", ex);
             StatusText = $"Read aloud failed: {ex.Message}";
             State = AppState.Result;
@@ -518,12 +560,36 @@ public sealed class MainViewModel : INotifyPropertyChanged, IDisposable
 
     public void StopTts()
     {
+        Interlocked.Increment(ref _ttsSessionId);
         _ttsCts?.Cancel();
         _tts?.Stop();
         IsPaused = false;
         SentenceHighlightCleared?.Invoke();
         State = AppState.Result;
         StatusText = "Done.";
+    }
+
+    private int GetCurrentInputCharLimit()
+    {
+        if (_summarizer is null || _promptBuilder is null)
+            return MaxInputChars;
+
+        try
+        {
+            var systemPrompt = _promptBuilder.Build(Style, Detail, Tone);
+            return _summarizer.GetAvailableInputTokens(systemPrompt) * 4;
+        }
+        catch
+        {
+            return MaxInputChars;
+        }
+    }
+
+    private void ResetSummaryState()
+    {
+        SummaryMarkdown = string.Empty;
+        SummaryHtml = string.Empty;
+        SentenceCount = 0;
     }
 
     private void ScheduleSave()

@@ -6,6 +6,7 @@ publish/
 *.suo
 *.cache
 *.log
+*_wpftmp.csproj
 launch-err.txt
 .env
 node_modules/

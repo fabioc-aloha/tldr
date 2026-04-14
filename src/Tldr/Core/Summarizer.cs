@@ -15,6 +15,8 @@ public sealed class Summarizer : IAsyncDisposable
     /// <summary>Context window size in tokens. Defaults to 128k (Phi-4 Mini). Updated at load time if metadata is available.</summary>
     public int ContextWindowTokens { get; private set; } = 128_000;
 
+    public int MaxOutputTokens => _maxOutputTokens;
+
     public Summarizer(string modelAlias = "phi-4-mini", int maxOutputTokens = 1024)
     {
         _modelAlias = modelAlias;
@@ -75,7 +77,7 @@ public sealed class Summarizer : IAsyncDisposable
         var inputTokens = EstimateTokens(text);
         var promptTokens = EstimateTokens(systemPrompt);
         var totalInput = inputTokens + promptTokens;
-        var available = ContextWindowTokens - _maxOutputTokens;
+        var available = GetAvailableInputTokens(systemPrompt);
 
         if (totalInput > available)
             throw new ArgumentException(
@@ -99,6 +101,15 @@ public sealed class Summarizer : IAsyncDisposable
             throw new InvalidOperationException("Model returned an empty response. Try again or use a different detail level.");
 
         return content;
+    }
+
+    public int GetAvailableInputTokens(string systemPrompt)
+    {
+        if (string.IsNullOrWhiteSpace(systemPrompt))
+            throw new ArgumentException("System prompt must not be empty.", nameof(systemPrompt));
+
+        var promptTokens = EstimateTokens(systemPrompt);
+        return Math.Max(1, ContextWindowTokens - _maxOutputTokens - promptTokens);
     }
 
     public static int EstimateTokens(string text) => text.Length / 4;

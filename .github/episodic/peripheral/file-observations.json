@@ -1,19 +1,45 @@
 {
   "hotFiles": [
+    "LICENSE",
     "src/Tldr/prompts.json"
   ],
   "stalledFiles": [
-    "github/config/alex-manifest.json",
+    "github/episodic/peripheral/file-observations.json",
     "src/Tldr/Assets/output.html",
-    "src/Tldr/Core/Config.cs",
-    "src/Tldr/Core/IClipboardService.cs",
-    "src/Tldr/Core/IHotkeyService.cs",
     "src/Tldr/Core/Summarizer.cs",
-    "src/Tldr/Platform/App.xaml.cs",
-    "src/Tldr/Platform/DetailLevelToDoubleConverter.cs",
-    "src/Tldr/Platform/EdgeTtsEngine.cs",
-    "src/Tldr/Platform/MainViewModel.cs"
+    "src/Tldr/Platform/MainViewModel.cs",
+    "src/Tldr/Platform/MainWindow.xaml",
+    "src/Tldr/Platform/MainWindow.xaml.cs",
+    "src/Tldr/Tldr_bka5353d_wpftmp.csproj",
+    "src/Tldr/Tldr_lhtbbtjb_wpftmp.csproj",
+    "src/Tldr/appsettings.json"
   ],
-  "todoHotspots": [],
-  "lastUpdated": 1776142907458
+  "todoHotspots": [
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Filtering Rules",
+      "todoCount": 129,
+      "scannedAt": 1776147984117
+    },
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Part-RU",
+      "todoCount": 35,
+      "scannedAt": 1776147984117
+    },
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Part-DE",
+      "todoCount": 21,
+      "scannedAt": 1776147984117
+    },
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Part-FR",
+      "todoCount": 15,
+      "scannedAt": 1776147984117
+    },
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Part-ES",
+      "todoCount": 14,
+      "scannedAt": 1776147984117
+    }
+  ],
+  "lastUpdated": 1776147984117
 }

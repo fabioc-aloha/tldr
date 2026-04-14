@@ -38,32 +38,36 @@
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Segoe UI Variable', 'Segoe UI', sans-serif;
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 15px;
+    line-height: 1.72;
+    letter-spacing: 0.01em;
     color: var(--fg);
     background: var(--bg);
-    padding: 16px;
+    padding: 22px 24px 28px;
     overflow-y: auto;
   }
-  h1, h2, h3 { margin: 16px 0 8px; font-weight: 600; }
-  h1 { font-size: 20px; }
-  h2 { font-size: 17px; }
-  h3 { font-size: 15px; }
-  p { margin: 0 0 12px; }
-  ul, ol { margin: 0 0 12px; padding-left: 24px; }
-  li { margin-bottom: 4px; }
-  table { border-collapse: collapse; width: 100%; margin: 0 0 12px; }
-  th, td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; }
+  h1, h2, h3 { margin: 0 0 10px; font-weight: 650; letter-spacing: -0.02em; }
+  h1 { font-size: 24px; margin-top: 4px; }
+  h2 { font-size: 19px; margin-top: 20px; }
+  h3 { font-size: 16px; margin-top: 16px; }
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  table { border-collapse: collapse; width: 100%; margin: 0 0 16px; border-radius: 10px; overflow: hidden; }
+  th, td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
   th { font-weight: 600; background: var(--code-bg); }
   code { font-family: 'Cascadia Code', 'Consolas', monospace; font-size: 13px; background: var(--code-bg); padding: 2px 4px; border-radius: 3px; }
-  pre { background: var(--code-bg); padding: 12px; border-radius: 6px; overflow-x: auto; margin: 0 0 12px; }
+  pre { background: var(--code-bg); padding: 14px; border-radius: 10px; overflow-x: auto; margin: 0 0 16px; }
   pre code { background: none; padding: 0; }
   strong { font-weight: 600; }
-  blockquote { border-left: 3px solid var(--accent); padding-left: 12px; margin: 0 0 12px; opacity: 0.85; }
-  .ai-disclosure { margin-top: 24px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 11px; color: var(--fg); opacity: 0.5; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  blockquote { border-left: 3px solid var(--accent); padding: 6px 0 6px 14px; margin: 0 0 16px; opacity: 0.88; background: color-mix(in srgb, var(--code-bg) 38%, transparent); border-radius: 0 10px 10px 0; }
+  hr { border: 0; border-top: 1px solid var(--border); margin: 20px 0; }
+  .ai-disclosure { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 11px; color: var(--fg); opacity: 0.5; }
   .highlight { background: rgba(96, 205, 255, 0.25); border-left: 3px solid var(--accent); padding-left: 4px; border-radius: 2px; transition: background 0.2s; }
   [data-theme="light"] .highlight { background: rgba(0, 95, 184, 0.12); }
-  #content { min-height: 100px; }
+  #content { min-height: 100px; max-width: 76ch; margin: 0 auto; }
 </style>
 </head>
 <body role="document" aria-label="AI-generated summary">

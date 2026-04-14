@@ -1,9 +1,14 @@
 ﻿using System.Globalization;
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Markup;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
+using Microsoft.Web.WebView2.Core;
 using Tldr.Core;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Controls;
@@ -12,12 +17,18 @@ namespace Tldr.Platform;
 
 public partial class MainWindow : FluentWindow
 {
+    private static readonly Regex ScriptTagRegex = new(@"<script\b[^<]*(?:(?!</script>)<[^<]*)*</script>", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+    private static readonly Regex EventHandlerAttributeRegex = new(@"\son\w+\s*=\s*(?:""[^""]*""|'[^']*'|[^\s>]+)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex JavaScriptHrefRegex = new(@"href\s*=\s*(?<quote>['""])\s*javascript:[^'""]*(\k<quote>)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+    private static readonly Regex RemoteSourceRegex = new(@"\s(?:src|href)\s*=\s*(?<quote>['""])\s*https?://[^'""]*(\k<quote>)", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
     private readonly MainViewModel _vm = new();
     private TrayIconManager? _tray;
     private HotkeyManager? _hotkeys;
     private bool _forceClose;
     private string _activeTheme = "System";
     private bool _webViewInitialized;
+    private string? _outputTemplateHtml;
 
     public MainWindow()
     {
@@ -27,7 +38,7 @@ public partial class MainWindow : FluentWindow
         AllowDrop = true;
         Drop += OnDrop;
         DragOver += OnDragOver;
-        DragLeave += (_, _) => DragOverlay.Visibility = Visibility.Collapsed;
+        DragLeave += OnDragLeave;
         KeyDown += OnKeyDown;
 
         Loaded += async (_, _) =>
@@ -44,6 +55,21 @@ public partial class MainWindow : FluentWindow
             _hotkeys.Register(this);
 
             await _vm.InitializeAsync();
+
+            // Restore saved theme
+            _activeTheme = _vm.Theme;
+            switch (_activeTheme)
+            {
+                case "Dark":
+                    ApplicationThemeManager.Apply(ApplicationTheme.Dark);
+                    break;
+                case "Light":
+                    ApplicationThemeManager.Apply(ApplicationTheme.Light);
+                    break;
+                default:
+                    ApplicationThemeManager.ApplySystemTheme();
+                    break;
+            }
         };
 
         Closing += (_, e) =>
@@ -109,16 +135,24 @@ public partial class MainWindow : FluentWindow
         if (e.Data.GetDataPresent(DataFormats.FileDrop))
         {
             e.Effects = DragDropEffects.Copy;
-            DragOverlay.Visibility = Visibility.Visible;
+            SetDragOverlayVisible(true);
         }
         else
+        {
             e.Effects = DragDropEffects.None;
+            SetDragOverlayVisible(false);
+        }
         e.Handled = true;
+    }
+
+    private void OnDragLeave(object sender, DragEventArgs e)
+    {
+        SetDragOverlayVisible(false);
     }
 
     private void OnDrop(object sender, DragEventArgs e)
     {
-        DragOverlay.Visibility = Visibility.Collapsed;
+        SetDragOverlayVisible(false);
         if (e.Data.GetDataPresent(DataFormats.FileDrop) &&
             e.Data.GetData(DataFormats.FileDrop) is string[] files &&
             files.Length > 0)
@@ -135,6 +169,48 @@ public partial class MainWindow : FluentWindow
             }
 
             _vm.LoadFile(filePath);
+        }
+    }
+
+    private void SetDragOverlayVisible(bool visible)
+    {
+        if (visible)
+        {
+            if (DragOverlay.Visibility != Visibility.Visible)
+                DragOverlay.Visibility = Visibility.Visible;
+
+            AnimateDragOverlay(1.0, 1.0, collapseWhenDone: false);
+            return;
+        }
+
+        if (DragOverlay.Visibility == Visibility.Collapsed)
+            return;
+
+        AnimateDragOverlay(0.0, 0.96, collapseWhenDone: true);
+    }
+
+    private void AnimateDragOverlay(double targetOpacity, double targetScale, bool collapseWhenDone)
+    {
+        var duration = TimeSpan.FromMilliseconds(160);
+        var easing = new QuadraticEase { EasingMode = EasingMode.EaseOut };
+
+        var opacityAnimation = new DoubleAnimation(targetOpacity, duration) { EasingFunction = easing };
+        if (collapseWhenDone)
+        {
+            opacityAnimation.Completed += (_, _) =>
+            {
+                if (targetOpacity <= 0)
+                    DragOverlay.Visibility = Visibility.Collapsed;
+            };
+        }
+
+        DragOverlay.BeginAnimation(OpacityProperty, opacityAnimation, HandoffBehavior.SnapshotAndReplace);
+
+        if (DragOverlayPanel.RenderTransform is ScaleTransform scaleTransform)
+        {
+            var scaleAnimation = new DoubleAnimation(targetScale, duration) { EasingFunction = easing };
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation, HandoffBehavior.SnapshotAndReplace);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation, HandoffBehavior.SnapshotAndReplace);
         }
     }
 
@@ -182,7 +258,7 @@ public partial class MainWindow : FluentWindow
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"[WebView] LoadHtml failed: {ex.Message}");
-                _vm.StatusText = "Failed to render summary. Try re-distilling.";
+                _vm.StatusText = $"Render failed: {ex.Message}";
             }
         }
     }
@@ -238,6 +314,7 @@ public partial class MainWindow : FluentWindow
         if (sender is ToggleButton tb && tb.Tag is string tag)
         {
             _activeTheme = tag;
+            _vm.Theme = tag;
 
             // Uncheck sibling theme chips
             if (tb.Parent is System.Windows.Controls.WrapPanel panel)
@@ -286,48 +363,82 @@ public partial class MainWindow : FluentWindow
         if (!_webViewInitialized)
         {
             _webViewInitialized = true;
-            var allowedTemplatePath = new Uri(System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "output.html")).AbsoluteUri;
             OutputWebView.CoreWebView2.NavigationStarting += (s, args) =>
             {
-                if (args.Uri is not null &&
-                    !args.Uri.Equals(allowedTemplatePath, StringComparison.OrdinalIgnoreCase) &&
-                    !args.Uri.Equals("about:blank", StringComparison.OrdinalIgnoreCase))
+                // Only block user-initiated navigations (link clicks).
+                // Programmatic NavigateToString calls must pass through.
+                if (args.IsUserInitiated)
                 {
                     args.Cancel = true;
                 }
             };
         }
 
-        if (OutputWebView.Source is null || OutputWebView.Source.AbsoluteUri == "about:blank")
+        var themeMode = _activeTheme switch
         {
-            var templatePath = System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "output.html");
-            // Register handler BEFORE setting Source to avoid race condition
-            var tcs = new TaskCompletionSource();
-            void onNav(object? s, Microsoft.Web.WebView2.Core.CoreWebView2NavigationCompletedEventArgs a)
-            {
-                OutputWebView.NavigationCompleted -= onNav;
-                tcs.TrySetResult();
-            }
-            OutputWebView.NavigationCompleted += onNav;
-            OutputWebView.Source = new Uri(templatePath);
-            await tcs.Task;
-        }
+            "Dark" => "dark",
+            "Light" => "light",
+            _ => ApplicationThemeManager.GetSystemTheme() == SystemTheme.Dark ? "dark" : "light"
+        };
 
-        var escaped = System.Text.Json.JsonSerializer.Serialize(_vm.SummaryHtml);
-        await OutputWebView.ExecuteScriptAsync($"setContent({escaped})");
+        var document = BuildRenderedHtmlDocument(themeMode, _vm.SummaryHtml);
+        await NavigateToRenderedDocumentAsync(document);
     }
 
     private async Task SyncWebViewTheme(string theme)
     {
-        if (OutputWebView.Source is null || OutputWebView.Source.AbsoluteUri == "about:blank")
+        if (OutputWebView.CoreWebView2 is null)
             return;
 
         try
         {
-            await OutputWebView.EnsureCoreWebView2Async();
-            await OutputWebView.ExecuteScriptAsync($"setTheme('{theme}')");
+            await OutputWebView.ExecuteScriptAsync($"setTheme({JsonSerializer.Serialize(theme)})");
         }
         catch { /* WebView2 not ready yet */ }
+    }
+
+    private async Task NavigateToRenderedDocumentAsync(string html)
+    {
+        var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        void OnNavigationCompleted(object? sender, CoreWebView2NavigationCompletedEventArgs args)
+        {
+            OutputWebView.NavigationCompleted -= OnNavigationCompleted;
+            if (args.IsSuccess)
+                tcs.TrySetResult();
+            else
+                tcs.TrySetException(new InvalidOperationException($"WebView navigation failed: {args.WebErrorStatus}"));
+        }
+
+        OutputWebView.NavigationCompleted += OnNavigationCompleted;
+        OutputWebView.NavigateToString(html);
+        await tcs.Task;
+    }
+
+    private string BuildRenderedHtmlDocument(string themeMode, string summaryHtml)
+    {
+        _outputTemplateHtml ??= System.IO.File.ReadAllText(System.IO.Path.Combine(AppContext.BaseDirectory, "Assets", "output.html"));
+
+        var document = _outputTemplateHtml;
+        var sanitizedHtml = SanitizeHtmlFragment(summaryHtml);
+
+        document = document.Replace("<html lang=\"en\">", $"<html lang=\"en\" data-theme=\"{themeMode}\">", StringComparison.Ordinal);
+        document = document.Replace("<div id=\"content\" role=\"article\"></div>", $"<div id=\"content\" role=\"article\">{sanitizedHtml}</div>", StringComparison.Ordinal);
+        document = document.Replace("<div id=\"ai-disclosure\" class=\"ai-disclosure\" style=\"display:none;\">", "<div id=\"ai-disclosure\" class=\"ai-disclosure\" style=\"display:block;\">", StringComparison.Ordinal);
+
+        return document;
+    }
+
+    private static string SanitizeHtmlFragment(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+            return string.Empty;
+
+        var sanitized = ScriptTagRegex.Replace(html, string.Empty);
+        sanitized = EventHandlerAttributeRegex.Replace(sanitized, string.Empty);
+        sanitized = JavaScriptHrefRegex.Replace(sanitized, "href=\"#\"");
+        sanitized = RemoteSourceRegex.Replace(sanitized, string.Empty);
+        return sanitized;
     }
 }
 
@@ -338,6 +449,17 @@ public class InvertBoolConverter : MarkupExtension, IValueConverter
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         => value is bool b ? !b : value;
+
+    public override object ProvideValue(IServiceProvider serviceProvider) => this;
+}
+
+public class InvertBoolToVisConverter : MarkupExtension, IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        => value is true ? Visibility.Collapsed : Visibility.Visible;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotSupportedException();
 
     public override object ProvideValue(IServiceProvider serviceProvider) => this;
 }
