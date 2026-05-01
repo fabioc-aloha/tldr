@@ -9,6 +9,7 @@
  *   import { encodeToDataUri, downloadFile, initReplicate, runBatch,
  *            estimateCost, writeOutput, writeReport, loadCharacterConfig,
  *            loadConfig } from '../.github/muscles/shared/index.mjs';
+ * @inheritance inheritable
  */
 
 import { createRequire } from 'module';

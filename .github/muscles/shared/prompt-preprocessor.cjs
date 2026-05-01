@@ -7,6 +7,7 @@
  * Usage:
  *   const { preprocessPrompt, validatePrompt, injectTraits } = require('./shared/prompt-preprocessor.cjs');
  *   const ready = preprocessPrompt(rawPrompt, { model: 'nano-banana-pro', traits: charConfig });
+ * @inheritance inheritable
  */
 
 'use strict';

@@ -1,3 +1,10 @@
+---
+type: resource
+lifecycle: stable
+inheritance: inheritable
+lastReviewed: 2026-04-30
+---
+
 # Polish Mermaid Setup
 
 Interactive configuration helper for Mermaid diagram rendering in VS Code.
@@ -51,6 +58,7 @@ For `bierner.markdown-mermaid` (recommended):
 ```
 
 **Theme options**: `default`, `neutral`, `dark`, `forest`, `base`
+
 - `neutral` is closest to GitHub's rendering style
 - `default` has more colorful nodes
 
@@ -60,7 +68,7 @@ For additional styling control, copy the CSS from this skill:
 
 ```powershell
 # Copy markdown-light.css to workspace
-$skillPath = ".github/config/markdown-light.css"
+$skillPath = ".github/skills/markdown-mermaid/markdown-light.css"
 $targetPath = ".vscode/markdown-light.css"
 
 if (Test-Path $skillPath) {
@@ -70,6 +78,7 @@ if (Test-Path $skillPath) {
 ```
 
 Then add to settings:
+
 ```json
 {
   "markdown.styles": [".vscode/markdown-light.css"]
@@ -92,6 +101,7 @@ flowchart LR
 ```
 
 Open with native preview (`Ctrl+Shift+V`) and verify:
+
 - [ ] Diagram renders (not showing code block)
 - [ ] Colors match expected theme
 - [ ] Text is readable
@@ -100,16 +110,19 @@ Open with native preview (`Ctrl+Shift+V`) and verify:
 ## Troubleshooting
 
 ### Diagram Shows as Code Block
+
 - Ensure `bierner.markdown-mermaid` is installed
 - Reload VS Code window after installation
 - Check that code block uses ` ` `mermaid` (lowercase)
 
 ### Wrong Colors
+
 - Check `markdown-mermaid.lightModeTheme` setting
 - Try different themes: `neutral`, `default`, `forest`
 - Reload after changing settings
 
 ### Preview Not Updating
+
 - Use `Ctrl+Shift+P` → "Developer: Reload Window"
 - Close and reopen the preview pane
 

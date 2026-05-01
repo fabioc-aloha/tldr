@@ -1,5 +1,16 @@
+#!/usr/bin/env node
 /**
- * md-to-html.cjs v1.0.0 - Convert Markdown to standalone HTML pages
+ * @type muscle
+ * @lifecycle stable
+ * @muscle md-to-html
+ * @lifecycle stable
+ * @inheritance inheritable
+ * @description Convert Markdown to standalone HTML with embedded assets
+ * @version 1.1.0
+ * @skill md-to-html
+ * @reviewed 2026-04-15
+ * @platform windows,macos,linux
+ * @requires node,pandoc (mermaid-cli optional for --mermaid-png)
  *
  * Produces self-contained HTML files with embedded CSS, Mermaid diagram PNGs,
  * and local images as base64 data URIs. Designed for quick-share distribution
@@ -23,9 +34,15 @@
  *   - Node.js 18+
  *   - pandoc (Windows: winget install pandoc | macOS: brew install pandoc | Linux: apt install pandoc)
  *   - mermaid-cli (optional, for --mermaid-png)
+ * @currency 2026-04-20
  */
 
 'use strict';
+
+process.on("uncaughtException", (err) => {
+  console.error(`\x1b[31m[FATAL] ${err.message}\x1b[0m`);
+  process.exit(1);
+});
 
 const fs = require('fs');
 const path = require('path');
@@ -280,7 +297,7 @@ function convertMarkdownToHtml(sourcePath, outputPath, options = {}) {
   const embedImages = options.embedImages !== false;
   const stripFrontmatter = options.stripFrontmatter !== false;
   const usePngMermaid = !!options.mermaidPng;
-  const generateToc = !!options.toc;
+  let generateToc = !!options.toc;
 
   let markdown = fs.readFileSync(sourcePath, 'utf8');
   const sourceDir = path.dirname(path.resolve(sourcePath));
@@ -300,7 +317,17 @@ function convertMarkdownToHtml(sourcePath, outputPath, options = {}) {
     markdown = sharedPreprocessor.preprocessMarkdown(markdown, {
       format: 'html',
       stripFrontmatter,
+      replaceEmDashes: options.replaceEmDashes,
+      stripDecorativeRules: options.stripDecorativeRules,
     });
+
+    // [toc] marker auto-detection
+    const tocResult = sharedPreprocessor.detectTocMarker(markdown);
+    markdown = tocResult.content;
+    if (tocResult.hasTocMarker && !generateToc) {
+      generateToc = true;
+      console.log('   \u{1f4d1} [toc] marker detected -- enabling Table of Contents');
+    }
   } else if (stripFrontmatter) {
     markdown = markdown.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, '');
   }
@@ -384,6 +411,9 @@ function parseCliArgs() {
     else if (arg === '--toc') { options.toc = true; }
     else if (arg === '--embed-images') { options.embedImages = true; }
     else if (arg === '--no-embed-images') { options.embedImages = false; }
+    else if (arg === '--no-replace-em-dashes') { options.replaceEmDashes = false; }
+    else if (arg === '--strip-decorative-rules') { options.stripDecorativeRules = true; }
+    else if (arg === '--no-strip-decorative-rules') { options.stripDecorativeRules = false; }
     else if (arg === '--strip-frontmatter') { options.stripFrontmatter = true; }
     else if (arg === '--no-strip-frontmatter') { options.stripFrontmatter = false; }
     else if (arg === '--mermaid-png') { options.mermaidPng = true; }

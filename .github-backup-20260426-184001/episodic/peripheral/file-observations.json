@@ -1,0 +1,35 @@
+{
+  "hotFiles": [
+    "LICENSE",
+    "src/Tldr/prompts.json"
+  ],
+  "stalledFiles": [],
+  "todoHotspots": [
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Filtering Rules",
+      "todoCount": 129,
+      "scannedAt": 1776148063344
+    },
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Part-RU",
+      "todoCount": 35,
+      "scannedAt": 1776148063344
+    },
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Part-DE",
+      "todoCount": 21,
+      "scannedAt": 1776148063344
+    },
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Part-FR",
+      "todoCount": 15,
+      "scannedAt": 1776148063344
+    },
+    {
+      "file": "src/Tldr/bin/Debug/net9.0-windows10.0.22621.0/win-x64/Tldr.exe.WebView2/EBWebView/Subresource Filter/Unindexed Rules/10.34.0.84/Part-ES",
+      "todoCount": 14,
+      "scannedAt": 1776148063344
+    }
+  ],
+  "lastUpdated": 1776148063344
+}

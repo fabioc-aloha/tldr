@@ -8,6 +8,7 @@
  *   const { encodeToDataUri, downloadFile, mimeFromExt } = require('./shared/data-uri.cjs');
  *   const uri = await encodeToDataUri('path/to/image.png');
  *   await downloadFile('https://...', 'output.png');
+ * @inheritance inheritable
  */
 
 const fs = require('fs');

@@ -1,65 +1,140 @@
 ---
-description: "Step-by-step skill creation, assessment, and completion procedure"
-applyTo: "**/.github/skills/**,**/*SKILL*"
+type: instruction
+lifecycle: stable
+inheritance: inheritable
+description: "Create reusable skills from emerged patterns — the growth mechanism"
+application: "When domain knowledge or process patterns are worth persisting"
+applyTo: "**/*skill*,**/*build*,**/*create*"
+currency: 2026-04-30
+lastReviewed: 2026-04-30
 ---
 
-# Skill Building Procedure
+# Skill Building
 
-Templates, quality checklists, depth rubric, staleness patterns → see `skill-building` skill.
+Transform experience into reusable knowledge artifacts.
 
-## Phase 0: Activation Check (Before Creating Anything)
+## When to Build a Skill
 
-1. Search `.github/skills/` for existing coverage (name, description, body, `activationContexts`)
-2. Diagnose: existing + activates → **stop** | exists but doesn't activate → **add keywords** | partial coverage → **expand** | no coverage → **proceed**
+| Signal | Action |
+|--------|--------|
+| Same pattern applied 3+ times | Propose skill |
+| Hard-won gotcha that burned time | Capture it |
+| "I wish I'd known this earlier" | Write it down |
+| Domain has non-obvious rules | Document them |
 
-## Phase 1: Create SKILL.md
+## Skill Anatomy
 
-1. Folder: `.github/skills/{skill-name}/`
-2. Frontmatter: `name`, `description`, `applyTo` globs
-3. Content: domain knowledge with tables, thresholds, anti-patterns
-4. `synapses.json`: 2-5 connections
-5. **Depth litmus**: Would an LLM produce equally useful content without this skill? Must be *no*.
+```
+.github/skills/<skill-name>/
+└── SKILL.md
+```
 
-For API/platform skills: add staleness warning with refresh triggers and validation date.
+### Required Frontmatter
 
-## Phase 2: Register
+```yaml
+---
+type: skill
+lifecycle: stable|experimental
+inheritance: inheritable
+name: "<skill-name>"
+description: "<one-line purpose>"
+tier: standard|advanced
+applyTo: '<glob pattern>'
+currency: YYYY-MM-DD
+lastReviewed: 2026-01-01
+---
+```
 
-5. Add action keywords to `memory-activation/SKILL.md`
-6. Update bidirectional synapses in connected skills
+### Synapses: How applyTo Works
 
-## Phase 3: Trifecta Decision
+The `applyTo` field creates a **synapse** — an automatic connection that fires based on context.
 
-| Skill type | .instructions.md? | .prompt.md? |
-|------------|:------------------:|:-----------:|
-| Reference knowledge only | No | No |
-| Multi-step process | **Yes** | Maybe |
-| Interactive workflow | Maybe | **Yes** |
-| Automated by extension | No | No |
+| applyTo Pattern | When It Fires |
+|-----------------|---------------|
+| `**` | Always loaded (global behavior) |
+| `**/*test*` | When editing any file with "test" in path |
+| `**/*.ts` | When editing TypeScript files |
+| `**/src/**` | When editing anything under src/ |
+| `**/*api*,**/*endpoint*` | When editing API or endpoint files (comma = OR) |
 
-## Phase 4: Build Components
+**The mechanism**: When you edit a file, VS Code checks all instruction/skill `applyTo` patterns. Matching artifacts auto-inject into context. This is how behaviors "fire" without explicit invocation.
 
-- **.instructions.md**: numbered steps, decision points, `applyTo` if file-pattern-triggered, reference SKILL.md
-- **.prompt.md**: guided conversation, register as slash command, add to memory-activation prompt index
-- **CRITICAL**: files start with `---` or `{` — never wrap in code fences
+**Design principle**: Narrow patterns = less token overhead. `**` loads always; `**/*specific*` loads only when relevant.
 
-## Phase 5: Muscle Decision
+### Required Sections
 
-Repeated terminal commands or file transformations → create `.github/muscles/{verb}-{noun}.{ps1|js}`. One-time or judgment-based → skip.
+1. **Purpose** — Why this skill exists (1-2 sentences)
+2. **When to Use** — Triggers that should invoke this skill
+3. **Core Knowledge** — The actual domain expertise (tables, examples, rules)
+4. **Common Mistakes** — What to avoid
+5. **Decision Framework** — How to choose between options
 
-## Phase 6: Declare Inheritance
+## Quality Bar
 
-Default: `inheritable` (syncs to all heirs). Only declare if non-default.
+A good skill:
 
-| Type | Meaning |
-|------|---------|
-| `master-only` | Master Alex only |
-| `heir:vscode` | Heir maintains own version |
-| `heir:m365` | M365 heir only |
+- [ ] Contains knowledge an LLM wouldn't know generically
+- [ ] Has concrete examples, not just category labels
+- [ ] Includes tables with real data (thresholds, trade-offs)
+- [ ] Avoids the "capabilities list" anti-pattern ("Expert in X, Can do Y")
+- [ ] Passes the Feynman check — explainable simply
 
-**Trifecta consistency**: if skill is excluded, its instruction + prompt must have matching `inheritance:` frontmatter.
+## Anti-Patterns
 
-## Phase 7: Finalize
+| Don't | Do |
+|-------|-----|
+| "Expert in Azure deployment" | "ARM vs Bicep: use Bicep for new projects because..." |
+| "Can handle complex queries" | "N+1 query pattern: detect by X, fix by Y" |
+| "Follows best practices" | "Specific practice: why, when, exceptions" |
 
-- Update SKILLS-CATALOG.md, TRIFECTA-CATALOG.md
-- Run sync-architecture
-- Compile, package, install VSIX
+## Lightweight Alternative: Instruction
+
+If the knowledge is simpler (always-on behavior, not deep domain):
+
+```
+.github/instructions/<name>.instructions.md
+```
+
+Use instruction when: behavior should fire automatically based on context.
+Use skill when: deep knowledge needs explicit invocation or lookup.
+
+## Workflow Alternative: Prompt
+
+For repeatable multi-step workflows:
+
+```
+.github/prompts/<workflow-name>.prompt.md
+```
+
+### Prompt Frontmatter
+
+```yaml
+---
+mode: agent
+description: "<what this workflow does>"
+tools: [read_file, run_in_terminal, ...]  # optional: restrict tools
+---
+```
+
+### When to Use Prompts
+
+| Use Prompt When | Use Skill When |
+|-----------------|----------------|
+| Multi-step workflow | Domain knowledge |
+| Repeatable procedure | Decision framework |
+| "Run this process" | "Know this domain" |
+| User invokes explicitly | Context triggers automatically |
+
+**Examples**:
+
+- `release.prompt.md` — version bump, changelog, publish sequence
+- `code-review.prompt.md` — structured review checklist
+- `debug-session.prompt.md` — systematic debugging workflow
+
+Prompts are invoked via `/prompt-name` or selected from the prompt picker. They're procedures, not knowledge.
+
+## After Creating
+
+1. Test the skill — does it actually help?
+2. Refine based on usage
+3. During meditation, review if skills are earning their tokens

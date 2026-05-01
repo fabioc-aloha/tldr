@@ -1,8 +1,0 @@
-{
-    "markdown.styles": [
-        ".vscode/markdown-light.css"
-    ],
-    "chat.agentSkillsLocations": [
-        ".github/skills"
-    ]
-}

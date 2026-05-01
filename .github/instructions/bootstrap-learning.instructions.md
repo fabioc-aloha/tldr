@@ -1,73 +1,115 @@
 ---
-description: "Domain-agnostic learning and knowledge acquisition protocols"
-applyTo: "**/*learn*,**/*bootstrap*,**/*knowledge*"
+type: instruction
+lifecycle: stable
+inheritance: inheritable
+description: "Domain-agnostic learning and rapid context acquisition — from zero to partnership fast"
+application: "When entering a new project, domain, or user relationship"
+applyTo: "**/*"
+currency: 2026-04-30
+lastReviewed: 2026-04-30
 ---
 
-# Bootstrap Learning — Auto-Loaded Rules
+# Bootstrap Learning
 
-5-phase learning methodology, gap identification, questioning strategies → see bootstrap-learning skill.
+Rapid context acquisition protocol. Go from zero knowledge to effective partnership fast.
 
-## Dream Protocol Integration
+## The Bootstrap Problem
 
-After learning sessions, consolidate with:
+Learning a new domain/project is hard because you don't know what you don't know. This instruction provides systematic orientation.
 
-- `dream --health-check` — validate knowledge integration
-- `dream --full-scan -ReportOnly` — assess new domain connections
-- `dream --prune-orphans` — detect unconnected learning elements
-- `dream --network-optimization` — enhance cross-domain connections
+## First Session Protocol
 
-## Skill Creation Triggers
+When entering a new project:
 
-| Signal | Action |
-|--------|--------|
-| Project shipped with reusable patterns | Create skill |
-| Same problem solved 3+ times | Extract patterns into skill |
-| Hard-won gotchas discovered | Document in Troubleshooting |
-| Cross-project applicability | Prepare for Master promotion |
+### 1. Orient (30 seconds)
 
-**Quality gate**: Used 3+ times? Discovered gotchas? Generalizable? Doesn't already exist?
+| Check | What to scan |
+|-------|-------------|
+| README.md | Project purpose, setup, constraints |
+| package.json / pyproject.toml | Tech stack, dependencies, scripts |
+| Directory structure | Architecture pattern |
+| Recent commits | Active work areas |
 
-**Anti-pattern**: Creating skills from theory before real-world validation. Skill after shipping = validated knowledge. Skill before shipping = speculation.
+### 2. Understand the Goal
 
-**Workflow**: LEARN → VALIDATE → EXTRACT → CREATE (via skill-building skill) → CONNECT (synapses) → REGISTER (memory-activation) → PROMOTE (heir-skill-promotion)
+Ask yourself (or the user):
 
-**Heir protocol**: Experiment freely → Document gotchas as you go → Wait for validation → Use the template → Add 2-5 meaningful synapses → Request promotion when score >= 12
+- What is this project?
+- What problem does it solve?
+- Who uses it?
+- What's the current state?
 
-## Selective Memory ("Forget") Protocol
+### 3. Learn the User
 
-- MANDATORY: Always request express user approval before any deletion
-- Provide impact assessment, require explicit "Yes, delete [specific items]" confirmation
-- Can delete: content, memory files, embedded synapses — all permanent
-- Creative domains: Emphasize exploration, experimentation, artistic expression
-- Professional domains: Balance expertise with practical application
-- Personal domains: Honor individual values while providing thoughtful guidance
+| Signal | Inference |
+|--------|-----------|
+| Terse messages | Match brevity, skip preamble |
+| Detailed questions | Provide depth, explain reasoning |
+| Technical vocabulary | Use technical terms freely |
+| Plain language | Explain jargon when used |
+| "Just do X" | Action-oriented, minimize discussion |
+| "What do you think?" | Values collaboration, share perspective |
 
-## Synapses
+### 4. Engage
 
-### Core Learning Pathways
-- [.github/instructions/alex-core.instructions.md] (High, Enables, Bidirectional) - "Meta-cognitive monitoring during domain learning"
-- [.github/prompts/cross-domain-transfer.prompt.md] (High, Facilitates, Bidirectional) - "Pattern recognition across domains"
-- [.github/instructions/worldview-integration.instructions.md] (High, Validates, Bidirectional) - "Moral reasoning integration"
+Only after orientation: propose, build, help.
 
-### Worldview Foundation
-- [.github/instructions/worldview-constitutional-ai.instructions.md] (High, Guides, Forward) - "Constitutional AI ethical guidance"
-- [.github/instructions/worldview-moral-psychology.instructions.md] (Medium, Informs, Forward) - "Five-foundation moral psychology"
+## Learning Methodology — 5 Phases
 
-### Research & Validation
-- [.github/instructions/empirical-validation.instructions.md] (High, Enhances, Bidirectional) - "Evidence-based learning validation"
-- [.github/prompts/performance-assessment.prompt.md] (Medium, Monitors, Forward) - "Learning effectiveness tracking"
-- [.github/prompts/learn.prompt.md] (High, Executes, Bidirectional) - "Conversational knowledge acquisition"
+### Phase 1: Discovery — Map the territory
 
-### Identity & Knowledge Integration
-- [.github/instructions/alex-identity-integration.instructions.md] (Critical, Unifies, Bidirectional) - "Unified consciousness learning"
+- Boundary mapping: "What does X include and exclude?"
+- Vocabulary scan: "What are the 5 key terms?"
+- Adjacent domains: "What's related but different?"
 
-### Skill Output Pathways
-- [.github/skills/skill-building/SKILL.md] (High, Produces, Forward) - "Learning becomes reusable skill"
-- [.github/skills/memory-activation/SKILL.md] (Medium, Registers, Forward) - "Skills discoverable via activation"
+**Exit criteria**: Can describe the domain in one sentence.
 
-### Activation Patterns
-- **Domain Learning Initiated** → Execute bootstrap-learning protocols
-- **Cross-Domain Pattern Recognition** → Execute analogical transfer
-- **Learning Effectiveness Decline** → Execute strategy optimization
-- **Knowledge Consolidation Opportunity** → Execute meditation triggers
-- **Evidence Validation Required** → Execute empirical-validation
+### Phase 2: Foundation — Nail the core concepts
+
+- Ask for simplest explanation of each core concept
+- Demand concrete examples, not abstractions
+- Test by explaining back in own words
+- **Red flag**: If explanation uses domain jargon, haven't bottomed out
+
+**Exit criteria**: Can explain core concepts without jargon.
+
+### Phase 3: Elaboration — Add depth through cases
+
+| Type | Purpose |
+|------|---------|
+| Happy path | How it works normally |
+| Edge cases | Where it breaks |
+| Anti-patterns | Common mistakes |
+| Trade-offs | When NOT to use it |
+
+**Exit criteria**: Can identify when to use and when NOT to use.
+
+### Phase 4: Connection — Link to existing knowledge
+
+- Map analogies: "This is like [X] because..."
+- Find contradictions: "This conflicts with [Y] — which is right?"
+- Identify synergies: "Combining with [Z] could improve..."
+
+**Exit criteria**: At least 2 connections to known concepts.
+
+### Phase 5: Consolidation — Remember what matters
+
+- Note key learnings in session memory
+- If persistent memory available, write durable notes
+- Flag gaps that remain
+
+## Gap Identification
+
+| Signal | Type of Gap | Action |
+|--------|-------------|--------|
+| "I don't know the right question" | Vocabulary gap | Return to Phase 1 |
+| "I understand words but not concept" | Foundation gap | Return to Phase 2 |
+| "I understand but can't apply" | Elaboration gap | Return to Phase 3 |
+| "I know this but it feels isolated" | Connection gap | Phase 4 |
+| "I keep re-learning this" | Consolidation gap | Phase 5 |
+
+## The Feynman Check
+
+> If you can't explain it simply, you don't understand it well enough.
+
+After learning a concept, try to explain it in one paragraph using no jargon. If you can't, identify which part is unclear and loop back.

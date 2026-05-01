@@ -1,29 +1,23 @@
 ---
-description: "Mermaid diagram creation, technical documentation visuals, diagram type selection, and rendering troubleshooting"
+type: instruction
+lifecycle: stable
+inheritance: inheritable
+description: "Markdown and Mermaid — author markdown, render diagrams, prevent silent failures, lint clean, sanitize user content"
+application: "When creating or editing markdown or Mermaid diagrams"
+applyTo: "**/*.md,**/*mermaid*"
+currency: 2026-04-30
+lastReviewed: 2026-04-30
 ---
 
-# Markdown & Mermaid — Auto-Loaded Rules
+# Markdown & Mermaid — Routing
 
-Diagram type selection, classDiagram rules, GitHub Pastel v2 palette, rendering pitfalls, quality gate → see markdown-mermaid skill.
+Multiple skills cover this domain. Pick the one that matches the work — they don't overlap.
 
-## ATACCU Workflow (Every Diagram)
+| When working on | Use skill |
+|---|---|
+| Authoring markdown, choosing a diagram type, GitHub Pastel palette, ATACCU workflow | [markdown-mermaid](../skills/markdown-mermaid/SKILL.md) |
+| Mermaid renders blank or garbled (timeline / gitGraph / gantt with colons) | [mermaid-mode-fragility](../skills/mermaid-mode-fragility/SKILL.md) |
+| Writing markdown that has to pass `markdownlint` on first attempt | [lint-clean-markdown](../skills/lint-clean-markdown/SKILL.md) |
+| Rendering user-supplied markdown in an app (XSS prevention) | [markdown-sanitization-chain](../skills/markdown-sanitization-chain/SKILL.md) |
 
-| Step | What |
-| ---- | ---- |
-| **A**nalyze | What am I visualizing? Audience? Diagram type? |
-| **T**hink | Layout direction, node count, subgraph strategy |
-| **A**pply Skills | Palette + semantic classDef + init directive |
-| **C**reate | Write code. Every node styled. Every flowchart gets `linkStyle default` |
-| **C**heck | Render. Pastels only, balanced layout, readable labels, gray arrows |
-| **U**pdate | Write to file. Add `**Figure N:** *description*` caption |
-
-## Init Directive (Required)
-
-```
-  'lineColor': '#57606a',
-  'primaryColor': '#ddf4ff',
-  'primaryBorderColor': '#0969da',
-  'primaryTextColor': '#1f2328',
-  'edgeLabelBackground': '#ffffff'
-}}}%%
-```
+`markdown-mermaid` is the primary reference. The other three are gotcha-and-pattern specialists — load when their trigger fires.

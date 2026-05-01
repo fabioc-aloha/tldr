@@ -1,7 +1,17 @@
 /**
- * md-to-word.cjs v5.3.0 - Convert Markdown to production-quality Word documents
+ * @type muscle
+ * @lifecycle stable
+ * @muscle md-to-word
+ * @lifecycle stable
+ * @inheritance inheritable
+ * @description Convert Markdown to production-quality Word documents
+ * @version 5.5.0
+ * @skill md-to-word
+ * @reviewed 2026-04-28
+ * @platform windows,macos,linux
+ * @requires pandoc, mermaid-cli, svgexport (optional)
  *
- * Produces professional, visually complete Word output on the first run.
+ * md-to-word.cjs - Produces professional, visually complete Word output on the first run.
  * Harvests proven fixes from AlexBooks, VT_AIPOWERBI, AlexVideos,
  * FishbowlGovernance, and AIRS_Data_Analysis projects.
  *
@@ -11,7 +21,9 @@
  * Options:
  *   --no-format-tables   Skip table styling (borders, shading, headers)
  *   --keep-temp          Keep temporary files for debugging
- *   --toc                Generate Table of Contents
+ *   --toc                Generate Table of Contents (also auto-detected from `[toc]` marker line)
+ *   --no-replace-em-dashes  Disable em-dash --> comma replacement (default: enabled)
+ *   --no-strip-decorative-rules  Disable removal of decorative `---` thematic breaks (default: enabled)
  *   --cover              Generate cover page from H1 + metadata
  *   --no-cover           Skip cover page (default)
  *   --page-size SIZE     Page size: letter (default), a4, 6x9
@@ -25,6 +37,7 @@
  *   --strip-frontmatter  Remove YAML frontmatter before conversion
  *   --recursive          Process all .md files in a directory tree
  *   --dry-run            Run preprocessing + validation only, no .docx output
+ *   --no-default-palette Skip auto-injection of pastel palette into unstyled Mermaid blocks
  *
  * Examples:
  *   node md-to-word.cjs README.md
@@ -32,13 +45,13 @@
  *   node md-to-word.cjs thesis.md --page-size a4 --style academic --debug
  *   node md-to-word.cjs report.md --reference-doc corporate-template.docx
  *   node md-to-word.cjs draft.md --watch
- *
- * Requirements:
- *   - pandoc  (Windows: winget install pandoc | macOS: brew install pandoc | Linux: apt install pandoc)
- *   - mermaid-cli (npm install -g @mermaid-js/mermaid-cli)
- *   - jszip   (npm dependency -- resolved from extension node_modules)
- *   - svgexport (npm install -g svgexport) [optional, for SVG banners]
+ * @currency 2026-04-20
  */
+
+process.on("uncaughtException", (err) => {
+  console.error(`\x1b[31m[FATAL] ${err.message}\x1b[0m`);
+  process.exit(1);
+});
 
 const fs = require('fs');
 const path = require('path');
@@ -52,29 +65,52 @@ let JSZip;
 try {
   JSZip = require('jszip');
 } catch {
-  // When running from workspace, jszip may not be in the local node_modules.
-  // The caller should set NODE_PATH to the extension's node_modules.
-  console.error('ERROR: jszip not found. Ensure NODE_PATH includes the extension node_modules.');
-  console.error('  Post-processing will be skipped -- output may lack professional formatting.');
-  JSZip = null;
+  // Fallback: search common locations relative to the heir repo
+  const fallbackPaths = [
+    path.join(__dirname, '..', '..', 'node_modules', 'jszip'),       // heir/node_modules
+    path.join(__dirname, 'node_modules', 'jszip'),                   // muscles/node_modules
+    path.join(process.cwd(), 'node_modules', 'jszip'),               // cwd/node_modules
+  ];
+  for (const p of fallbackPaths) {
+    try { JSZip = require(p); break; } catch { /* continue */ }
+  }
+  if (!JSZip) {
+    console.error('WARNING: jszip not found. Post-processing (formatting, centering) will be limited.');
+    console.error('  Install in your heir: npm install jszip');
+  }
 }
 
 // ---------------------------------------------------------------------------
 // Shared module imports
 // ---------------------------------------------------------------------------
-const { preprocessMarkdown, validateHeadingHierarchy, embedLocalImages, validateLinks } = require(path.join(__dirname, 'shared', 'markdown-preprocessor.cjs'));
-const { findMermaidBlocks } = require(path.join(__dirname, 'shared', 'mermaid-pipeline.cjs'));
+const { preprocessMarkdown, detectTocMarker, validateHeadingHierarchy, embedLocalImages, validateLinks } = require(path.join(__dirname, 'shared', 'markdown-preprocessor.cjs'));
+const { findMermaidBlocks, analyzeMermaid, injectPalette } = require(path.join(__dirname, 'shared', 'mermaid-pipeline.cjs'));
 
 // ---------------------------------------------------------------------------
 // Page Layout Constants (Letter: 8.5"  11", 1" margins)
 // ---------------------------------------------------------------------------
 const PAGE_WIDTH_INCHES = 6.5;
 const PAGE_HEIGHT_INCHES = 9.0;
-const MAX_IMAGE_WIDTH_RATIO = 1.00;  // 100% of printable width
-const MAX_IMAGE_HEIGHT_RATIO = 0.40; // 40% of printable height
-const MAX_IMAGE_WIDTH = PAGE_WIDTH_INCHES * MAX_IMAGE_WIDTH_RATIO;   // 6.5"
-const MAX_IMAGE_HEIGHT = PAGE_HEIGHT_INCHES * MAX_IMAGE_HEIGHT_RATIO; // 3.6"
+const MAX_IMAGE_WIDTH_RATIO = 0.90;  // 90% of printable width
+const MAX_IMAGE_HEIGHT_RATIO = 0.60; // 60% of printable height
+const MAX_IMAGE_WIDTH = PAGE_WIDTH_INCHES * MAX_IMAGE_WIDTH_RATIO;   // 5.85"
+const MAX_IMAGE_HEIGHT = PAGE_HEIGHT_INCHES * MAX_IMAGE_HEIGHT_RATIO; // 5.4"
 const PNG_DPI = 96;
+
+// ---------------------------------------------------------------------------
+// Built-in Lua filter for centering images in docx output
+// Pandoc's default reference.docx "Figure" style is center-aligned.
+// This wraps lone-image paragraphs in a Figure-styled Div.
+// ---------------------------------------------------------------------------
+const CENTER_IMAGES_LUA = `
+function Para(el)
+  for _, item in ipairs(el.content) do
+    if item.t == "Image" then
+      return pandoc.Div(el, pandoc.Attr("", {}, {{"custom-style", "Figure"}}))
+    end
+  end
+end
+`;
 
 // ---------------------------------------------------------------------------
 // OOXML namespace
@@ -125,15 +161,16 @@ function calculateOptimalSize(pngPath, mmdContent) {
 function determineImageSizeHeuristic(mmdContent) {
   const lower = mmdContent.toLowerCase();
   const subgraphCount = (lower.match(/subgraph/g) || []).length;
-  if (lower.includes('gantt')) return '{width=6.5in}';
-  if (subgraphCount >= 3) return '{width=6.5in}';
-  if (lower.includes('flowchart lr') || lower.includes('graph lr')) return '{width=6.5in}';
+  const wTag = `{width=${MAX_IMAGE_WIDTH.toFixed(1)}in}`;
+  if (lower.includes('gantt')) return wTag;
+  if (subgraphCount >= 3) return wTag;
+  if (lower.includes('flowchart lr') || lower.includes('graph lr')) return wTag;
   if (lower.includes('flowchart td') || lower.includes('graph td') ||
-      lower.includes('flowchart tb') || lower.includes('graph tb')) {
+    lower.includes('flowchart tb') || lower.includes('graph tb')) {
     if (subgraphCount >= 2) return `{height=${MAX_IMAGE_HEIGHT.toFixed(1)}in}`;
-    return '{width=6.5in}';
+    return wTag;
   }
-  return '{width=5.5in}';
+  return wTag;
 }
 
 // ---------------------------------------------------------------------------
@@ -144,10 +181,12 @@ function convertMermaidToPng(mmdContent, outputPath) {
   const tmpFile = path.join(os.tmpdir(), `alex-mmd-${Date.now()}-${Math.random().toString(36).slice(2)}.mmd`);
   try {
     fs.writeFileSync(tmpFile, mmdContent, 'utf8');
-    // Scale 8 for high-quality diagrams (harvested from AlexBooks build-pdf.js)
-    execSync(`npx mmdc -i "${tmpFile}" -o "${outputPath}" -b white -s 8 -w 2400`, {
+    // High-res render: 4x scale, 4800px viewport (was 8x/2400px).
+    // Wider viewport prevents clipping on wide architecture diagrams;
+    // 4 × 4800 = 19200px effective output — same fidelity, more horizontal room.
+    execSync(`npx mmdc -i "${tmpFile}" -o "${outputPath}" -b white -s 4 -w 4800 -H 2400`, {
       stdio: ['pipe', 'pipe', 'pipe'],
-      timeout: 60000
+      timeout: 120000
     });
     return true;
   } catch (err) {
@@ -522,7 +561,7 @@ function fixParagraphSpacing(xml, style) {
 
     // Skip headings and code (already handled)
     if (styleName.startsWith('Heading') || styleName.includes('Code') ||
-        styleName.includes('Source') || styleName.includes('Verbatim')) {
+      styleName.includes('Source') || styleName.includes('Verbatim')) {
       return pMatch;
     }
 
@@ -797,7 +836,10 @@ function parseArgs(argv) {
     embedImages: false,
     stripFrontmatter: false,
     recursive: false,
-    dryRun: false
+    dryRun: false,
+    noDefaultPalette: false,
+    replaceEmDashes: true,
+    stripDecorativeRules: true
   };
 
   const positional = [];
@@ -808,6 +850,10 @@ function parseArgs(argv) {
       result.keepTemp = true;
     } else if (args[i] === '--toc') {
       result.toc = true;
+    } else if (args[i] === '--no-replace-em-dashes') {
+      result.replaceEmDashes = false;
+    } else if (args[i] === '--no-strip-decorative-rules') {
+      result.stripDecorativeRules = false;
     } else if (args[i] === '--cover') {
       result.cover = true;
     } else if (args[i] === '--no-cover') {
@@ -844,6 +890,8 @@ function parseArgs(argv) {
       result.recursive = true;
     } else if (args[i] === '--dry-run') {
       result.dryRun = true;
+    } else if (args[i] === '--no-default-palette') {
+      result.noDefaultPalette = true;
     } else if (!args[i].startsWith('--')) {
       positional.push(args[i]);
     }
@@ -853,7 +901,7 @@ function parseArgs(argv) {
     console.error('Usage: node md-to-word.cjs SOURCE.md [OUTPUT.docx] [options]');
     console.error('  Options: --toc --cover --page-size letter|a4|6x9 --style professional|academic|course|creative');
     console.error('           --reference-doc PATH --watch --lua-filter PATH --debug --no-format-tables --keep-temp');
-    console.error('           --embed-images --strip-frontmatter --recursive --dry-run');
+    console.error('           --embed-images --strip-frontmatter --recursive --dry-run --no-default-palette');
     process.exit(1);
   }
 
@@ -905,7 +953,19 @@ async function build(args) {
       }
     }
 
-    content = preprocessMarkdown(content, { format: 'docx' });
+    content = preprocessMarkdown(content, {
+      format: 'docx',
+      replaceEmDashes: args.replaceEmDashes,
+      stripDecorativeRules: args.stripDecorativeRules
+    });
+
+    // [toc] marker auto-detection -- strips the marker line and enables TOC.
+    const tocResult = detectTocMarker(content);
+    content = tocResult.content;
+    if (tocResult.hasTocMarker && !args.toc) {
+      args.toc = true;
+      console.log('   \u{1f4d1} [toc] marker detected -- enabling Table of Contents');
+    }
 
     // Validate heading hierarchy
     const headingResult = validateHeadingHierarchy(content);
@@ -965,12 +1025,62 @@ async function build(args) {
     console.log(`\u{1f4ca} Found ${mermaidBlocks.length} Mermaid diagrams`);
 
     // Pre-validate Mermaid syntax before expensive rendering
+    const validTypes = /^(flowchart|graph|sequenceDiagram|classDiagram|stateDiagram|erDiagram|journey|gantt|pie|quadrantChart|requirementDiagram|gitGraph|mindmap|timeline|sankey|xychart|block|C4Context|C4Container|C4Deployment|C4Dynamic|C4Component|zenuml|packet|architecture|kanban)/;
     for (const block of mermaidBlocks) {
-      const trimmed = block.content.trim();
-      const validTypes = /^(flowchart|graph|sequenceDiagram|classDiagram|stateDiagram|erDiagram|journey|gantt|pie|quadrantChart|requirementDiagram|gitGraph|mindmap|timeline|sankey|xychart|block)/;
-      if (!validTypes.test(trimmed)) {
-        console.warn(`   \u26a0\ufe0f  Diagram ${block.index + 1}: unrecognized diagram type in first line`);
+      // Skip %%{init}%% directives, comments, and blank lines to find the actual diagram type
+      const lines = block.content.trim().split(/\r?\n/);
+      const typeLine = lines.find(l => {
+        const t = l.trim();
+        return t && !t.startsWith('%%') && !t.startsWith('%% ');
+      }) || '';
+      if (!validTypes.test(typeLine.trim())) {
+        console.warn(`   \u26a0\ufe0f  Diagram ${block.index + 1}: unrecognized diagram type: "${typeLine.trim().slice(0, 40)}"`);
       }
+    }
+
+    // Phase 1b: Analyze each block for styling, emit lint warnings, and
+    // inject a default pastel palette when the author has not styled the
+    // diagram. Sequence and stateDiagram-v2 always benefit (classDef does
+    // not apply); flowcharts only get injection when classDef is absent.
+    let injectedCount = 0;
+    let lintCount = 0;
+    for (const block of mermaidBlocks) {
+      const analysis = analyzeMermaid(block.content);
+
+      // Lint: flowchart with no classDef and no init -> will render flat
+      if (analysis.diagramType === 'flowchart' &&
+        !analysis.hasClassDef &&
+        !analysis.hasInitDirective &&
+        !analysis.hasExplicitTheme) {
+        if (args.noDefaultPalette) {
+          console.warn(`   \u26a0\ufe0f  Diagram ${block.index + 1} has no classDef and --no-default-palette is set; will render with neutral palette.`);
+        } else {
+          console.warn(`   \u{1f4a1} Diagram ${block.index + 1} (flowchart) has no classDef; injecting default pastel palette. Author classDef to override, or pass --no-default-palette to disable.`);
+        }
+        lintCount++;
+      }
+
+      // Lint: sequence/state without explicit theme -> would default to neutral
+      if ((analysis.diagramType === 'sequence' || analysis.diagramType === 'state') &&
+        !analysis.hasInitDirective &&
+        !analysis.hasExplicitTheme &&
+        args.noDefaultPalette) {
+        console.warn(`   \u26a0\ufe0f  Diagram ${block.index + 1} (${analysis.diagramType}) has no theme variables and --no-default-palette is set; will render with default theme.`);
+        lintCount++;
+      }
+
+      // Inject default palette unless opted out
+      if (!args.noDefaultPalette) {
+        const before = block.content;
+        block.content = injectPalette(block.content, { analysis });
+        if (block.content !== before) injectedCount++;
+      }
+    }
+    if (injectedCount > 0) {
+      console.log(`   \u{1f3a8} Injected default pastel palette into ${injectedCount} of ${mermaidBlocks.length} diagram(s)`);
+    }
+    if (lintCount > 0 && !args.noDefaultPalette) {
+      // Already nudged inline; no roll-up warning needed beyond the count.
     }
 
     const replacements = [];
@@ -1009,8 +1119,38 @@ async function build(args) {
           }
         }
 
-        const newRef = `![${altText}](${args.imagesDir}/${pngName}){width=5.8in}`;
+        const svgSize = fs.existsSync(pngPath) ? calculateOptimalSize(pngPath, '') : `{width=${MAX_IMAGE_WIDTH.toFixed(1)}in}`;
+        const newRef = `![${altText}](${args.imagesDir}/${pngName})${svgSize}`;
         content = content.replace(fullMatch, newRef);
+      }
+    }
+
+    // Phase 2b: Convert HTML <img src="...svg"> tags to PNG
+    const htmlImgSvgPattern = /<img\s+[^>]*src=["']([^"']+\.svg)["'][^>]*\/?>/gi;
+    let htmlSvgMatch;
+    while ((htmlSvgMatch = htmlImgSvgPattern.exec(content)) !== null) {
+      const [fullTag, svgRelPath] = htmlSvgMatch;
+      const svgPath = path.join(sourceDir, svgRelPath);
+
+      if (fs.existsSync(svgPath)) {
+        const pngName = path.basename(svgPath, '.svg') + '.png';
+        const pngPath = path.join(imagesDir, pngName);
+
+        if (!fs.existsSync(pngPath)) {
+          process.stdout.write(`\u{1f5bc}\ufe0f  Converting SVG (HTML img): ${path.basename(svgPath)}... `);
+          if (convertSvgToPng(svgPath, pngPath)) {
+            console.log('\u2713');
+          } else {
+            console.log('\u2717');
+          }
+        }
+
+        // Extract alt text from tag if present
+        const altMatch = fullTag.match(/alt=["']([^"']*)["']/i);
+        const altText = altMatch ? altMatch[1] : path.basename(svgPath, '.svg');
+        const imgSize = fs.existsSync(pngPath) ? calculateOptimalSize(pngPath, '') : `{width=${MAX_IMAGE_WIDTH.toFixed(1)}in}`;
+        const newRef = `![${altText}](${args.imagesDir}/${pngName})${imgSize}`;
+        content = content.replace(fullTag, newRef);
       }
     }
 
@@ -1041,6 +1181,7 @@ async function build(args) {
       `-o "${outputPath}"`,
       '--from markdown',
       '--to docx',
+      '--dpi=300',
       `--resource-path="${resourcePath}"`
     ];
     if (args.toc) pandocArgs.push('--toc', '--toc-depth=3');
@@ -1063,6 +1204,11 @@ async function build(args) {
 
     // NOTE: Page size is applied via OOXML post-processing, not pandoc variables.
     // The -V geometry:* flags only work for LaTeX output, not docx.
+
+    // Write built-in centering Lua filter to temp
+    const centerLuaPath = path.join(tempDir, '_center-images.lua');
+    fs.writeFileSync(centerLuaPath, CENTER_IMAGES_LUA, 'utf8');
+    pandocArgs.push(`--lua-filter="${centerLuaPath}"`);
 
     try {
       execSync(

@@ -1,35 +1,24 @@
 ---
-description: Begin a guided meditation session for knowledge consolidation
-agent: Alex
+mode: agent
+description: "Consolidate session learning — extract new patterns into skills, instructions, prompts, or memory"
+lastReviewed: 2026-04-30
 ---
 
-# /meditate - Knowledge Consolidation
+# /meditate
 
+Run the meditation protocol. Transform working memory into permanent architecture.
 
-Guide the user through conscious knowledge consolidation using Alex's meditation protocols.
+## Steps
 
-## Process
+1. Load skill: [meditation](../skills/meditation/SKILL.md)
+2. **Review** the session — problems solved, mistakes made, patterns that emerged
+3. **Extract** only what's *new and portable* — grep existing skills, instructions, and memory before writing anything
+4. **Route** each pattern to the right artifact (skill / instruction / prompt / muscle / memory tier)
+5. **Write** with concrete examples, correct frontmatter, and a trigger section
+6. If session is ending, write a handoff to `/memories/session/<topic>-handoff.md`
+7. Report what was persisted (and what was deliberately *not* persisted because it was already covered)
+8. **Compact** — run `/compact` to discard transcript noise. The persisted artifacts are now the canonical record of this session. This is irreversible by design; consolidation succeeded, raw data is redundant.
 
-1. **Reflect**: Review the current session for learnings
-2. **Connect**: How does this relate to existing knowledge?
-3. **Persist**: Save ALL findings to Global Knowledge (patterns/insights)
-4. **Fix**: Repair any issues discovered (broken links, drift, outdated content)
-5. **Integrate**: Update relevant `.instructions.md`, `.prompt.md`, or skills
+## Anti-pattern guard
 
-## Behavior
-
-- **DO NOT ASK** what to save — proactively save all valuable learnings
-- Create insights for session-specific discoveries
-- Create patterns for reusable solutions
-- Fix any issues found during reflection (don't just report them)
-- Update index.json with new entries
-
-## Important
-
-Meditation is incomplete without actual file changes. Every meditation must produce at least one artifact: an insight, a pattern, a fix, or an update.
-
-## Start
-
-Begin the meditation session now. Review the current conversation for learnings, save them to Global Knowledge, and fix any issues discovered.
-
-
+If after step 2 nothing new emerged, say so, then still run `/compact` at step 8. Routine execution is exactly what a session-end compact is for — the system working as intended is not a reason to skip the cleanup.

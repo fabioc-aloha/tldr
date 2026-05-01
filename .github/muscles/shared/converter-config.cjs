@@ -9,6 +9,7 @@
  *   const { loadConfig } = require('./shared/converter-config.cjs');
  *   const cfg = loadConfig('word', { inputFile: './docs/README.md' });
  *   // cfg = { style: 'professional', toc: false, fonts: {...}, colors: {...}, ... }
+ * @inheritance inheritable
  */
 'use strict';
 
@@ -33,7 +34,7 @@ const DEFAULTS = {
     testTo: null
   },
   replicate: {
-    characterConfig: '.github/config/visual-memory.json',
+    characterConfig: '.github/skills/alex-character/visual-memory/visual-memory.json',
     defaultModel: 'google/nano-banana-pro',
     costLimit: 5.00,
     rateLimit: 3000,

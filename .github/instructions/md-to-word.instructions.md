@@ -1,22 +1,26 @@
 ---
-description: "Markdown to Word document conversion with diagram support"
+type: instruction
+lifecycle: stable
+inheritance: inheritable
+description: "Markdown to Word document conversion with style presets and professional features"
+application: "When converting Markdown to Word documents"
+applyTo: "**/*md-to-word*,**/*docx*"
+currency: 2026-04-30
+lastReviewed: 2026-04-30
 ---
 
 # Markdown to Word — Auto-Loaded Rules
 
-Key features, sizing algorithm, table styling, quality checklist, troubleshooting → see md-to-word skill.
+Full documentation, all options, style presets, professional features → see [md-to-word skill](../skills/md-to-word/SKILL.md).
 
-## Auto-Activation
+Full protocol in `.github/skills/md-to-word/SKILL.md`.
 
-When user requests Word export (`/word`, "convert to word", "export docx"):
+## Quick Reference
 
-1. **Use the muscle script**: `.github/muscles/md-to-word.cjs`
-2. **Do NOT manually run pandoc** — the script handles everything
-
-```bash
-node .github/muscles/md-to-word.cjs SOURCE.md [OUTPUT.docx]
-```
-| mmdc not found | `npm install -g @mermaid-js/mermaid-cli` |
-| jszip not found | Ensure NODE_PATH includes extension node_modules |
-| Diagrams distorted | Update to v2.0.0 (aspect ratio fix) |
-| Lists merged | Update to v2.0.0 (markdown preprocessing) |
+| Use Case | Command |
+|----------|---------|
+| Basic conversion | `node md-to-word.cjs doc.md` |
+| With Table of Contents | `node md-to-word.cjs doc.md --toc` |
+| Professional report | `node md-to-word.cjs doc.md --style professional --toc --cover` |
+| Academic paper | `node md-to-word.cjs thesis.md --style academic --toc` |
+| Debug issues | `node md-to-word.cjs doc.md --debug --keep-temp` |

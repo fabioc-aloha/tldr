@@ -10,6 +10,7 @@
  *   for (const block of blocks) {
  *     await renderMermaid(block.content, 'output.png', { scale: 8, width: 2400 });
  *   }
+ * @inheritance inheritable
  */
 
 const fs = require('fs');
@@ -26,14 +27,18 @@ const FORMAT_SCALES = {
   email: { scale: 2, width: 600 },
 };
 
-// Alex brand pastel palette (from user preferences)
+// GitHub Pastel v2 palette (aligned with markdown-mermaid skill)
 const BRAND_PALETTE = {
-  blue: '#dbe9f6',
-  teal: '#d4f5f7',
-  green: '#d4edda',
-  purple: '#e6d5f0',
-  orange: '#fce4e0',
-  textDark: '#1f2328',
+  blue: '#ddf4ff',       // Primary - trust, reliability
+  green: '#d3f5db',      // Success, growth
+  purple: '#d8b9ff',     // Consciousness, identity
+  gold: '#fff8c5',       // Warnings, attention
+  bronze: '#fff1e5',     // Connection, memory
+  red: '#ffebe9',        // Errors, critical
+  neutral: '#eaeef2',    // Muted, secondary
+  textDark: '#1f2328',   // Primary text
+  lineColor: '#57606a',  // Arrows, edges
+  edgeLabelBg: '#ffffff' // CRITICAL: white background for edge labels
 };
 
 /**
@@ -51,23 +56,166 @@ function findMermaidBlocks(content) {
 }
 
 /**
- * Inject %%{init}%% directive with theme config into Mermaid content.
- * Only injects if no existing %%{init}%% is present.
+ * Analyze a Mermaid block: diagram type, presence of classDef, init directive,
+ * explicit theme overrides. Used to decide whether to inject defaults and to
+ * emit lint warnings for unstyled diagrams.
+ *
+ * Returns: { diagramType, hasClassDef, hasInitDirective, hasExplicitTheme, supportsClassDef }
+ */
+function analyzeMermaid(mmdContent) {
+  const hasInitDirective = /%%\{\s*init/.test(mmdContent);
+  const hasClassDef = /^[ \t]*classDef\s+/m.test(mmdContent);
+  // Detect any common per-type theme variable that would indicate the author
+  // already styled the diagram explicitly (don't override).
+  const hasExplicitTheme = /\b(actorBkg|actorTextColor|noteBkgColor|signalColor|labelBoxBkgColor|primaryColor|secondaryColor|tertiaryColor)\b/.test(mmdContent);
+
+  // First non-comment, non-init line is the diagram type
+  const lines = mmdContent.trim().split(/\r?\n/);
+  const typeLine = lines.find(l => {
+    const t = l.trim();
+    return t && !t.startsWith('%%');
+  }) || '';
+  const lower = typeLine.trim().toLowerCase();
+
+  let diagramType = 'unknown';
+  if (lower.startsWith('flowchart') || lower.startsWith('graph')) diagramType = 'flowchart';
+  else if (lower.startsWith('sequencediagram')) diagramType = 'sequence';
+  else if (lower.startsWith('statediagram-v2')) diagramType = 'state';
+  else if (lower.startsWith('statediagram')) diagramType = 'state';
+  else if (lower.startsWith('classdiagram')) diagramType = 'class';
+  else if (lower.startsWith('erdiagram')) diagramType = 'er';
+  else if (lower.startsWith('gantt')) diagramType = 'gantt';
+  else if (lower.startsWith('pie')) diagramType = 'pie';
+  else if (lower.startsWith('journey')) diagramType = 'journey';
+  else if (lower.startsWith('gitgraph')) diagramType = 'gitgraph';
+  else if (lower.startsWith('mindmap')) diagramType = 'mindmap';
+  else if (lower.startsWith('timeline')) diagramType = 'timeline';
+  else if (lower.startsWith('quadrantchart')) diagramType = 'quadrant';
+
+  // classDef applies cleanly only to flowchart/graph and (partially) classDiagram.
+  // sequence and state diagrams ignore classDef -- they need themeVariables.
+  const supportsClassDef = diagramType === 'flowchart' || diagramType === 'class';
+
+  return { diagramType, hasClassDef, hasInitDirective, hasExplicitTheme, supportsClassDef };
+}
+
+/**
+ * Build a per-diagram-type themeVariables object from a palette.
+ * Sequence and stateDiagram-v2 ignore classDef, so theme variables are
+ * the only path to consistent colors for those types.
+ */
+function _buildThemeVars(diagramType, palette) {
+  const text = palette.textDark;
+  const line = palette.lineColor || palette.textDark;
+  const edgeBg = palette.edgeLabelBg || '#ffffff';
+
+  switch (diagramType) {
+    case 'sequence':
+      return {
+        primaryColor: palette.blue,
+        primaryTextColor: text,
+        primaryBorderColor: line,
+        lineColor: line,
+        actorBkg: palette.blue,
+        actorTextColor: text,
+        actorLineColor: line,
+        signalColor: line,
+        signalTextColor: text,
+        noteBkgColor: palette.gold,
+        noteTextColor: text,
+        noteBorderColor: line,
+        labelBoxBkgColor: palette.neutral || palette.blue,
+        labelBoxBorderColor: line,
+        labelTextColor: text,
+        loopTextColor: text,
+        activationBkgColor: palette.green,
+        activationBorderColor: line,
+      };
+    case 'state':
+      return {
+        primaryColor: palette.blue,
+        primaryTextColor: text,
+        primaryBorderColor: line,
+        secondaryColor: palette.green,
+        tertiaryColor: palette.gold,
+        lineColor: line,
+        background: '#ffffff',
+        mainBkg: palette.blue,
+        edgeLabelBackground: edgeBg,
+        labelBoxBkgColor: palette.neutral || palette.blue,
+        labelBoxBorderColor: line,
+      };
+    case 'er':
+      return {
+        primaryColor: palette.blue,
+        primaryTextColor: text,
+        primaryBorderColor: line,
+        lineColor: line,
+        edgeLabelBackground: edgeBg,
+      };
+    case 'gantt':
+    case 'pie':
+    case 'journey':
+    case 'gitgraph':
+    case 'mindmap':
+    case 'timeline':
+    case 'quadrant':
+      // For chart-like types, set a neutral light background; mermaid base
+      // theme will derive series colors. Avoids dark-theme defaults.
+      return {
+        primaryColor: palette.blue,
+        secondaryColor: palette.green,
+        tertiaryColor: palette.gold,
+        primaryTextColor: text,
+        lineColor: line,
+      };
+    case 'flowchart':
+    case 'class':
+    default:
+      return {
+        primaryColor: palette.blue,
+        secondaryColor: palette.green,
+        tertiaryColor: palette.purple || palette.green,
+        primaryTextColor: text,
+        lineColor: line,
+        edgeLabelBackground: edgeBg,
+      };
+  }
+}
+
+/**
+ * Inject %%{init}%% directive with diagram-type-aware theme config.
+ *
+ * Skipped when:
+ *   - block already contains a %%{init}%% directive, OR
+ *   - block contains explicit theme variable references, OR
+ *   - block is a flowchart/class diagram with classDef AND options.respectClassDef !== false
+ *
+ * Sequence and stateDiagram-v2 always receive injection (when no init/explicit
+ * theme is present) because classDef does not apply to those types.
  */
 function injectPalette(mmdContent, options = {}) {
-  if (mmdContent.includes('%%{init')) return mmdContent;
+  const analysis = options.analysis || analyzeMermaid(mmdContent);
+
+  // Already styled — respect author's intent
+  if (analysis.hasInitDirective) return mmdContent;
+  if (analysis.hasExplicitTheme) return mmdContent;
+
+  // For diagram types that support classDef, defer to the author's classDef
+  // unless explicitly told to override.
+  if (analysis.supportsClassDef && analysis.hasClassDef && options.respectClassDef !== false) {
+    return mmdContent;
+  }
 
   const palette = options.palette || BRAND_PALETTE;
   const theme = options.theme || 'base';
+  const themeVars = _buildThemeVars(analysis.diagramType, palette);
 
-  const initDirective = `%%{init: {'theme': '${theme}', 'themeVariables': {` +
-    `'primaryColor': '${palette.blue}', ` +
-    `'secondaryColor': '${palette.teal}', ` +
-    `'tertiaryColor': '${palette.green}', ` +
-    `'primaryTextColor': '${palette.textDark}', ` +
-    `'lineColor': '${palette.textDark}'` +
-    `}}}%%\n`;
+  const varsStr = Object.entries(themeVars)
+    .map(([k, v]) => `'${k}': '${v}'`)
+    .join(', ');
 
+  const initDirective = `%%{init: {'theme': '${theme}', 'themeVariables': {${varsStr}}}}%%\n`;
   return initDirective + mmdContent;
 }
 
@@ -165,13 +313,13 @@ function mermaidToTableFallback(mmdContent) {
     const trimmed = line.trim();
     // Skip directives and empty lines
     if (!trimmed || trimmed.startsWith('%%') || trimmed.startsWith('graph') ||
-        trimmed.startsWith('flowchart') || trimmed.startsWith('sequenceDiagram') ||
-        trimmed.startsWith('gantt') || trimmed.startsWith('pie') ||
-        trimmed.startsWith('classDiagram') || trimmed.startsWith('stateDiagram') ||
-        trimmed.startsWith('erDiagram') || trimmed.startsWith('journey') ||
-        trimmed.startsWith('gitGraph') || trimmed.startsWith('mindmap') ||
-        trimmed.startsWith('timeline') || trimmed.startsWith('title') ||
-        trimmed.startsWith('section') || trimmed.startsWith('end')) continue;
+      trimmed.startsWith('flowchart') || trimmed.startsWith('sequenceDiagram') ||
+      trimmed.startsWith('gantt') || trimmed.startsWith('pie') ||
+      trimmed.startsWith('classDiagram') || trimmed.startsWith('stateDiagram') ||
+      trimmed.startsWith('erDiagram') || trimmed.startsWith('journey') ||
+      trimmed.startsWith('gitGraph') || trimmed.startsWith('mindmap') ||
+      trimmed.startsWith('timeline') || trimmed.startsWith('title') ||
+      trimmed.startsWith('section') || trimmed.startsWith('end')) continue;
 
     // Node definitions: A[Label] or A(Label) or A{Label}
     const nodeMatch = trimmed.match(/^\s*(\w+)\s*[\[\({](.+?)[\]\)}]/);
@@ -338,7 +486,7 @@ function createSequence(options = {}) {
   }
 
   const _addMessage = (msg) => {
-    const arrows = { solid: '->>', dotted: '-->>',  reply: '->>',  replyDotted: '-->>',  sync: '->', asyncMsg: '--)' };
+    const arrows = { solid: '->>', dotted: '-->>', reply: '->>', replyDotted: '-->>', sync: '->', asyncMsg: '--)' };
     const arrow = arrows[msg.type] || '->>';
     lines.push(`    ${msg.from}${arrow}${msg.to}: ${msg.label}`);
   };
@@ -451,6 +599,7 @@ function createMindmap(options = {}) {
 module.exports = {
   findMermaidBlocks,
   injectPalette,
+  analyzeMermaid,
   validateSyntax,
   renderMermaid,
   convertSvgToPng,

@@ -1,5 +1,16 @@
+#!/usr/bin/env node
 /**
- * md-to-eml.cjs v1.0.0 - Convert Markdown to email-safe .eml files
+ * @type muscle
+ * @lifecycle stable
+ * @muscle md-to-eml
+ * @lifecycle stable
+ * @inheritance inheritable
+ * @description Convert Markdown to RFC 5322 email-safe .eml files
+ * @version 1.1.0
+ * @skill md-to-eml
+ * @reviewed 2026-04-15
+ * @platform windows,macos,linux
+ * @requires node,pandoc
  *
  * Produces RFC 5322-compliant .eml files from Markdown with YAML frontmatter.
  * Designed for newsletter/governance communication workflows.
@@ -33,7 +44,13 @@
  * Requirements:
  *   - Node.js 18+
  *   - pandoc (for markdown -> HTML conversion)
+ * @currency 2026-04-20
  */
+
+process.on("uncaughtException", (err) => {
+  console.error(`\x1b[31m[FATAL] ${err.message}\x1b[0m`);
+  process.exit(1);
+});
 
 const fs = require('fs');
 const path = require('path');
@@ -108,7 +125,12 @@ function parseFrontmatter(content) {
 function markdownToEmailHtml(markdown, options = {}) {
   // Preprocess markdown using shared module if available
   if (sharedPreprocessor) {
-    markdown = sharedPreprocessor.preprocessMarkdown(markdown, { format: 'email', stripFrontmatter: false });
+    markdown = sharedPreprocessor.preprocessMarkdown(markdown, {
+      format: 'email',
+      stripFrontmatter: false,
+      replaceEmDashes: options.replaceEmDashes,
+      stripDecorativeRules: options.stripDecorativeRules,
+    });
   }
 
   // Replace Mermaid blocks with table fallbacks
@@ -339,6 +361,8 @@ function parseArgs(argv) {
     testTo: null,
     inlineImages: false,
     debug: false,
+    replaceEmDashes: undefined,
+    stripDecorativeRules: undefined,
   };
 
   const positional = [];
@@ -352,6 +376,10 @@ function parseArgs(argv) {
       result.inlineImages = true;
     } else if (args[i] === '--debug') {
       result.debug = true;
+    } else if (args[i] === '--no-replace-em-dashes') {
+      result.replaceEmDashes = false;
+    } else if (args[i] === '--no-strip-decorative-rules') {
+      result.stripDecorativeRules = false;
     } else if (!args[i].startsWith('--')) {
       positional.push(args[i]);
     }
@@ -407,6 +435,8 @@ async function main() {
   let html = markdownToEmailHtml(body, {
     source: sourcePath,
     debug: args.debug,
+    replaceEmDashes: args.replaceEmDashes,
+    stripDecorativeRules: args.stripDecorativeRules,
   });
 
   // Embed images as CID attachments

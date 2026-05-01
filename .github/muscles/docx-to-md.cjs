@@ -1,5 +1,16 @@
+#!/usr/bin/env node
 /**
- * docx-to-md.cjs v1.0.0 - Convert Word documents to clean Markdown
+ * @type muscle
+ * @lifecycle stable
+ * @muscle docx-to-md
+ * @lifecycle stable
+ * @inheritance inheritable
+ * @description Convert Word documents to clean Markdown with image extraction
+ * @version 1.1.0
+ * @skill docx-to-md
+ * @reviewed 2026-04-30
+ * @platform windows,macos,linux
+ * @requires node,pandoc
  *
  * Uses pandoc to convert .docx to .md with intelligent post-processing:
  * - Extracts embedded images to a sibling images/ folder
@@ -25,9 +36,15 @@
  * Requirements:
  *   - Node.js 18+
  *   - pandoc (Windows: winget install pandoc | macOS: brew install pandoc | Linux: apt install pandoc)
+ * @currency 2026-04-20
  */
 
 "use strict";
+
+process.on("uncaughtException", (err) => {
+  console.error(`\x1b[31m[FATAL] ${err.message}\x1b[0m`);
+  process.exit(1);
+});
 
 const fs = require("fs");
 const path = require("path");
