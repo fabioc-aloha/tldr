@@ -1614,3 +1614,23 @@ KISS means removing **unnecessary** complexity while preserving **meaningful** i
 - Tufte, E.R. - *The Visual Display of Quantitative Information*
 - Cairo, A. - *The Functional Art*
 - Knaflic, C.N. - *Storytelling with Data*
+
+## Mode Fragility Reference
+
+Several Mermaid modes fail silently on colons and special characters. Default to `flowchart` for arbitrary text content.
+
+| Mode | Status | Constraint |
+|------|--------|------------|
+| `flowchart` | Safe | None — handles any content |
+| `sequenceDiagram` | Safe | Standard message format |
+| `classDiagram` | Safe | Standard notation |
+| `erDiagram` | Safe | Standard notation |
+| `stateDiagram` | Caution | Colons in state names |
+| `journey` | Caution | Score format sensitive |
+| `timeline` | Fragile | No colons in events; `:` is separator |
+| `gitGraph` | Fragile | Long chains with quoted colon-tags break |
+| `gantt` | Fragile | `dateFormat HH:mm` mis-parses task lines |
+
+**Rule**: If your labels contain colons, times (`HH:MM`), or complex text, use `flowchart` and structure with subgraphs instead.
+
+**Debug silent failures**: Check browser console, simplify content, test incrementally, try flowchart — if it works in flowchart, the mode is the problem.
