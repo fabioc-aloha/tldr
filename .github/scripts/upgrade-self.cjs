@@ -22,7 +22,7 @@ const path = require('path');
 const os = require('os');
 const crypto = require('crypto');
 const { execFileSync } = require('child_process');
-const { upsertHeir } = require('./_registry.cjs');
+const { upsertHeir, resolveAiMemoryRoot } = require('./_registry.cjs');
 
 const HEIR_ROOT = process.cwd();
 const args = new Set(process.argv.slice(2));
@@ -340,7 +340,7 @@ if (isMajorBump && ALLOW_MAJOR) {
     fs.writeFileSync(markerPath, JSON.stringify(marker, null, 2) + '\n');
 
     // Cleanup temp
-    try { fs.rmSync(holdDir, { recursive: true, force: true }); } catch {}
+    try { fs.rmSync(holdDir, { recursive: true, force: true }); } catch { }
 
     const registryResult2 = upsertHeir(marker, HEIR_ROOT);
     if (registryResult2.ok) console.log(`Refreshed fleet registry: ${registryResult2.path}`);

@@ -61,6 +61,6 @@ The Edition baseline ships these external dependencies. Each entry tracks one to
 
 ## When a Mall Skill Adds an API
 
-When you install a plugin from the [Alex ACT Plugin Mall](https://github.com/fabioc-aloha/Alex_ACT_Plugin_Mall) that wraps an external API, the plugin's README will tell you which row(s) to add to this registry. Add them under the appropriate category, set `Last Checked` to today's date, and run `/audit-apis` to verify.
+When you install a plugin from the [Alex ACT Plugin Mall](https://github.com/fabioc-aloha/Alex_Skill_Mall) that wraps an external API, the plugin's README will tell you which row(s) to add to this registry. Add them under the appropriate category, set `Last Checked` to today's date, and run `/audit-apis` to verify.
 
 If a skill wraps an API not covered by any existing category, add a new `## <Category>` heading with the same five-column table structure.

@@ -15,7 +15,7 @@ Install a plugin from the Plugin Mall into this project's `local/` paths.
 2. **Fetch plugin.json** to understand what the plugin ships:
 
    ```bash
-   gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/plugins/<category>/<name>/plugin.json \
+   gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/plugins/<category>/<name>/plugin.json \
      --jq .content | base64 -d
    ```
 
@@ -44,7 +44,7 @@ Install a plugin from the Plugin Mall into this project's `local/` paths.
    mkdir -p .github/skills/local/<name>
 
    # Download each artifact
-   gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/plugins/<category>/<name>/SKILL.md \
+   gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/plugins/<category>/<name>/SKILL.md \
      --jq .content | base64 -d > .github/skills/local/<name>/SKILL.md
    ```
 
@@ -53,9 +53,9 @@ Install a plugin from the Plugin Mall into this project's `local/` paths.
 6. **Copy plugin.json and README.md** into the local skill folder for reference:
 
    ```bash
-   gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/plugins/<category>/<name>/plugin.json \
+   gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/plugins/<category>/<name>/plugin.json \
      --jq .content | base64 -d > .github/skills/local/<name>/plugin.json
-   gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/plugins/<category>/<name>/README.md \
+   gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/plugins/<category>/<name>/README.md \
      --jq .content | base64 -d > .github/skills/local/<name>/README.md
    ```
 

@@ -13,9 +13,9 @@ Search the Plugin Mall catalog for plugins matching a query.
 1. **Get the query** from the user: a topic, technology, problem, category name, or shape.
 
 2. **Fetch the catalog** (try in order):
-   - **GitHub API**: `gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/CATALOG.json --jq .content | base64 -d`
+   - **GitHub API**: `gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/CATALOG.json --jq .content | base64 -d`
    - **Local clone**: `~/Alex_ACT_Plugin_Mall/CATALOG.json` or `C:\Development\Alex_ACT_Plugin_Mall\CATALOG.json`
-   - If neither works, link to <https://github.com/fabioc-aloha/Alex_ACT_Plugin_Mall/blob/main/CATALOG.json>
+   - If neither works, link to <https://github.com/fabioc-aloha/Alex_Skill_Mall/blob/main/CATALOG.json>
 
 3. **Parse** the `plugins` array in CATALOG.json. Each entry has: `name`, `title`, `category`, `shape`, `tier`, `description`, `token_cost`, `path`, `artifacts`.
 

@@ -10,7 +10,7 @@ lastReviewed: 2026-05-02
 
 # Mall Installation
 
-The [Alex ACT Plugin Mall](https://github.com/fabioc-aloha/Alex_ACT_Plugin_Mall) is a curated catalog of optional plugins. Heirs pull what they need on demand.
+The [Alex ACT Plugin Mall](https://github.com/fabioc-aloha/Alex_Skill_Mall) is a curated catalog of optional plugins. Heirs pull what they need on demand.
 
 ## Plugin Structure
 
@@ -55,7 +55,7 @@ Read `copilot-instructions.local.md`, `README.md`, `package.json`, and directory
 Fetch `CATALOG.json` from GitHub or local clone:
 
 ```bash
-gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/CATALOG.json --jq .content | base64 -d
+gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/CATALOG.json --jq .content | base64 -d
 ```
 
 Or read from local clone at `~/Alex_ACT_Plugin_Mall/CATALOG.json`.
@@ -98,7 +98,7 @@ Installing outside `local/` means `upgrade-self.cjs --apply` will **delete it**.
 1. **Read `plugin.json`** to see what artifacts ship and where they go:
 
    ```bash
-   gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/plugins/<category>/<name>/plugin.json \
+   gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/plugins/<category>/<name>/plugin.json \
      --jq .content | base64 -d
    ```
 
@@ -107,24 +107,24 @@ Installing outside `local/` means `upgrade-self.cjs --apply` will **delete it**.
    ```bash
    # Skill
    mkdir -p .github/skills/local/<name>
-   gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/plugins/<category>/<name>/SKILL.md \
+   gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/plugins/<category>/<name>/SKILL.md \
      --jq .content | base64 -d > .github/skills/local/<name>/SKILL.md
 
    # Instruction (if plugin.json lists one)
    mkdir -p .github/instructions/local
-   gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/plugins/<category>/<name>/<instruction-file> \
+   gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/plugins/<category>/<name>/<instruction-file> \
      --jq .content | base64 -d > .github/instructions/local/<instruction-file>
 
    # Muscle (if plugin.json lists one)
    mkdir -p .github/muscles/local
-   gh api repos/fabioc-aloha/Alex_ACT_Plugin_Mall/contents/plugins/<category>/<name>/<muscle-file> \
+   gh api repos/fabioc-aloha/Alex_Skill_Mall/contents/plugins/<category>/<name>/<muscle-file> \
      --jq .content | base64 -d > .github/muscles/local/<muscle-file>
    ```
 
 3. **Alternative: local clone** (for bulk installs):
 
    ```bash
-   git clone https://github.com/fabioc-aloha/Alex_ACT_Plugin_Mall.git ~/Alex_ACT_Plugin_Mall
+   git clone https://github.com/fabioc-aloha/Alex_Skill_Mall.git ~/Alex_ACT_Plugin_Mall
    mkdir -p .github/skills/local/<name>
    cp ~/Alex_ACT_Plugin_Mall/plugins/<category>/<name>/SKILL.md .github/skills/local/<name>/
    # Copy other artifacts per plugin.json install_paths

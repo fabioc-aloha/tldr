@@ -23,7 +23,7 @@
 const fs = require('fs');
 const path = require('path');
 const { execFileSync } = require('child_process');
-const { upsertHeir } = require('./_registry.cjs');
+const { upsertHeir, resolveAiMemoryRoot, discoverCloudDrives, initAiMemory } = require('./_registry.cjs');
 
 const IDENTITY_TEMPLATE = `# Identity (heir-owned)
 
@@ -78,7 +78,7 @@ function detectProjectSignals(dir) {
         signals.hasReadme = true;
         try {
             signals.readmeSnippet = fs.readFileSync(path.join(dir, 'README.md'), 'utf8').slice(0, 300);
-        } catch {}
+        } catch { }
     }
 
     return signals;
@@ -339,7 +339,86 @@ if (!fs.existsSync(identityPath)) {
 }
 
 // Best-effort: register this heir in shared AI-Memory/heirs/registry.json.
-const registryResult = upsertHeir(marker, targetAbs);
+let registryResult = upsertHeir(marker, targetAbs);
+
+// AI-Memory setup: if no AI-Memory folder exists, discover cloud drives and
+// create the folder structure. Honors --ai-memory <name> flag for explicit choice.
+const aiMemFlag = (function () {
+    const i = process.argv.indexOf('--ai-memory');
+    return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : null;
+})();
+
+if (registryResult.reason === 'no-ai-memory' || aiMemFlag) {
+    const drives = discoverCloudDrives(targetAbs);
+
+    // Determine which drive to use
+    let chosenDrive = null;
+    if (aiMemFlag) {
+        // Explicit flag: match by name (case-insensitive partial match)
+        chosenDrive = drives.find(d => d.name.toLowerCase().includes(aiMemFlag.toLowerCase()));
+        if (!chosenDrive) {
+            // Treat the flag value as a literal folder name (might not be in discovery)
+            const flagDir = path.join(os.homedir(), aiMemFlag);
+            if (fs.existsSync(flagDir)) {
+                chosenDrive = { name: aiMemFlag, path: flagDir, provider: 'custom', hasAiMemory: false };
+            } else {
+                console.error(`--ai-memory "${aiMemFlag}" does not match any discovered drive or existing folder.`);
+                console.log('Available drives:');
+                drives.forEach((d, i) => console.log(`  ${i + 1}. ${d.name} (${d.provider})${d.hasAiMemory ? ' [AI-Memory exists]' : ''}`));
+            }
+        }
+    } else if (drives.length > 0) {
+        // Auto-select: prefer a drive that already has AI-Memory
+        const withAiMem = drives.find(d => d.hasAiMemory);
+        if (withAiMem) {
+            chosenDrive = withAiMem;
+        } else if (drives.length === 1) {
+            chosenDrive = drives[0];
+        } else {
+            // Multiple drives, none has AI-Memory: list them and pick the first
+            console.log('');
+            console.log('Multiple cloud drives found:');
+            drives.forEach((d, i) => console.log(`  ${i + 1}. ${d.name} (${d.provider})`));
+            console.log(`Auto-selecting: ${drives[0].name}`);
+            console.log('To override, re-run with: --ai-memory "<drive-name>"');
+            chosenDrive = drives[0];
+        }
+    }
+
+    if (chosenDrive && !chosenDrive.hasAiMemory) {
+        console.log('');
+        console.log(`Creating AI-Memory in: ${chosenDrive.name}/AI-Memory`);
+        const result = initAiMemory(chosenDrive.name);
+        if (result.ok) {
+            console.log(`Created AI-Memory structure (${result.created.length} items) at: ${result.root}`);
+        }
+    } else if (chosenDrive && chosenDrive.hasAiMemory) {
+        console.log(`AI-Memory already exists at: ${chosenDrive.name}/AI-Memory`);
+    }
+
+    // Persist the choice in cognitive-config.json
+    if (chosenDrive) {
+        const cogConfigPath = path.join(targetAbs, '.github', 'config', 'cognitive-config.json');
+        if (fs.existsSync(cogConfigPath)) {
+            try {
+                const cfg = JSON.parse(fs.readFileSync(cogConfigPath, 'utf8'));
+                cfg.ai_memory_root = chosenDrive.name;
+                fs.writeFileSync(cogConfigPath, JSON.stringify(cfg, null, 4) + '\n');
+                console.log(`Pinned ai_memory_root: "${chosenDrive.name}" in cognitive-config.json`);
+            } catch { /* best-effort */ }
+        }
+        // Retry registry upsert now that AI-Memory is set up
+        registryResult = upsertHeir(marker, targetAbs);
+    }
+
+    if (!chosenDrive && drives.length === 0) {
+        console.log('');
+        console.log('No cloud drive found (OneDrive, iCloud, Dropbox, Google Drive, Box, etc.).');
+        console.log('To enable fleet communication:');
+        console.log('  Option 1: Create ~/AI-Memory/ manually');
+        console.log('  Option 2: node .github/scripts/_registry.cjs --init <folder-name>');
+    }
+}
 
 // Generate ACT.md onboarding note with project-aware recommendations.
 const actMdPath = path.join(targetAbs, 'ACT.md');

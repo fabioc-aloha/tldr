@@ -9,7 +9,6 @@
         ".github/prompts/**",
         ".github/muscles/**",
         ".github/agents/**",
-        ".github/episodic/**",
         ".github/config/sync-policy.json",
         ".github/config/edition-manifest.json",
         ".github/config/markdown-light.css",
@@ -32,6 +31,7 @@
         ".github/prompts/local/**",
         ".github/muscles/local/**",
         ".github/agents/local/**",
+        ".github/episodic/**",
         ".vscode/extensions.json",
         ".vscode/settings.json"
     ],
